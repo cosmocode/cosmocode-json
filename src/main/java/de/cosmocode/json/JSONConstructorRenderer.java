@@ -145,34 +145,6 @@ final class JSONConstructorRenderer extends AbstractJSONRenderer implements JSON
     }
     
     @Override
-    public JSONRenderer value(BigInteger value) {
-        if (value == null) {
-            return nullValue();
-        } else {
-            try {
-                constructor.value(value);
-            } catch (JSONException e) {
-                throw new IllegalStateException(e);
-            }
-            return this;
-        }
-    }
-    
-    @Override
-    public JSONRenderer value(BigDecimal value) {
-        if (value == null) {
-            return nullValue();
-        } else {
-            try {
-                constructor.value(value);
-            } catch (JSONException e) {
-                throw new IllegalStateException(e);
-            }
-            return this;
-        }
-    }
-    
-    @Override
     public JSONRenderer value(CharSequence value) {
         if (value == null) return nullValue();
         try {

@@ -50,8 +50,6 @@ public abstract class AbstractJSONRenderer implements JSONRenderer {
             return value(Boolean.class.cast(value).booleanValue());
         } else if (value instanceof Number) {
             return value(Number.class.cast(value));
-        } else if (value instanceof Character) {
-            return value(Character.class.cast(value).charValue());
         } else if (value instanceof Date) {
             return value(Date.class.cast(value), dateMode);
         } else if (value instanceof Calendar) {
@@ -99,10 +97,6 @@ public abstract class AbstractJSONRenderer implements JSONRenderer {
             return value(Float.class.cast(value).floatValue());
         } else if (value instanceof Double) {
             return value(Double.class.cast(value).doubleValue());
-        } else if (value instanceof BigInteger) {
-            return value(BigInteger.class.cast(value));
-        } else if (value instanceof BigDecimal) {
-            return value(BigDecimal.class.cast(value));
         } else {
             return unknownValue(value);
         }
@@ -145,32 +139,6 @@ public abstract class AbstractJSONRenderer implements JSONRenderer {
         return value(value.toString());
     }
     
-    @Override
-    public JSONRenderer value(byte value) {
-        return value((long) value);
-    }
-
-    @Override
-    public JSONRenderer value(short value) {
-        return value((long) value);
-    }
-
-    @Override
-    public JSONRenderer value(char value) {
-        return value((int) value);
-    }
-
-    @Override
-    public JSONRenderer value(int value) {
-        return value((long) value);
-    }
-    @Override
-    public JSONRenderer value(float value) {
-        if (Float.isInfinite(value)) throw new IllegalArgumentException("Float must not be infinite");
-        if (Float.isNaN(value)) throw new IllegalArgumentException("Float must not be NaN");
-        return value((double) value);
-    }
-
     @Override
     public JSONRenderer value(Date value) {
         return value == null ? nullValue() : value(value, dateMode);

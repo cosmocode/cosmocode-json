@@ -82,7 +82,7 @@ final class JSONRendererConstructor implements JSONConstructor {
     
     @Override
     public JSONConstructor plain(String value) {
-        renderer.value(value);
+        renderer.plain(value);
         return this;
     }
     

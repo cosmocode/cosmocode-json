@@ -9,210 +9,204 @@ import java.util.Map;
 import org.json.extension.JSONEncoder;
 import org.json.extension.NoObjectContext;
 
+import com.google.common.collect.ForwardingObject;
+
 import de.cosmocode.commons.DateMode;
 
-public abstract class ForwardingJSONRenderer implements JSONRenderer {
+public abstract class ForwardingJSONRenderer extends ForwardingObject implements JSONRenderer {
 
-    private final JSONRenderer renderer;
-
-    public ForwardingJSONRenderer(JSONRenderer renderer) {
-        if (renderer == null) throw new NullPointerException("JSONRenderer must not be null");
-        this.renderer = renderer;
-    }
+    @Override
+    protected abstract JSONRenderer delegate();
 
     @Override
     public JSONRenderer array() {
-        return renderer.array();
+        delegate().array();
+        return this;
     }
 
     @Override
     public <E> JSONRenderer array(E... values) {
-        return renderer.array(values);
+        delegate().array(values);
+        return this;
     }
 
     @Override
     public JSONRenderer array(Iterable<?> values) {
-        return renderer.array(values);
+        delegate().array(values);
+        return this;
     }
 
     @Override
     public JSONRenderer array(Iterator<?> values) {
-        return renderer.array(values);
+        delegate().array(values);
+        return this;
     }
 
     @Override
     public JSONRenderer array(JSONListable values) {
-        return renderer.array(values);
+        delegate().array(values);
+        return this;
     }
 
     @Override
     public JSONRenderer endArray() {
-        return renderer.endArray();
+        delegate().endArray();
+        return this;
     }
 
     @Override
     public JSONRenderer endObject() {
-        return renderer.endObject();
+        delegate().endObject();
+        return this;
     }
 
     @Override
     public JSONRenderer key(CharSequence key) {
-        return renderer.key(key);
+        delegate().key(key);
+        return this;
     }
 
     @Override
     public JSONRenderer key(Object key) {
-        return renderer.key(key);
+        delegate().key(key);
+        return this;
     }
 
     @Override
     public JSONRenderer nullValue() {
-        return renderer.nullValue();
+        delegate().nullValue();
+        return this;
     }
 
     @Override
     public JSONRenderer object() {
-        return renderer.object();
+        delegate().object();
+        return this;
     }
 
     @Override
     public JSONRenderer object(JSONEncoder object) {
-        return renderer.object(object);
+        delegate().object(object);
+        return this;
     }
 
     @Override
     public JSONRenderer object(JSONMapable pairs) {
-        return renderer.object(pairs);
+        delegate().object(pairs);
+        return this;
     }
 
     @Override
     public JSONRenderer object(Map<?, ?> pairs) {
-        return renderer.object(pairs);
+        delegate().object(pairs);
+        return this;
     }
 
     @Override
     public JSONRenderer object(NoObjectContext pairs) {
-        return renderer.object(pairs);
+        delegate().object(pairs);
+        return this;
     }
 
     @Override
     public JSONRenderer pairs(JSONMapable pairs) {
-        return renderer.pairs(pairs);
+        delegate().pairs(pairs);
+        return this;
     }
 
     @Override
     public JSONRenderer pairs(Map<?, ?> pairs) {
-        return renderer.pairs(pairs);
+        delegate().pairs(pairs);
+        return this;
     }
 
     @Override
     public JSONRenderer pairs(NoObjectContext pairs) {
-        return renderer.pairs(pairs);
+        delegate().pairs(pairs);
+        return this;
     }
 
     @Override
     public JSONRenderer plain(String json) {
-        return renderer.plain(json);
+        delegate().plain(json);
+        return this;
     }
 
     @Override
     public String toString() {
-        return renderer.toString();
-    }
-
-    @Override
-    public JSONRenderer value(BigDecimal value) {
-        return renderer.value(value);
-    }
-
-    @Override
-    public JSONRenderer value(BigInteger value) {
-        return renderer.value(value);
+        return delegate().toString();
     }
 
     @Override
     public JSONRenderer value(boolean value) {
-        return renderer.value(value);
-    }
-
-    @Override
-    public JSONRenderer value(byte value) {
-        return renderer.value(value);
-    }
-
-    @Override
-    public JSONRenderer value(char value) {
-        return renderer.value(value);
+        delegate().value(value);
+        return this;
     }
 
     @Override
     public JSONRenderer value(CharSequence value) {
-        return renderer.value(value);
+        delegate().value(value);
+        return this;
     }
 
     @Override
     public JSONRenderer value(Date value, DateMode mode) {
-        return renderer.value(value, mode);
+        delegate().value(value, mode);
+        return this;
     }
 
     @Override
     public JSONRenderer value(Date value) {
-        return renderer.value(value);
+        delegate().value(value);
+        return this;
     }
 
     @Override
     public JSONRenderer value(double value) {
-        return renderer.value(value);
+        delegate().value(value);
+        return this;
     }
 
     @Override
     public JSONRenderer value(Enum<?> value) {
-        return renderer.value(value);
-    }
-
-    @Override
-    public JSONRenderer value(float value) {
-        return renderer.value(value);
-    }
-
-    @Override
-    public JSONRenderer value(int value) {
-        return renderer.value(value);
+        delegate().value(value);
+        return this;
     }
 
     @Override
     public JSONRenderer value(long value) {
-        return renderer.value(value);
+        delegate().value(value);
+        return this;
     }
 
     @Override
     public JSONRenderer value(Object value) {
-        return renderer.value(value);
-    }
-
-    @Override
-    public JSONRenderer value(short value) {
-        return renderer.value(value);
+        delegate().value(value);
+        return this;
     }
 
     @Override
     public JSONRenderer values(Iterable<?> values) {
-        return renderer.values(values);
+        delegate().values(values);
+        return this;
     }
 
     @Override
     public JSONRenderer values(Iterator<?> values) {
-        return renderer.values(values);
+        delegate().values(values);
+        return this;
     }
 
     @Override
     public JSONRenderer values(JSONListable values) {
-        return renderer.values(values);
+        delegate().values(values);
+        return this;
     }
 
     @Override
     public JSONRenderer values(Object... values) {
-        return renderer.values(values);
+        delegate().values(values);
+        return this;
     }
     
 }

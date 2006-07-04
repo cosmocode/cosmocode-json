@@ -1,7 +1,5 @@
 package de.cosmocode.json;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -134,51 +132,6 @@ public interface JSONRenderer {
     JSONRenderer value(boolean value);
     
     /**
-     * Adds a byte value.
-     * 
-     * @param value the value being added
-     * @return this
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position
-     */
-    JSONRenderer value(byte value);
-    
-    /**
-     * Adds a short value.
-     * 
-     * @param value the value being added
-     * @return this
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position
-     */
-    JSONRenderer value(short value);
-    
-    /**
-     * Adds a char value.
-     * 
-     * <p>
-     *   The char value will be cast into an int and the call will be
-     *   delegated to {@link JSONRenderer#value(int)}.
-     * </p>
-     * 
-     * @param value the value being added
-     * @return this
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position
-     */
-    JSONRenderer value(char value);
-    
-    /**
-     * Adds an int value.
-     * 
-     * @param value the value being added
-     * @return this
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position
-     */
-    JSONRenderer value(int value);
-    
-    /**
      * Adds a long value.
      * 
      * @param value the value being added
@@ -187,21 +140,6 @@ public interface JSONRenderer {
      *         at the current position
      */
     JSONRenderer value(long value);
-    
-    /**
-     * Adds a float value.
-     * 
-     * <p>
-     *   Infinity and NaN are not allowed.
-     * </p>
-     * 
-     * @param value the value being added
-     * @return this
-     * @throws IllegalArgumentException if value is infinite or NaN
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position 
-     */
-    JSONRenderer value(float value);
     
     /**
      * Adds a double value.
@@ -217,34 +155,6 @@ public interface JSONRenderer {
      *         at the current position
      */
     JSONRenderer value(double value);
-    
-    /**
-     * Adds a {@link BigInteger} value.
-     * 
-     * <p>
-     *   Will return {@link JSONRenderer#nullValue()} if value is null.
-     * </p>
-     * 
-     * @param value the value being added, may be null
-     * @return this
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position
-     */
-    JSONRenderer value(BigInteger value);
-    
-    /**
-     * Adds a {@link BigDecimal} value.
-     * 
-     * <p>
-     *   Will return {@link JSONRenderer#nullValue()} if value is null.
-     * </p>
-     * 
-     * @param value the value being added, may be null
-     * @return this
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position
-     */
-    JSONRenderer value(BigDecimal value);
     
     /**
      * Adds a {@link Date} value using {@link DateMode#JAVA} for

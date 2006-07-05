@@ -1,7 +1,5 @@
 package de.cosmocode.json;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -25,7 +23,7 @@ public abstract class ForwardingJSONRenderer extends ForwardingObject implements
     }
 
     @Override
-    public <E> JSONRenderer array(E... values) {
+    public JSONRenderer array(Object... values) {
         delegate().array(values);
         return this;
     }

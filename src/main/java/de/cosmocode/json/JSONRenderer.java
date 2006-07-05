@@ -18,6 +18,31 @@ import de.cosmocode.commons.DateMode;
  *   to get familiar with the grammar JSON is based on.
  * </p>
  *
+ * <pre>
+ * object
+ *     {}
+ *     { members } 
+ * members
+ *     pair
+ *     pair , members
+ * pair
+ *     string : value
+ * array
+ *     []
+ *     [ elements ]
+ * elements
+ *     value
+ *     value , elements
+ * value
+ *     string
+ *     number
+ *     object
+ *     array
+ *     true
+ *     false
+ *     null
+ * </pre> 
+ *
  * @author Willi Schoenborn
  */
 public interface JSONRenderer {
@@ -327,13 +352,12 @@ public interface JSONRenderer {
      *   Will produce an empty array if values is null.
      * </p>
      * 
-     * @param <E> the array's element types
      * @param values the values being added as an array, may be null
      * @return this
      * @throws IllegalStateException if there is no array allowed
      *         at the current position
      */
-    <E> JSONRenderer array(E... values);
+    JSONRenderer array(Object... values);
     
     /**
      * Produces an array containing generic values.

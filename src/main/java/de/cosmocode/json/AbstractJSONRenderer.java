@@ -1,7 +1,5 @@
 package de.cosmocode.json;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -189,7 +187,7 @@ public abstract class AbstractJSONRenderer implements JSONRenderer {
     }
 
     @Override
-    public <E> JSONRenderer array(E... values) {
+    public JSONRenderer array(Object... values) {
         return array().values(values).endArray();
     }
 

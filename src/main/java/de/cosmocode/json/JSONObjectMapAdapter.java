@@ -11,7 +11,7 @@ import org.apache.commons.collections.Transformer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import de.cosmocode.collections.AbstractUtilityMap;
+import de.cosmocode.collections.utility.AbstractUtilityMap;
 
 class JSONObjectMapAdapter extends AbstractUtilityMap<String, Object> {
 

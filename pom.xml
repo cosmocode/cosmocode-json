@@ -12,6 +12,9 @@
     <artifactId>cosmocode-parent</artifactId>
     <version>1.0</version>
   </parent>
+  <scm>
+  	<developerConnection>scm:svn:http://commons.svn.cosmocode.de/cosmocode-json/trunk/</developerConnection>
+  </scm>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>

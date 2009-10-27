@@ -20,13 +20,13 @@ public final class JSON {
     }
     
     public static List<Object> asList(JSONArray array) {
-        log.debug("Returning {} using {}", JSONArrayListAdapter.class.getName(), array);
-        return new JSONArrayListAdapter(array);
+        log.debug("Returning {} using {}", JSONList.class.getName(), array);
+        return new JSONList(array);
     }
     
     public static Map<String, Object> asMap(JSONObject object) {
-        log.debug("Returning {} using {}", JSONObjectMapAdapter.class.getName(), object);
-        return new JSONObjectMapAdapter(object);
+        log.debug("Returning {} using {}", JSONMap.class.getName(), object);
+        return new JSONMap(object);
     }
     
 }

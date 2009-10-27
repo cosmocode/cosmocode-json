@@ -1,6 +1,9 @@
 package de.cosmocode.json;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
@@ -13,7 +16,7 @@ import org.json.JSONObject;
 
 import de.cosmocode.collections.utility.AbstractUtilityMap;
 
-class JSONObjectMapAdapter extends AbstractUtilityMap<String, Object> {
+class JSONMap extends AbstractUtilityMap<String, Object> {
 
 	private final JSONObject json;
 	private Set<String> keySet;
@@ -33,7 +36,7 @@ class JSONObjectMapAdapter extends AbstractUtilityMap<String, Object> {
 		
 		@Override
 		public Object transform(Object key) {
-			return JSONObjectMapAdapter.this.get(key);
+			return JSONMap.this.get(key);
 		}
 		
 	};
@@ -42,12 +45,12 @@ class JSONObjectMapAdapter extends AbstractUtilityMap<String, Object> {
 		
 		@Override
 		public Object transform(Object key) {
-			return new Entry(String.class.cast(key), JSONObjectMapAdapter.this.get(key));
+			return new Entry(String.class.cast(key), JSONMap.this.get(key));
 		}
 		
 	};
 	
-	public JSONObjectMapAdapter(JSONObject json) {
+	public JSONMap(JSONObject json) {
 		if (json == null) throw new IllegalArgumentException("JSONObject can't be null");
 		this.json = json;
 	}
@@ -248,6 +251,54 @@ class JSONObjectMapAdapter extends AbstractUtilityMap<String, Object> {
 	public double getDouble(String key, double defaultValue) {
 		return json.optDouble(key, defaultValue);
 	}
+	
+	@Override
+	public BigDecimal getBigDecimal(String key) throws IllegalArgumentException {
+	    // TODO Auto-generated method stub
+	    return null;
+	}
+	
+	@Override
+	public BigDecimal getBigDecimal(String key, BigDecimal defaultValue) {
+	    // TODO Auto-generated method stub
+	    return null;
+	}
+	
+	@Override
+	public BigInteger getBigInteger(String key) throws IllegalArgumentException {
+	    // TODO Auto-generated method stub
+	    return null;
+	}
+	
+	@Override
+	public BigInteger getBigInteger(String key, BigInteger defaultValue) {
+	    // TODO Auto-generated method stub
+	    return null;
+	}
+	
+	@Override
+	public Date getDate(String key) throws IllegalArgumentException {
+	    // TODO Auto-generated method stub
+	    return null;
+	}
+	
+	@Override
+	public Date getDate(String key, Date defaultValue) {
+	    // TODO Auto-generated method stub
+	    return null;
+	}
+	
+	@Override
+	public <T extends Enum<T>> T getEnum(String key, Class<T> enumType) throws IllegalArgumentException {
+	    // TODO Auto-generated method stub
+	    return null;
+	}
+
+    @Override
+	public <T extends Enum<T>> T getEnum(String key, Class<T> enumType, T defaultValue) {
+        // TODO Auto-generated method stub
+        return null;
+	};
 	
 	@Override
 	public String getString(String key) throws IllegalArgumentException {

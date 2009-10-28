@@ -13,7 +13,7 @@ public final class JSON {
     private static final Logger log = LoggerFactory.getLogger(JSON.class);
 
     /**
-     * Prevent instantiation
+     * Prevent instantiation.
      */
     private JSON() {
         

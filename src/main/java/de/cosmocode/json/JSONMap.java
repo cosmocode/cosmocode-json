@@ -116,7 +116,9 @@ class JSONMap extends AbstractUtilityMap<String, Object> {
 	
 	@Override
 	public void clear() {
-		for (String key : keySet()) remove(key);
+		for (String key : keySet()) {
+		    remove(key);
+		}
 		reset();
 	}
 	
@@ -168,9 +170,9 @@ class JSONMap extends AbstractUtilityMap<String, Object> {
 		}
 		
 		@Override
-		public Object setValue(Object value) {
+		public Object setValue(Object v) {
 			final Object oldValue = this.value;
-			this.value = value;
+			this.value = v;
 			return oldValue;
 		}
 		

@@ -2,6 +2,7 @@ package de.cosmocode.json;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -15,14 +16,26 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.cosmocode.collections.utility.AbstractUtilityMap;
+import de.cosmocode.patterns.Adapter;
 
-class JSONMap extends AbstractUtilityMap<String, Object> {
+/**
+ * An {@link Adapter} providing
+ * a {@link Map}-view on a {@link JSONObject}.
+ * 
+ * See also {@link JSON#asMap(JSONObject)}.
+ * 
+ * @author schoenborn@cosmocode.de
+ */
+class JSONMap extends AbstractUtilityMap<String, Object> implements Map<String, Object>, Adapter<Map<String, Object>> {
 
     private final JSONObject json;
     private Set<String> keySet;
     private Collection<Object> values;
     private Set<Map.Entry<String, Object>> entrySet;
     
+    /**
+     * TODO replace with type safe generic version from google collections
+     */
     private final Transformer keyTransformer = new Transformer() {
         
         @Override
@@ -31,7 +44,10 @@ class JSONMap extends AbstractUtilityMap<String, Object> {
         }
         
     };
-    
+
+    /**
+     * TODO replace with type safe generic version from google collections
+     */
     private final Transformer valueTransformer = new Transformer() {
         
         @Override
@@ -40,21 +56,32 @@ class JSONMap extends AbstractUtilityMap<String, Object> {
         }
         
     };
-    
+
+    /**
+     * TODO replace with type safe generic version from google collections
+     */
     private final Transformer entryTransformer = new Transformer() {
         
         @Override
         public Object transform(Object key) {
-            return new Entry(String.class.cast(key), JSONMap.this.get(key));
+            return new AbstractMap.SimpleEntry<String, Object>(String.class.cast(key), JSONMap.this.get(key));
         }
         
     };
     
+    /**
+     * Constructs a new {@link JSONMap} using the specified {@link JSONObject}.
+     * 
+     * @param json the {@link JSONObject} this map will be backed by
+     */
     public JSONMap(JSONObject json) {
         if (json == null) throw new IllegalArgumentException("JSONObject can't be null");
         this.json = json;
     }
     
+    /**
+     * TODO prevent caching
+     */
     private void reset() {
         keySet = null;
         values = null;
@@ -147,40 +174,6 @@ class JSONMap extends AbstractUtilityMap<String, Object> {
             CollectionUtils.collect(json.keys(), entryTransformer, entrySet);
         }
         return entrySet;
-    }
-    
-    private static class Entry implements Map.Entry<String, Object> {
-         
-        private final String key;
-        private Object value;
-         
-        public Entry(String key, Object value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        @Override
-        public String getKey() {
-            return key;
-        }
-        
-        @Override
-        public Object getValue() {
-            return value;
-        }
-        
-        @Override
-        public Object setValue(Object v) {
-            final Object oldValue = this.value;
-            this.value = v;
-            return oldValue;
-        }
-        
-        @Override
-        public String toString() {
-            return key + "=" + value;
-        }
-        
     }
     
     @Override

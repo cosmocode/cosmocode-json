@@ -7,11 +7,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import de.cosmocode.collections.utility.AbstractUtilityList;
+import de.cosmocode.patterns.Adapter;
 
-class JSONList extends AbstractUtilityList<Object> implements List<Object> {
+/**
+ * An {@link Adapter} providing
+ * a {@link List}-view on a {@link JSONArray}.
+ *
+ * See also {@link JSON#asList(JSONArray)}.
+ * 
+ * @author schoenborn@cosmocode.de
+ */
+class JSONList extends AbstractUtilityList<Object> implements List<Object>, Adapter<List<Object>> {
 
     private final JSONArray array;
     
+    /**
+     * Constructs a new {@link JSONList} using the specified {@link JSONArray}.
+     * 
+     * @param array the {@link JSONArray} this list will be backed by
+     */
     public JSONList(JSONArray array) {
         if (array == null) throw new NullPointerException("JSONArray must not be null");
         this.array = array;

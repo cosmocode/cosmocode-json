@@ -22,6 +22,12 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+        <groupId>de.cosmocode</groupId>
+        <artifactId>cosmocode-junit</artifactId>
+        <version>1.1-SNAPSHOT</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
@@ -32,7 +38,7 @@
     <dependency>
     	<groupId>de.cosmocode</groupId>
     	<artifactId>cosmocode-collections</artifactId>
-    	<version>1.1</version>
+    	<version>1.2-SNAPSHOT</version>
     </dependency>
     <dependency>
     	<groupId>org.json</groupId>
@@ -48,6 +54,11 @@
     	<groupId>de.cosmocode</groupId>
     	<artifactId>cosmocode-patterns</artifactId>
     	<version>1.2-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+    	<groupId>com.google.collections</groupId>
+    	<artifactId>google-collections</artifactId>
+    	<version>1.0-rc3</version>
     </dependency>
   </dependencies>
 </project>

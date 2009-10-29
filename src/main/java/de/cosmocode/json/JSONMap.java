@@ -26,7 +26,8 @@ import de.cosmocode.patterns.Adapter;
  * 
  * @author schoenborn@cosmocode.de
  */
-class JSONMap extends AbstractUtilityMap<String, Object> implements Map<String, Object>, Adapter<Map<String, Object>> {
+@Adapter(Map.class)
+class JSONMap extends AbstractUtilityMap<String, Object> implements Map<String, Object> {
 
     private final JSONObject json;
     private Set<String> keySet;

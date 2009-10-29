@@ -31,10 +31,9 @@ public final class JSON {
      * The returned {@link List} will be backed by the {@link JSONArray}.
      * Changes in the {@link JSONArray} will write through to the {@link List}
      * and vice versa.
-     * 
-     * The returned {@link List} is fully compliant and supports
-     * all optional operations specified in the {@link List} interface.
-     * 
+     * <p>
+     * <b>NOTE:</b> The returned {@link List} does NOT support remove operations.
+     * </p>
      * @param array the {@link JSONArray} which will be used as a {@link List}
      * @return a {@link List} backed by the array
      */

@@ -32,7 +32,7 @@ public final class JSONMapTest implements TestMapGenerator<String, Object> {
      */
     public static Test suite() {
         return MapTestSuiteBuilder.using(new JSONMapTest()).
-            named(JSONMapTest.class.getName()).
+            named(JSONMapTest.class.getSimpleName()).
             withFeatures(
                 CollectionSize.ANY,
                 MapFeature.GENERAL_PURPOSE,

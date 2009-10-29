@@ -33,7 +33,7 @@ public final class JSONListTest implements TestListGenerator<Object> {
      */
     public static Test suite() {
         return ListTestSuiteBuilder.using(new JSONListTest()).
-            named(JSONListTest.class.getName()).
+            named(JSONListTest.class.getSimpleName()).
             withFeatures(
                 CollectionSize.ANY,
                 CollectionFeature.SUPPORTS_ADD,

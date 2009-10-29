@@ -31,9 +31,11 @@ public final class JSON {
      * The returned {@link List} will be backed by the {@link JSONArray}.
      * Changes in the {@link JSONArray} will write through to the {@link List}
      * and vice versa.
+     * 
      * <p>
-     * <b>NOTE:</b> The returned {@link List} does NOT support remove operations.
+     *   <b>NOTE:</b> The returned {@link List} does NOT support remove operations.
      * </p>
+     * 
      * @param array the {@link JSONArray} which will be used as a {@link List}
      * @return a {@link List} backed by the array
      */
@@ -49,8 +51,10 @@ public final class JSON {
      * Changes in the {@link JSONObject} will write through to the {@link Map}
      * and vice versa.
      * 
-     * The returned {@link Map} is fully compliant and supports
-     * all optional operations specified in the {@link Map} interface.
+     * <p>
+     *   The returned {@link Map} is fully compliant and supports
+     *   all optional operations specified in the {@link Map} interface.
+     * </p>
      * 
      * @param object the {@link JSONObject} which will be used as {@link Map}
      * @return a {@link Map} backed be the object

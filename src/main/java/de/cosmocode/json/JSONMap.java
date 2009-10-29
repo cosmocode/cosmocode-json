@@ -69,7 +69,7 @@ class JSONMap extends AbstractUtilityMap<String, Object> implements Map<String, 
         if (key == null) throw new NullPointerException("Key must not be null");
         if (value == null) throw new NullPointerException("Value must not be null");
         try {
-            final Object oldValue = object.opt(key);
+            final Object oldValue = get(key);
             object.put(key, value);
             return oldValue;
         } catch (JSONException e) {
@@ -143,7 +143,7 @@ class JSONMap extends AbstractUtilityMap<String, Object> implements Map<String, 
 
         @Override
         public int size() {
-            return object.length();
+            return JSONMap.this.size();
         }
         
     }

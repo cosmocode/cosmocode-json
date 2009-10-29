@@ -33,7 +33,7 @@ public final class JSON {
      * and vice versa.
      * 
      * <p>
-     *   <b>NOTE:</b> The returned {@link List} does NOT support remove operations.
+     *   <b>Note:</b> The returned {@link List} does NOT support remove operations.
      * </p>
      * 
      * @param array the {@link JSONArray} which will be used as a {@link List}

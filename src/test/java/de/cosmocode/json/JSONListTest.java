@@ -14,11 +14,10 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
 
-
 /**
- * Tests {@link JSONList}.
- * 
- * @author schoenborn@schoenborn
+ * Test {@link JSONList}.
+ *
+ * @author Willi Schoenborn <schoenborn@cosmocode.de>
  */
 public final class JSONListTest implements TestListGenerator<Object> {
     

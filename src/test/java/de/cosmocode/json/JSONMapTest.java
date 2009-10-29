@@ -15,9 +15,9 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
 /**
- * Tests {@link JSONMap}.
- * 
- * @author schoenborn@cosmocode.de
+ * Test {@link JSONMap}.
+ *
+ * @author Willi Schoenborn <schoenborn@cosmocode.de>
  */
 public final class JSONMapTest implements TestMapGenerator<String, Object> {
     

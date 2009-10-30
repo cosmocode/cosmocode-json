@@ -7,10 +7,13 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONStringer;
 import org.json.JSONWriter;
 import org.json.extension.JSONConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.cosmocode.commons.DateMode;
 
 /**
  * Utility class providing static factory methods,
@@ -47,8 +50,8 @@ public final class JSON {
      * @return a {@link List} backed by the array
      */
     public static List<Object> asList(JSONArray array) {
-        log.debug("Returning {} using {}", JSONList.class.getName(), array);
-        return new JSONList(array);
+        log.debug("Returning {} using {}", JSONArrayList.class.getName(), array);
+        return new JSONArrayList(array);
     }
     
     /**
@@ -70,8 +73,19 @@ public final class JSON {
      * @return a {@link Map} backed be the object
      */
     public static Map<String, Object> asMap(JSONObject object) {
-        log.debug("Returning {} using {}", JSONMap.class.getName(), object);
-        return new JSONMap(object);
+        log.debug("Returning {} using {}", JSONObjectMap.class.getName(), object);
+        return new JSONObjectMap(object);
+    }
+    
+    /**
+     * Creates a {@link JSONRenderer} which stores
+     * his encoded JSON data internally. Call
+     * {@link JSONRenderer#toString()} to render it.
+     * 
+     * @return a new {@link JSONRenderer}
+     */
+    public static JSONRenderer createJSONRenderer() {
+        return JSON.asJSONRenderer(new JSONStringer());
     }
     
     /**
@@ -82,49 +96,9 @@ public final class JSON {
      * @throws NullPointerException if writer is null
      * @return a {@link JSONRenderer} writing to the {@link Writer} instance
      */
-    public static JSONRenderer to(Writer writer) {
+    public static JSONRenderer createJSONRenderer(Writer writer) {
         if (writer == null) throw new NullPointerException("Writer must not be null");
         return JSON.asJSONRenderer(new JSONWriter(writer));
-    }
-    
-    /**
-     * Retrieves the {@link Writer} instance a given {@link JSONWriter}
-     * is using by reflecting the protected instance variable.
-     *
-     * <p>
-     *   <strong>Note:</strong> This method is a dirty hack (and the author
-     *   is aware of that fact. You should generally avoid to use this method
-     *   or even the way it does things. We just need it to provide backward
-     *   compatability to {@link JSONWriter} and {@link JSONConstructor}
-     * </p>
-     * 
-     * @param json the holder of the {@link Writer} instance
-     * @throws NullPointerException if json is null
-     * @return the stolen {@link Writer} instance
-     */
-    static Writer stealWriter(JSONWriter json) {
-        if (json == null) throw new NullPointerException("JSONWriter must not be null");
-        final Class<JSONWriter> type = JSONWriter.class;
-        try {
-            final Field field = type.getDeclaredField("writer");
-            final boolean accessible = field.isAccessible();
-            field.setAccessible(true);
-            final Object result = field.get(json);
-            field.setAccessible(accessible);
-            return Writer.class.cast(result);
-        } catch (NoSuchFieldException e) {
-            throw new IllegalStateException(e);
-        } catch (IllegalAccessException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-    
-    public static JSONRenderer asJSONRenderer(JSONWriter writer) {
-        return JSON.asJSONRenderer(JSON.asJSONConstructor(writer));
-    }
-    
-    public static JSONConstructor asJSONConstructor(JSONWriter writer) {
-        return new JSONWriterConstructor(writer);
     }
     
     /**
@@ -140,9 +114,24 @@ public final class JSON {
      */
     public static JSONRenderer asJSONRenderer(JSONConstructor constructor) {
         log.debug("Returning new {} as {} using {}", new Object[] {
-            JSONConstructorAdapter.class.getName(), JSONRenderer.class.getName(), constructor.getClass().getName()
+            JSONConstructorRenderer.class.getName(), JSONRenderer.class.getName(), constructor.getClass().getName()
         });
-        return new JSONConstructorAdapter(constructor);
+        return new JSONConstructorRenderer(constructor, DateMode.JAVA);
+    }
+    
+    /**
+     * Provides a {@link JSONRenderer}-based view on a {@link JSONWriter}.
+     * 
+     * <p>
+     *   The returned {@link JSONRenderer} will be backed by the {@link JSONWriter}.
+     * </p>
+     * 
+     * @param writer the {@link JSONWriter} which will be used as a {@link JSONRenderer}
+     * @throws NullPointerException if writer is null
+     * @return a {@link JSONRenderer} backed by the writer
+     */
+    public static JSONRenderer asJSONRenderer(JSONWriter writer) {
+        return JSON.asJSONRenderer(JSON.asJSONConstructor(writer));
     }
     
     /**
@@ -158,9 +147,64 @@ public final class JSON {
      */
     public static JSONConstructor asJSONConstructor(JSONRenderer renderer) {
         log.debug("Returning new {} as {} using {}", new Object[] {
-            JSONRendererAdapter.class.getName(), JSONConstructor.class.getName(), renderer.getClass().getName()
+            JSONRendererConstructor.class.getName(), JSONConstructor.class.getName(), renderer.getClass().getName()
         });
-        return new JSONRendererAdapter(renderer);
+        return new JSONRendererConstructor(renderer);
+    }
+    
+    /**
+     * Provides a {@link JSONConstructor}-based view on a {@link JSONWriter}.
+     * 
+     * <p>
+     *   The returned {@link JSONConstructor} will be backed by the {@link JSONWriter}.
+     * </p>
+     * 
+     * @param writer the {@link JSONWriter} which will be used as a {@link JSONConstructor}
+     * @throws NullPointerException if writer is null
+     * @return a {@link JSONConstructor} backed by the writer
+     */
+    public static JSONConstructor asJSONConstructor(JSONWriter writer) {
+        log.debug("Returning new {} as {} using", new Object[] {
+            JSONWriterConstructor.class.getName(), JSONConstructor.class.getName(), writer.getClass().getName()
+        });
+        return new JSONWriterConstructor(writer);
+    }
+    
+    /**
+     * Retrieves the {@link Writer} instance a given {@link JSONWriter}
+     * is using by reflecting the protected instance variable.
+     *
+     * <p>
+     *   <strong>Note:</strong> This method is a dirty hack (and the author
+     *   is aware of that fact). You should generally avoid to use this method
+     *   or even the way it does things. We just need it to provide backward
+     *   compatability to {@link JSONWriter} and {@link JSONConstructor}
+     * </p>
+     * 
+     * @param json the holder of the {@link Writer} instance
+     * @throws NullPointerException if json is null
+     * @return the stolen {@link Writer} instance
+     */
+    static Writer stealWriter(JSONWriter json) {
+        if (json == null) throw new NullPointerException("JSONWriter must not be null");
+        final Class<JSONWriter> type = JSONWriter.class;
+        log.debug("Trying to extract {} from {}", Writer.class.getName(), json.getClass().getName());
+        try {
+            final Field field = type.getDeclaredField("writer");
+            log.debug("Getting field {}: {}", field.getName(), field);
+            final boolean accessible = field.isAccessible();
+            log.debug("Setting accessible to {}", Boolean.TRUE);
+            field.setAccessible(true);
+            final Object result = field.get(json);
+            log.debug("Getting the field value of {}: {}", field.getName(), result.getClass().getName());
+            field.setAccessible(accessible);
+            log.debug("Setting accessible back to {}", Boolean.valueOf(accessible));
+            return Writer.class.cast(result);
+        } catch (NoSuchFieldException e) {
+            throw new IllegalStateException(e);
+        } catch (IllegalAccessException e) {
+            throw new IllegalStateException(e);
+        }
     }
     
 }

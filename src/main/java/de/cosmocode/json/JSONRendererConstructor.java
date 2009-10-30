@@ -12,17 +12,17 @@ import de.cosmocode.patterns.Adapter;
  * @author Willi Schoenborn <schoenborn@cosmocode.de>
  */
 @Adapter(JSONConstructor.class)
-class JSONRendererAdapter implements JSONConstructor {
+class JSONRendererConstructor implements JSONConstructor {
 
     private final JSONRenderer renderer;
     
     /**
-     * Creates a new {@link JSONRendererAdapter} which
+     * Creates a new {@link JSONRendererConstructor} which
      * delegates all calls to an underlying {@link JSONRenderer} instance.
      * 
      * @param renderer the renderer this instance relies on
      */
-    public JSONRendererAdapter(JSONRenderer renderer) {
+    public JSONRendererConstructor(JSONRenderer renderer) {
         if (renderer == null) throw new NullPointerException("JSONRenderer must not be null");
         this.renderer = renderer;
     }

@@ -1,7 +1,7 @@
 package de.cosmocode.json;
 
-public interface JSONMapable {
+public interface JSONMapable extends JSONRenderable {
 
-    JSONRenderer render(JSONRenderer renderer);
+    JSONRenderer renderAsMap(JSONRenderer renderer);
     
 }

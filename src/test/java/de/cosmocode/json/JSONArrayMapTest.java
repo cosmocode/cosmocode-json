@@ -15,13 +15,13 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
 /**
- * Test {@link JSONMap}.
+ * Test {@link JSONObjectMap}.
  *
  * @author Willi Schoenborn <schoenborn@cosmocode.de>
  */
-public final class JSONMapTest implements TestMapGenerator<String, Object> {
+public final class JSONArrayMapTest implements TestMapGenerator<String, Object> {
     
-    private JSONMapTest() {
+    private JSONArrayMapTest() {
         
     }
     
@@ -31,8 +31,8 @@ public final class JSONMapTest implements TestMapGenerator<String, Object> {
      * @return {@link Test}
      */
     public static Test suite() {
-        return MapTestSuiteBuilder.using(new JSONMapTest()).
-            named(JSONMapTest.class.getSimpleName()).
+        return MapTestSuiteBuilder.using(new JSONArrayMapTest()).
+            named(JSONArrayMapTest.class.getSimpleName()).
             withFeatures(
                 CollectionSize.ANY,
                 MapFeature.GENERAL_PURPOSE,

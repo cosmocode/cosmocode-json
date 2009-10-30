@@ -23,18 +23,18 @@ import de.cosmocode.patterns.Adapter;
  * @author schoenborn@cosmocode.de
  */
 @Adapter(Map.class)
-class JSONMap extends AbstractUtilityMap<String, Object> implements Map<String, Object>, UtilityMap<String, Object> {
+class JSONObjectMap extends AbstractUtilityMap<String, Object> implements Map<String, Object>, UtilityMap<String, Object> {
 
     private final JSONObject object;
     
     private final Set<Map.Entry<String, Object>> entrySet = new EntrySet();
     
     /**
-     * Constructs a new {@link JSONMap} using the specified {@link JSONObject}.
+     * Constructs a new {@link JSONObjectMap} using the specified {@link JSONObject}.
      * 
      * @param object the {@link JSONObject} this map will be backed by
      */
-    public JSONMap(JSONObject object) {
+    public JSONObjectMap(JSONObject object) {
         if (object == null) throw new IllegalArgumentException("JSONObject can't be null");
         this.object = object;
     }
@@ -143,7 +143,7 @@ class JSONMap extends AbstractUtilityMap<String, Object> implements Map<String, 
 
         @Override
         public int size() {
-            return JSONMap.this.size();
+            return JSONObjectMap.this.size();
         }
         
     }

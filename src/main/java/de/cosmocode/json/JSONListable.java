@@ -1,7 +1,7 @@
 package de.cosmocode.json;
 
-public interface JSONListable {
+public interface JSONListable extends JSONRenderable {
 
-    JSONRenderer render(JSONRenderer renderer);
+    JSONRenderer renderAsList(JSONRenderer renderer);
 
 }

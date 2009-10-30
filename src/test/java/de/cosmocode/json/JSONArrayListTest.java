@@ -15,13 +15,13 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
 
 /**
- * Test {@link JSONList}.
+ * Test {@link JSONArrayList}.
  *
  * @author Willi Schoenborn <schoenborn@cosmocode.de>
  */
-public final class JSONListTest implements TestListGenerator<Object> {
+public final class JSONArrayListTest implements TestListGenerator<Object> {
     
-    private JSONListTest() {
+    private JSONArrayListTest() {
         
     }
 
@@ -31,8 +31,8 @@ public final class JSONListTest implements TestListGenerator<Object> {
      * @return {@link Test}
      */
     public static Test suite() {
-        return ListTestSuiteBuilder.using(new JSONListTest()).
-            named(JSONListTest.class.getSimpleName()).
+        return ListTestSuiteBuilder.using(new JSONArrayListTest()).
+            named(JSONArrayListTest.class.getSimpleName()).
             withFeatures(
                 CollectionSize.ANY,
                 CollectionFeature.SUPPORTS_ADD,

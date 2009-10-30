@@ -19,16 +19,16 @@ import de.cosmocode.patterns.Adapter;
  * @author schoenborn@cosmocode.de
  */
 @Adapter(List.class)
-class JSONList extends AbstractUtilityList<Object> implements List<Object>, UtilityList<Object> {
+class JSONArrayList extends AbstractUtilityList<Object> implements List<Object>, UtilityList<Object> {
 
     private final JSONArray array;
     
     /**
-     * Constructs a new {@link JSONList} using the specified {@link JSONArray}.
+     * Constructs a new {@link JSONArrayList} using the specified {@link JSONArray}.
      * 
      * @param array the {@link JSONArray} this list will be backed by
      */
-    public JSONList(JSONArray array) {
+    public JSONArrayList(JSONArray array) {
         if (array == null) throw new NullPointerException("JSONArray must not be null");
         this.array = array;
         if (contains(null)) throw new NullPointerException("JSONLIst must not contain null values");

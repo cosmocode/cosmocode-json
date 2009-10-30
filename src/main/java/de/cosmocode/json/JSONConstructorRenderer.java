@@ -3,7 +3,9 @@ package de.cosmocode.json;
 import org.json.JSONException;
 import org.json.extension.JSONConstructor;
 import org.json.extension.JSONEncoder;
+import org.json.extension.NoObjectContext;
 
+import de.cosmocode.commons.DateMode;
 import de.cosmocode.patterns.Adapter;
 
 /**
@@ -14,18 +16,22 @@ import de.cosmocode.patterns.Adapter;
  * @author Willi Schoenborn <schoenborn@cosmocode.de>
  */
 @Adapter(JSONRenderer.class)
-final class JSONConstructorAdapter extends AbstractJSONRenderer implements JSONRenderer {
+final class JSONConstructorRenderer extends AbstractJSONRenderer implements JSONRenderer {
 
     private final JSONConstructor constructor;
+    private final JSONConstructor adapter;
     
     /**
-     * Creates a new {@link JSONConstructorAdapter} using the given constructor.
+     * Creates a new {@link JSONConstructorRenderer} using the given constructor and dateMode.
      * 
      * @param constructor the constructor this instance relies on
+     * @param dateMode the {@link DateMode} this instance uses for {@link Date} conversions
      */
-    public JSONConstructorAdapter(JSONConstructor constructor) {
+    public JSONConstructorRenderer(JSONConstructor constructor, DateMode dateMode) {
+        super(dateMode);
         if (constructor == null) throw new NullPointerException("JSONConstructor must not be null");
         this.constructor = constructor;
+        this.adapter = JSON.asJSONConstructor(this);
     }
 
     @Override
@@ -89,6 +95,16 @@ final class JSONConstructorAdapter extends AbstractJSONRenderer implements JSONR
     }
     
     @Override
+    protected JSONRenderer unknownValue(Object value) {
+        try {
+            constructor.value(value);
+            return this;
+        } catch (JSONException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+    
+    @Override
     public JSONRenderer value(boolean value) {
         try {
             constructor.value(value);
@@ -110,6 +126,7 @@ final class JSONConstructorAdapter extends AbstractJSONRenderer implements JSONR
 
     @Override
     public JSONRenderer value(double value) {
+        // TODO Infinity and NaN
         try {
             constructor.value(value);
         } catch (JSONException e) {
@@ -130,19 +147,30 @@ final class JSONConstructorAdapter extends AbstractJSONRenderer implements JSONR
     }
 
     @Override
-    public <T extends JSONEncoder & NoObjectContext> JSONRenderer pairs(T pairs) {
+    public JSONRenderer pairs(NoObjectContext pairs) {
         if (pairs == null) return this;
         try {
-            pairs.encodeJSON(constructor);
+            pairs.encodeJSON(adapter);
+            return this;
         } catch (JSONException e) {
-            throw new IllegalStateException(e);
+            throw new IllegalArgumentException(e);
         }
-        return this;
+    }
+    
+    @Override
+    public JSONRenderer object(NoObjectContext pairs) {
+        return object().pairs(pairs).endObject();
     }
 
     @Override
-    public <T extends JSONEncoder & NoObjectContext> JSONRenderer object(T pairs) {
-        return object().pairs(pairs).endObject();
+    public JSONRenderer object(JSONEncoder object) {
+        if (object == null) return nullValue();
+        try {
+            object.encodeJSON(adapter);
+        } catch (JSONException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return this;
     }
 
     @Override
@@ -150,9 +178,14 @@ final class JSONConstructorAdapter extends AbstractJSONRenderer implements JSONR
         try {
             constructor.plain(json);
         } catch (JSONException e) {
-            throw new IllegalStateException(e);
+            throw new IllegalArgumentException(e);
         }
         return this;
+    }
+    
+    @Override
+    public String toString() {
+        return constructor.toString();
     }
     
 }

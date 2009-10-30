@@ -7,11 +7,11 @@ import org.json.JSONException;
  * for bean/pojo-classes to build their
  * own json structure.
  * 
- * @deprecated use JSONRenderer instead or consider using
+ * @deprecated Use JSONRenderer instead or consider using
  *             adapter factory methods in {@link JSON}, if
  *             you face legacy code.
  * 
- * @author schoenborn
+ * @author schoenborn@cosmocode.de
  */
 @Deprecated
 public interface JSONConstructor {

@@ -197,9 +197,9 @@ abstract class AbstractJSONRenderer implements JSONRenderer {
     }
 
     @Override
-    public <E> JSONRenderer values(E... values) {
+    public JSONRenderer values(Object... values) {
         if (values == null) return this;
-        for (E value : values) {
+        for (Object value : values) {
             value(value);
         }
         return this;

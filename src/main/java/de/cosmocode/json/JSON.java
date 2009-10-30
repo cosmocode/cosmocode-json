@@ -2,6 +2,7 @@ package de.cosmocode.json;
 
 import java.io.Writer;
 import java.lang.reflect.Field;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,8 @@ import org.json.JSONWriter;
 import org.json.extension.JSONConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Maps;
 
 import de.cosmocode.commons.DateMode;
 
@@ -75,6 +78,17 @@ public final class JSON {
     public static Map<String, Object> asMap(JSONObject object) {
         log.debug("Returning {} using {}", JSONObjectMap.class.getName(), object);
         return new JSONObjectMap(object);
+    }
+    
+    /**
+     * Creates a {@link JSONObject} based on a
+     * {@link LinkedHashMap} which provides insertion
+     * order.
+     * 
+     * @return a new {@link JSONObject} based on a {@link LinkedHashMap}
+     */
+    public static JSONObject createLinkedJSONObject() {
+        return new JSONObject(Maps.newLinkedHashMap());
     }
     
     /**

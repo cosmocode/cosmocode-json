@@ -81,4 +81,9 @@ public class JSONWriterConstructor implements JSONConstructor {
         return this;
     }
     
+    @Override
+    public String toString() {
+        return json.toString();
+    }
+    
 }

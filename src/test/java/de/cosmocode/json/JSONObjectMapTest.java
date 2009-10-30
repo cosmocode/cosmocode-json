@@ -19,9 +19,9 @@ import com.google.common.collect.testing.features.MapFeature;
  *
  * @author Willi Schoenborn <schoenborn@cosmocode.de>
  */
-public final class JSONArrayMapTest implements TestMapGenerator<String, Object> {
+public final class JSONObjectMapTest implements TestMapGenerator<String, Object> {
     
-    private JSONArrayMapTest() {
+    private JSONObjectMapTest() {
         
     }
     
@@ -31,8 +31,8 @@ public final class JSONArrayMapTest implements TestMapGenerator<String, Object> 
      * @return {@link Test}
      */
     public static Test suite() {
-        return MapTestSuiteBuilder.using(new JSONArrayMapTest()).
-            named(JSONArrayMapTest.class.getSimpleName()).
+        return MapTestSuiteBuilder.using(new JSONObjectMapTest()).
+            named(JSONObjectMapTest.class.getSimpleName()).
             withFeatures(
                 CollectionSize.ANY,
                 MapFeature.GENERAL_PURPOSE,

@@ -87,4 +87,9 @@ class JSONRendererConstructor implements JSONConstructor {
         return this;
     }
     
+    @Override
+    public String toString() {
+        return renderer.toString();
+    }
+    
 }

@@ -1,10 +1,13 @@
 package de.cosmocode.json;
 
+import java.io.Writer;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONWriter;
 import org.json.extension.JSONConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,6 +72,59 @@ public final class JSON {
     public static Map<String, Object> asMap(JSONObject object) {
         log.debug("Returning {} using {}", JSONMap.class.getName(), object);
         return new JSONMap(object);
+    }
+    
+    /**
+     * Creates a {@link JSONRenderer} which directly writes
+     * his encoded JSON data using the given writer instance.
+     * 
+     * @param writer the target of the json encoded data
+     * @throws NullPointerException if writer is null
+     * @return a {@link JSONRenderer} writing to the {@link Writer} instance
+     */
+    public static JSONRenderer to(Writer writer) {
+        if (writer == null) throw new NullPointerException("Writer must not be null");
+        return JSON.asJSONRenderer(new JSONWriter(writer));
+    }
+    
+    /**
+     * Retrieves the {@link Writer} instance a given {@link JSONWriter}
+     * is using by reflecting the protected instance variable.
+     *
+     * <p>
+     *   <strong>Note:</strong> This method is a dirty hack (and the author
+     *   is aware of that fact. You should generally avoid to use this method
+     *   or even the way it does things. We just need it to provide backward
+     *   compatability to {@link JSONWriter} and {@link JSONConstructor}
+     * </p>
+     * 
+     * @param json the holder of the {@link Writer} instance
+     * @throws NullPointerException if json is null
+     * @return the stolen {@link Writer} instance
+     */
+    static Writer stealWriter(JSONWriter json) {
+        if (json == null) throw new NullPointerException("JSONWriter must not be null");
+        final Class<JSONWriter> type = JSONWriter.class;
+        try {
+            final Field field = type.getDeclaredField("writer");
+            final boolean accessible = field.isAccessible();
+            field.setAccessible(true);
+            final Object result = field.get(json);
+            field.setAccessible(accessible);
+            return Writer.class.cast(result);
+        } catch (NoSuchFieldException e) {
+            throw new IllegalStateException(e);
+        } catch (IllegalAccessException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+    
+    public static JSONRenderer asJSONRenderer(JSONWriter writer) {
+        return JSON.asJSONRenderer(JSON.asJSONConstructor(writer));
+    }
+    
+    public static JSONConstructor asJSONConstructor(JSONWriter writer) {
+        return new JSONWriterConstructor(writer);
     }
     
     /**

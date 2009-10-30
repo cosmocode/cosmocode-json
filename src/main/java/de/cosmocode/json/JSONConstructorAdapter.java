@@ -27,7 +27,7 @@ final class JSONConstructorAdapter extends AbstractJSONRenderer implements JSONR
         if (constructor == null) throw new NullPointerException("JSONConstructor must not be null");
         this.constructor = constructor;
     }
-    
+
     @Override
     public JSONRenderer array() {
         try {

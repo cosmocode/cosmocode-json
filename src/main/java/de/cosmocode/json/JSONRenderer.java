@@ -157,8 +157,8 @@ public interface JSONRenderer {
      * Adds a char value.
      * 
      * <p>
-     *   The char will be transformed into a String by using
-     *   {@link Character#toString(char)}.
+     *   The char value will be cast into an int and the call will be
+     *   delegated to {@link JSONRenderer#value(int)}.
      * </p>
      * 
      * @param value the value being added
@@ -273,12 +273,13 @@ public interface JSONRenderer {
      * {@link Date} conversions.
      * 
      * <p>
-     *   Will return {@link JSONRenderer#nullValue()} if either value or mode is null.
+     *   Will return {@link JSONRenderer#nullValue()} if value is null.
      * </p>
      * 
      * @param value the value being added, may be null
-     * @param mode the mode being used for {@link Date} conversions, may be null
+     * @param mode the mode being used for {@link Date} conversions
      * @return this
+     * @throws NullPointerException if mode is null
      * @throws IllegalStateException if there is no value allowed
      *         at the current position
      */
@@ -304,6 +305,10 @@ public interface JSONRenderer {
     
     /**
      * Adds a {@link CharSequence} value.
+     * 
+     * <p>
+     *   The final value will be a {@link String} returned by {@link CharSequence#toString()}.
+     * </p>
 
      * <p>
      *   Will return {@link JSONRenderer#nullValue()} if value is null.
@@ -328,7 +333,6 @@ public interface JSONRenderer {
      *   Will return this, without adding something, if values is null.
      * </p>
      * 
-     * @param <E> the array's element type
      * @param values the values being added, may be null
      * @return this
      * @throws IllegalStateException if there are no values allowed
@@ -680,7 +684,7 @@ public interface JSONRenderer {
      * </p>
      * 
      * <p>
-     *   Will return {@link JSONRenderer#nullValue()} if object is null.
+     *   Will produce an empty object if pairs is null.
      * </p>
      * 
      * @deprecated Only for legacy support. Consider using 
@@ -697,12 +701,19 @@ public interface JSONRenderer {
     /**
      * Allows to directly add a String to the underlying data structure.
      * 
+     * <p>
+     *   It must be either an array [...] or an object {...}.
+     * </p>
+     * 
      * @deprecated This method only exists for backwards compatability reasons.
-     *             It lacks proper validity checks. Use strongly typed methods instead.
+     *             Use strongly typed methods instead.
      *             
      * @param json a well-formed JSON string
      * @return this
      * @throws NullPointerException if json is null
+     * @throws IllegalArgumentException if json is neither a valid JSON array nor a JSON object
+     * @throws IllegalStateException if the value represented by json is not allowed
+     *         at the current position
      */
     @Deprecated
     JSONRenderer plain(String json);

@@ -3,8 +3,6 @@ package de.cosmocode.json;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,6 +14,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Maps;
 
+import de.cosmocode.collections.utility.UtilityList;
+import de.cosmocode.collections.utility.UtilityMap;
 import de.cosmocode.commons.DateMode;
 
 /**
@@ -36,46 +36,46 @@ public final class JSON {
     }
     
     /**
-     * Provides a {@link List}-based view on a {@link JSONArray}.
+     * Provides a {@link UtilityList}-based view on a {@link JSONArray}.
      * 
      * <p>
-     *   The returned {@link List} will be backed by the {@link JSONArray}.
-     *   Changes in the {@link JSONArray} will write through to the {@link List}
+     *   The returned {@link UtilityList} will be backed by the {@link JSONArray}.
+     *   Changes in the {@link JSONArray} will write through to the {@link UtilityList}
      *   and vice versa.
      * </p>
      * 
      * <p>
-     *   <b>Note:</b> The returned {@link List} does NOT support remove operations.
+     *   <b>Note:</b> The returned {@link UtilityList} does NOT support remove operations.
      * </p>
      * 
-     * @param array the {@link JSONArray} which will be used as a {@link List}
+     * @param array the {@link JSONArray} which will be used as a {@link UtilityList}
      * @throws NullPointerException if array is null
-     * @return a {@link List} backed by the array
+     * @return a {@link UtilityList} backed by the array
      */
-    public static List<Object> asList(JSONArray array) {
+    public static UtilityList<Object> asList(JSONArray array) {
         log.debug("Returning {} using {}", JSONArrayList.class.getName(), array);
         return new JSONArrayList(array);
     }
     
     /**
-     * Provides a {@link Map}-based view on a {@link JSONObject}.
+     * Provides a {@link UtilityMap}-based view on a {@link JSONObject}.
      * 
      * <p>
-     *   The returned {@link Map} will be backed by the {@link JSONObject}.
-     *   Changes in the {@link JSONObject} will write through to the {@link Map}
+     *   The returned {@link UtilityMap} will be backed by the {@link JSONObject}.
+     *   Changes in the {@link JSONObject} will write through to the {@link UtilityMap}
      *   and vice versa.
      * </p>
      * 
      * <p>
-     *   The returned {@link Map} is fully compliant and supports
-     *   all optional operations specified in the {@link Map} interface.
+     *   The returned {@link UtilityMap} is fully compliant and supports
+     *   all optional operations specified in the {@link UtilityMap} interface.
      * </p>
      * 
-     * @param object the {@link JSONObject} which will be used as {@link Map}
+     * @param object the {@link JSONObject} which will be used as {@link UtilityMap}
      * @throws NullPointerException if object is null
-     * @return a {@link Map} backed be the object
+     * @return a {@link UtilityMap} backed be the object
      */
-    public static Map<String, Object> asMap(JSONObject object) {
+    public static UtilityMap<String, Object> asMap(JSONObject object) {
         log.debug("Returning {} using {}", JSONObjectMap.class.getName(), object);
         return new JSONObjectMap(object);
     }

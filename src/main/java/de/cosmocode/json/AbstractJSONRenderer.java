@@ -157,7 +157,7 @@ abstract class AbstractJSONRenderer implements JSONRenderer {
 
     @Override
     public JSONRenderer value(char value) {
-        return value(Character.toString(value));
+        return value((int) value);
     }
 
     @Override
@@ -166,18 +166,9 @@ abstract class AbstractJSONRenderer implements JSONRenderer {
     }
     @Override
     public JSONRenderer value(float value) {
-        // TODO Infinity and NaN
+        if (Float.isInfinite(value)) throw new IllegalArgumentException("Float must not be infinite");
+        if (Float.isNaN(value)) throw new IllegalArgumentException("Float must not be NaN");
         return value((double) value);
-    }
-
-    @Override
-    public JSONRenderer value(BigDecimal value) {
-        return value == null ? nullValue() : value(value.toString());
-    }
-
-    @Override
-    public JSONRenderer value(BigInteger value) {
-        return value == null ? nullValue() : value(value.toString());
     }
 
     @Override
@@ -187,7 +178,8 @@ abstract class AbstractJSONRenderer implements JSONRenderer {
 
     @Override
     public JSONRenderer value(Date value, DateMode mode) {
-        if (value == null || mode == null) return nullValue();
+        if (mode == null) throw new NullPointerException("DateMode must not be null");
+        if (value == null) return nullValue();
         return value(mode.parse(value));
     }
 

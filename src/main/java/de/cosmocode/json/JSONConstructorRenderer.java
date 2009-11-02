@@ -1,6 +1,13 @@
 package de.cosmocode.json;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Map;
+
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.json.extension.JSONConstructor;
 import org.json.extension.JSONEncoder;
 import org.json.extension.NoObjectContext;
@@ -100,7 +107,7 @@ final class JSONConstructorRenderer extends AbstractJSONRenderer implements JSON
             constructor.value(value);
             return this;
         } catch (JSONException e) {
-            throw new IllegalArgumentException(e);
+            throw new IllegalStateException(e);
         }
     }
     
@@ -126,7 +133,8 @@ final class JSONConstructorRenderer extends AbstractJSONRenderer implements JSON
 
     @Override
     public JSONRenderer value(double value) {
-        // TODO Infinity and NaN
+        if (Double.isInfinite(value)) throw new IllegalArgumentException("Double must not be infinite");
+        if (Double.isNaN(value)) throw new IllegalArgumentException("Double must not be NaN");
         try {
             constructor.value(value);
         } catch (JSONException e) {
@@ -134,7 +142,35 @@ final class JSONConstructorRenderer extends AbstractJSONRenderer implements JSON
         }
         return this;
     }
-
+    
+    @Override
+    public JSONRenderer value(BigInteger value) {
+        if (value == null) {
+            return nullValue();
+        } else {
+            try {
+                constructor.value(value);
+            } catch (JSONException e) {
+                throw new IllegalStateException(e);
+            }
+            return this;
+        }
+    }
+    
+    @Override
+    public JSONRenderer value(BigDecimal value) {
+        if (value == null) {
+            return nullValue();
+        } else {
+            try {
+                constructor.value(value);
+            } catch (JSONException e) {
+                throw new IllegalStateException(e);
+            }
+            return this;
+        }
+    }
+    
     @Override
     public JSONRenderer value(CharSequence value) {
         if (value == null) return nullValue();
@@ -164,7 +200,7 @@ final class JSONConstructorRenderer extends AbstractJSONRenderer implements JSON
 
     @Override
     public JSONRenderer object(JSONEncoder object) {
-        if (object == null) return nullValue();
+        if (object == null) return object().endObject();
         try {
             object.encodeJSON(adapter);
         } catch (JSONException e) {
@@ -175,12 +211,30 @@ final class JSONConstructorRenderer extends AbstractJSONRenderer implements JSON
 
     @Override
     public JSONRenderer plain(String json) {
-        try {
-            constructor.plain(json);
-        } catch (JSONException e) {
-            throw new IllegalArgumentException(e);
+        if (json == null) throw new NullPointerException("JSON string must not be null");
+        if (json.startsWith("{")) {
+            // object
+            try {
+                // validity check
+                final JSONObject object = new JSONObject(json);
+                final Map<String, Object> map = JSON.asMap(object);
+                return object(map);
+            } catch (JSONException e) {
+                throw new IllegalArgumentException(e);
+            }
+        } else if (json.startsWith("[")) {
+            // array
+            try {
+                // validity check
+                final List<Object> list = JSON.asList(new JSONArray(json));
+                return array(list);
+            } catch (JSONException e) {
+                throw new IllegalArgumentException(e);
+            }
+        } else {
+            // neither object nor array
+            throw new IllegalArgumentException("JSON string has to be either an array [...] or an object {...}");
         }
-        return this;
     }
     
     @Override

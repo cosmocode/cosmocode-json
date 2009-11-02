@@ -35,6 +35,7 @@ public final class JSONArrayListTest implements TestListGenerator<Object> {
             named(JSONArrayListTest.class.getSimpleName()).
             withFeatures(
                 CollectionSize.ANY,
+                CollectionFeature.NON_STANDARD_TOSTRING,
                 CollectionFeature.SUPPORTS_ADD,
                 CollectionFeature.SUPPORTS_ADD_ALL,
                 CollectionFeature.KNOWN_ORDER,

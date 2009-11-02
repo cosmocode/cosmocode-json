@@ -100,4 +100,9 @@ class JSONArrayList extends AbstractUtilityList<Object> implements List<Object>,
         return array.length();
     }
     
+    @Override
+    public String toString() {
+        return array.toString();
+    }
+    
 }

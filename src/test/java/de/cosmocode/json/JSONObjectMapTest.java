@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestMapGenerator;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
@@ -35,6 +36,7 @@ public final class JSONObjectMapTest implements TestMapGenerator<String, Object>
             named(JSONObjectMapTest.class.getSimpleName()).
             withFeatures(
                 CollectionSize.ANY,
+                CollectionFeature.NON_STANDARD_TOSTRING,
                 MapFeature.GENERAL_PURPOSE,
                 MapFeature.RESTRICTS_KEYS,
                 MapFeature.RESTRICTS_VALUES

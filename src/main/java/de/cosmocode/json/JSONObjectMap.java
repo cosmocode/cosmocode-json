@@ -151,4 +151,9 @@ class JSONObjectMap extends AbstractUtilityMap<String, Object>
         return entrySet;
     }
     
+    @Override
+    public String toString() {
+        return object.toString();
+    }
+    
 }

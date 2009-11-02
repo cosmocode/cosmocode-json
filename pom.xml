@@ -9,7 +9,7 @@
   <parent>
     <groupId>de.cosmocode</groupId>
     <artifactId>cosmocode-parent</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.4</version>
   </parent>
   <scm>
   	<developerConnection>scm:svn:http://commons.svn.cosmocode.de/cosmocode-json/trunk/</developerConnection>
@@ -23,7 +23,6 @@
     <dependency>
         <groupId>de.cosmocode</groupId>
         <artifactId>cosmocode-junit</artifactId>
-        <version>1.1-SNAPSHOT</version>
         <scope>test</scope>
     </dependency>
     <dependency>
@@ -37,7 +36,6 @@
     <dependency>
     	<groupId>de.cosmocode</groupId>
     	<artifactId>cosmocode-collections</artifactId>
-    	<version>1.2-SNAPSHOT</version>
     </dependency>
     <dependency>
     	<groupId>org.json</groupId>
@@ -58,7 +56,6 @@
     <dependency>
     	<groupId>de.cosmocode</groupId>
     	<artifactId>cosmocode-commons</artifactId>
-    	<version>1.2-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>

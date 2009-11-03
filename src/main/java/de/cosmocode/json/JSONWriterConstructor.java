@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONWriter;
 import org.json.extension.JSONConstructor;
 
-public class JSONWriterConstructor implements JSONConstructor {
+final class JSONWriterConstructor implements JSONConstructor {
 
     private final JSONWriter json;
     private final Writer writer;

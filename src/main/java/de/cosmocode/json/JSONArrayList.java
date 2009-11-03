@@ -19,7 +19,8 @@ import de.cosmocode.patterns.Adapter;
  * @author schoenborn@cosmocode.de
  */
 @Adapter(List.class)
-class JSONArrayList extends AbstractUtilityList<Object> implements List<Object>, UtilityList<Object> {
+final class JSONArrayList extends AbstractUtilityList<Object> 
+    implements List<Object>, UtilityList<Object> {
 
     private final JSONArray array;
     

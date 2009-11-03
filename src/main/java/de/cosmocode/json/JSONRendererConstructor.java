@@ -12,7 +12,7 @@ import de.cosmocode.patterns.Adapter;
  * @author Willi Schoenborn <schoenborn@cosmocode.de>
  */
 @Adapter(JSONConstructor.class)
-class JSONRendererConstructor implements JSONConstructor {
+final class JSONRendererConstructor implements JSONConstructor {
 
     private final JSONRenderer renderer;
     

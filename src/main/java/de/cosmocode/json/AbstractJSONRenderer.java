@@ -17,7 +17,7 @@ import de.cosmocode.commons.DateMode;
  * 
  * @author Willi Schoenborn <schoenborn@cosmocode.de>
  */
-abstract class AbstractJSONRenderer implements JSONRenderer {
+public abstract class AbstractJSONRenderer implements JSONRenderer {
 
     private final DateMode dateMode;
     

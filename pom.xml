@@ -21,9 +21,19 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-        <groupId>de.cosmocode</groupId>
-        <artifactId>cosmocode-junit</artifactId>
-        <scope>test</scope>
+      <groupId>de.cosmocode</groupId>
+      <artifactId>cosmocode-junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>

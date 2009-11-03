@@ -40,7 +40,7 @@ public abstract class AbstractJSONRendererTest {
     private static final char POSITIVE_CHAR = 65;
     private static final char ZERO_CHAR = 0;
     private static final char POSITIVE_CHAR_LITERAL = 'A';
-    private static final char ZERO_CHAR_LITEAL = '\u0000';
+    private static final char ZERO_CHAR_LITERAL = '\u0000';
     
     private static final int POSITIVE_INT = 250768;
     private static final int ZERO_INT = 0;
@@ -157,16 +157,16 @@ public abstract class AbstractJSONRendererTest {
     private static final JSONMapable SIZE_ONE_MAPABLE = new JSONMapable() {
         
         @Override
-        public JSONRenderer renderAsMap(JSONRenderer renderer) {
-            return renderer.pairs(SIZE_ONE_MAP);
+        public JSONRenderer renderAsMap(JSONRenderer json) {
+            return json.pairs(SIZE_ONE_MAP);
         }
         
     };
     private static final JSONMapable SIZE_THREE_MAPABLE = new JSONMapable() {
         
         @Override
-        public JSONRenderer renderAsMap(JSONRenderer renderer) {
-            return renderer.pairs(SIZE_THREE_MAP);
+        public JSONRenderer renderAsMap(JSONRenderer json) {
+            return json.pairs(SIZE_THREE_MAP);
         }
         
     };
@@ -242,6 +242,8 @@ public abstract class AbstractJSONRendererTest {
     private static final String INVALID_PLAIN_OBJECT_END_ARRAY = "{]";
     private static final String INVALID_PLAIN_EMPTY = "{]";
     private static final String NULL_PLAIN = null;
+    private static final String EMTPY_PLAIN = "";
+    private static final String BLANK_PLAIN = "   \t";
     
     static {
         try {
@@ -257,13 +259,38 @@ public abstract class AbstractJSONRendererTest {
     
     protected abstract JSONRenderer create();
     
-    protected abstract void assertEquals(JSONWriter expected, JSONRenderer actual);
+    protected abstract String toJSONString(JSONRenderer renderer);
     
-    protected abstract void assertEquals(JSONRenderer expected, JSONRenderer actual);
+    private String toString(JSONRenderer r) throws JSONException {
+        return sort(toJSONString(r));
+    }
     
-    protected abstract void assertEquals(Map<Object, Object> expected, JSONRenderer actual);
+    private String toString(JSONWriter writer) throws JSONException {
+        return sort(writer.toString());
+    }
     
-    private void assertEquals() {
+    private String sort(String source) throws JSONException {
+        if (source.startsWith("{")) {
+            final JSONObject object = new JSONObject(source);
+            final Map<String, Object> objectMap = JSON.asMap(object);
+            final JSONObject sorted = JSON.createSortedJSONObject(objectMap);
+            return sorted.toString();
+        } else if (source.startsWith("[")) {
+            return new JSONArray(source).toString();
+        } else {
+            throw new IllegalArgumentException(source + " is no valid json string");
+        }
+    }
+    
+    private void assertEquals(JSONWriter expected, JSONRenderer actual) throws JSONException {
+        Assert.assertEquals(toString(expected), toString(actual));
+    };
+    
+    private void assertEquals(JSONRenderer expected, JSONRenderer actual) throws JSONException {
+        Assert.assertEquals(toString(expected), toString(actual));
+    };
+    
+    private void assertEquals() throws JSONException {
         assertEquals(writer, renderer);
     }
     
@@ -867,8 +894,8 @@ public abstract class AbstractJSONRendererTest {
     
     @Test
     public void valueCharZeroLiteral() throws JSONException {
-        writer.array().value(ZERO_CHAR).endArray();
-        renderer.array().value(ZERO_CHAR).endArray();
+        writer.array().value(ZERO_CHAR_LITERAL).endArray();
+        renderer.array().value(ZERO_CHAR_LITERAL).endArray();
         assertEquals();
     }
 
@@ -1295,7 +1322,7 @@ public abstract class AbstractJSONRendererTest {
     }
     
     @Test
-    public void valueDateDateModeEquals() {
+    public void valueDateDateModeEquals() throws JSONException {
         final JSONRenderer expected = renderer.array().value(TODAY_DATE, DateMode.JAVA).endArray();
         renderer = create();
         final JSONRenderer actual = renderer.array().value(TODAY_DATE).endArray();
@@ -1793,7 +1820,7 @@ public abstract class AbstractJSONRendererTest {
     }
     
     @Test
-    public void arrayArraySimiliar() {
+    public void arrayArraySimiliar() throws JSONException {
         final JSONRenderer expected = renderer.array().values(SIZE_THREE_ARRAY).endArray();
         renderer = create();
         final JSONRenderer actual = renderer.array(SIZE_THREE_ARRAY);
@@ -1861,7 +1888,7 @@ public abstract class AbstractJSONRendererTest {
     }
     
     @Test
-    public void arrayIterableSimiliar() {
+    public void arrayIterableSimiliar() throws JSONException {
         final JSONRenderer expected = renderer.array().values(SIZE_THREE_ITERABLE).endArray();
         renderer = create();
         final JSONRenderer actual = renderer.array(SIZE_THREE_ITERABLE);
@@ -1932,7 +1959,7 @@ public abstract class AbstractJSONRendererTest {
     }
     
     @Test
-    public void arrayIteratorSimiliar() {
+    public void arrayIteratorSimiliar() throws JSONException {
         final JSONRenderer expected = renderer.array().values(SIZE_THREE_ITERABLE.iterator()).endArray();
         renderer = create();
         final JSONRenderer actual = renderer.array(SIZE_THREE_ITERABLE.iterator());
@@ -2000,7 +2027,7 @@ public abstract class AbstractJSONRendererTest {
     }
     
     @Test
-    public void arrayListableSimiliar() {
+    public void arrayListableSimiliar() throws JSONException {
         final JSONRenderer expected = renderer.array().values(SIZE_THREE_ARRAY).endArray();
         renderer = create();
         final JSONRenderer actual = renderer.array(SIZE_THREE_LISTABLE);
@@ -2436,70 +2463,115 @@ public abstract class AbstractJSONRendererTest {
     
     @Test
     public void plainObjectEmpty() throws JSONException {
-        writer.object().endObject();
-        renderer.plain(EMPTY_OBJECT_PLAIN);
+        writer.
+            array().
+                object().endObject().
+            endArray();
+        renderer.
+            array().
+                plain(EMPTY_OBJECT_PLAIN).
+            endArray();
         assertEquals();
     }
     
     @Test
     public void plainObjectOne() throws JSONException {
-        writer.object();
+        writer.array().object();
         for (Map.Entry<Object, Object> entry : SIZE_ONE_MAP.entrySet()) {
             writer.key(entry.getKey().toString()).value(entry.getValue());
         }
-        writer.endObject();
-        renderer.plain(SIZE_ONE_OBJECT_PLAIN);
+        writer.endObject().endArray();
+        renderer.array().plain(SIZE_ONE_OBJECT_PLAIN).endArray();
         assertEquals();
     }
     
     @Test
     public void plainObjectThree() throws JSONException {
-        renderer.plain(SIZE_THREE_OBJECT_PLAIN);
-        assertEquals(SIZE_THREE_MAP, renderer);
+        writer.array().object();
+        for (Map.Entry<Object, Object> entry : SIZE_THREE_MAP.entrySet()) {
+            writer.key(entry.getKey().toString()).value(entry.getValue());
+        }
+        writer.endObject().endArray();
+        renderer.array().plain(SIZE_THREE_OBJECT_PLAIN).endArray();
+        assertEquals();
     }
     
     @Test
     public void plainArrayEmpty() throws JSONException {
-        writer.array().endArray();
-        renderer.plain(EMPTY_ARRAY_PLAIN);
+        writer.array().array().endArray().endArray();
+        renderer.array().plain(EMPTY_ARRAY_PLAIN).endArray();
         assertEquals();
     }
     
     @Test
     public void plainArrayOne() throws JSONException {
-        writer.array();
+        writer.array().array();
         for (Object value : SIZE_ONE_ARRAY) {
             writer.value(value);
         }
-        writer.endArray();
-        renderer.plain(SIZE_ONE_ARRAY_PLAIN);
+        writer.endArray().endArray();
+        renderer.array().plain(SIZE_ONE_ARRAY_PLAIN).endArray();
         assertEquals();
     }
     
     @Test
     public void plainArrayThree() throws JSONException {
-        writer.array();
+        writer.array().array();
         for (Object value : SIZE_THREE_ARRAY) {
             writer.value(value);
         }
-        writer.endArray();
-        renderer.plain(SIZE_THREE_ARRAY_PLAIN);
+        writer.endArray().endArray();
+        renderer.array().plain(SIZE_THREE_ARRAY_PLAIN).endArray();
         assertEquals();
     }
-    
-    @Test(expected = NullPointerException.class)
+
+    @Test
     public void plainNull() throws JSONException {
-        renderer.plain(NULL_PLAIN);
+        writer.
+            array().
+                value(null).
+            endArray();
+        renderer.
+            array().
+                plain(NULL_PLAIN).
+            endArray();
+        assertEquals();
+    }
+
+    @Test
+    public void plainEmpty() throws JSONException {
+        writer.
+            array().
+                value(null).
+            endArray();
+        renderer.
+            array().
+                plain(EMTPY_PLAIN).
+            endArray();
+        assertEquals();
+    }
+
+    @Test
+    public void plainBlank() throws JSONException {
+        writer.
+            array().
+                value(null).
+            endArray();
+        renderer.
+            array().
+                plain(BLANK_PLAIN).
+            endArray();
+        assertEquals();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void plainInvalidObjectEndArray() throws JSONException {
-        renderer.plain(INVALID_PLAIN_OBJECT_END_ARRAY);
+        renderer.array().plain(INVALID_PLAIN_OBJECT_END_ARRAY);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void plainInvalidEmpty() throws JSONException {
-        renderer.plain(INVALID_PLAIN_EMPTY);
+        renderer.array().plain(INVALID_PLAIN_EMPTY);
     }
     
     @Test(expected = IllegalStateException.class)

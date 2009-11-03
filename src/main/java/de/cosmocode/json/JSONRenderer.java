@@ -699,10 +699,14 @@ public interface JSONRenderer {
     JSONRenderer object(JSONEncoder object);
     
     /**
-     * Allows to directly add a String to the underlying data structure.
+     * Allows to add an array or an object already encoded as a JSON string.
      * 
      * <p>
      *   It must be either an array [...] or an object {...}.
+     * </p>
+     * 
+     * <p>
+     *   Will return {@link JSONRenderer#nullValue()} if json is null or blank
      * </p>
      * 
      * @deprecated This method only exists for backwards compatability reasons.
@@ -710,7 +714,6 @@ public interface JSONRenderer {
      *             
      * @param json a well-formed JSON string
      * @return this
-     * @throws NullPointerException if json is null
      * @throws IllegalArgumentException if json is neither a valid JSON array nor a JSON object
      * @throws IllegalStateException if the value represented by json is not allowed
      *         at the current position

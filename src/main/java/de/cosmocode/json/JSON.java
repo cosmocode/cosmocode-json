@@ -2,6 +2,9 @@ package de.cosmocode.json;
 
 import java.io.Writer;
 import java.lang.reflect.Field;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.SortedMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -88,6 +91,16 @@ public final class JSON {
      */
     public static JSONObject createLinkedJSONObject() {
         return new JSONObject(Maps.newLinkedHashMap());
+    }
+    
+    public static JSONObject createSortedJSONObject() {
+        return new JSONObject(Maps.newTreeMap());
+    }
+    
+    public static <K extends Comparable<K>, V> JSONObject createSortedJSONObject(Map<K, V> map) {
+        final SortedMap<K, V> sorted = Maps.newTreeMap();
+        sorted.putAll(map);
+        return new JSONObject(sorted);
     }
     
     /**

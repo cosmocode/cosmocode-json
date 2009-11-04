@@ -1,6 +1,5 @@
 package de.cosmocode.json;
 
-import org.json.JSONException;
 import org.json.extension.JSONConstructor;
 
 import de.cosmocode.patterns.Adapter;
@@ -28,61 +27,61 @@ final class JSONRendererConstructor implements JSONConstructor {
     }
 
     @Override
-    public JSONConstructor array() throws JSONException {
+    public JSONConstructor array() {
         renderer.array();
         return this;
     }
     
     @Override
-    public JSONConstructor endArray() throws JSONException {
+    public JSONConstructor endArray() {
         renderer.endArray();
         return this;
     }
     
     @Override
-    public JSONConstructor object() throws JSONException {
+    public JSONConstructor object() {
         renderer.object();
         return this;
     }
     
     @Override
-    public JSONConstructor endObject() throws JSONException {
+    public JSONConstructor endObject() {
         renderer.endObject();
         return this;
     }
     
     @Override
-    public JSONConstructor key(String key) throws JSONException {
+    public JSONConstructor key(String key) {
         renderer.key(key);
         return this;
     }
     
     @Override
-    public JSONConstructor value(boolean value) throws JSONException {
+    public JSONConstructor value(boolean value) {
         renderer.value(value);
         return this;
     }
     
     @Override
-    public JSONConstructor value(long value) throws JSONException {
+    public JSONConstructor value(long value) {
         renderer.value(value);
         return this;
     }
     
     @Override
-    public JSONConstructor value(double value) throws JSONException {
+    public JSONConstructor value(double value) {
         renderer.value(value);
         return this;
     }
     
     @Override
-    public JSONConstructor value(Object value) throws JSONException {
+    public JSONConstructor value(Object value) {
         renderer.value(value);
         return this;
     }
     
     @Override
-    public JSONConstructor plain(String value) throws JSONException {
+    public JSONConstructor plain(String value) {
         renderer.value(value);
         return this;
     }

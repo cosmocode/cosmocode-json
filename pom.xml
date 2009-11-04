@@ -26,6 +26,12 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+        <groupId>com.google.collections</groupId>
+        <artifactId>google-collections-testfw</artifactId>
+        <version>1.0-rc3</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
       <scope>test</scope>

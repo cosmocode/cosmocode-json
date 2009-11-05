@@ -17,7 +17,7 @@ import com.google.common.collect.testing.features.ListFeature;
 /**
  * Test {@link JSONArrayList}.
  *
- * @author Willi Schoenborn <schoenborn@cosmocode.de>
+ * @author Willi Schoenborn
  */
 public final class JSONArrayListTest implements TestListGenerator<Object> {
     

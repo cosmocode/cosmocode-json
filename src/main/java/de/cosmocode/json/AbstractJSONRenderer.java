@@ -15,7 +15,7 @@ import de.cosmocode.commons.DateMode;
  * Abstract skeleton implementation of the
  * {@link JSONRenderer} interface.
  * 
- * @author Willi Schoenborn <schoenborn@cosmocode.de>
+ * @author Willi Schoenborn
  */
 public abstract class AbstractJSONRenderer implements JSONRenderer {
 

@@ -21,7 +21,7 @@ import de.cosmocode.patterns.Adapter;
  * which uses most of the functionality provided
  * by {@link JSONConstructor} by wrapping an instance of it.
  *
- * @author Willi Schoenborn <schoenborn@cosmocode.de>
+ * @author Willi Schoenborn
  */
 @Adapter(JSONRenderer.class)
 final class JSONConstructorRenderer extends AbstractJSONRenderer implements JSONRenderer {

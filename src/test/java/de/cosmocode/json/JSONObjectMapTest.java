@@ -18,7 +18,7 @@ import com.google.common.collect.testing.features.MapFeature;
 /**
  * Test {@link JSONObjectMap}.
  *
- * @author Willi Schoenborn <schoenborn@cosmocode.de>
+ * @author Willi Schoenborn
  */
 public final class JSONObjectMapTest implements TestMapGenerator<String, Object> {
     

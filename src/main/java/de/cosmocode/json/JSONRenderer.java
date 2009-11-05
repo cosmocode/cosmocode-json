@@ -20,7 +20,7 @@ import de.cosmocode.commons.DateMode;
  *   to get familiar with the grammar JSON is based on.
  * </p>
  *
- * @author Willi Schoenborn <schoenborn@cosmocode.de>
+ * @author Willi Schoenborn
  */
 public interface JSONRenderer {
 

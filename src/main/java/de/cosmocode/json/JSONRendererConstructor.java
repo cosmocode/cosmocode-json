@@ -8,7 +8,7 @@ import de.cosmocode.patterns.Adapter;
  * An adapter from {@link JSONRenderer} to
  * {@link JSONConstructor}.
  *
- * @author Willi Schoenborn <schoenborn@cosmocode.de>
+ * @author Willi Schoenborn
  */
 @Adapter(JSONConstructor.class)
 final class JSONRendererConstructor implements JSONConstructor {

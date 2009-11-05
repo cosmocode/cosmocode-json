@@ -7,7 +7,7 @@ import org.json.JSONException;
  * 
  * @deprecated use {@link JSONListable} or {@link JSONMapable} instead
  *
- * @author Willi Schoenborn <schoenborn@cosmocode.de>
+ * @author Willi Schoenborn
  */
 @Deprecated
 public interface JSONEncoder {

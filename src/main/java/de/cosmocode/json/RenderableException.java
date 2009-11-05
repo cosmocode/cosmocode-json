@@ -22,7 +22,7 @@ public class RenderableException extends Exception implements JSONMapable {
     
     @Override
     public RenderableException getCause() {
-        final Throwable cause = getCause();
+        final Throwable cause = super.getCause();
         if (cause == null) return null;
         if (cause instanceof RenderableException) {
             return RenderableException.class.cast(cause);
@@ -40,7 +40,7 @@ public class RenderableException extends Exception implements JSONMapable {
             key("cause").object(getCause());
     }
     
-    private static RenderableException copyOf(Throwable source) {
+    public static RenderableException copyOf(Throwable source) {
         final RenderableException e = new RenderableException(source.getMessage(), source.getCause()) {
             
             private static final long serialVersionUID = -9097384160301358600L;

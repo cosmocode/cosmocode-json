@@ -40,7 +40,7 @@ public class RenderableRuntimeException extends RuntimeException implements JSON
             key("cause").object(getCause());
     }
     
-    private static RenderableRuntimeException copyOf(Throwable source) {
+    public static RenderableRuntimeException copyOf(Throwable source) {
         final RenderableRuntimeException e = new RenderableRuntimeException(source.getMessage(), source.getCause()) {
             
             private static final long serialVersionUID = -9097384160301358600L;

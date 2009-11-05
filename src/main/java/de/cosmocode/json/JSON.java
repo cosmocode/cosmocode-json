@@ -19,6 +19,7 @@ import com.google.common.collect.Maps;
 import de.cosmocode.collections.utility.UtilityList;
 import de.cosmocode.collections.utility.UtilityMap;
 import de.cosmocode.commons.DateMode;
+import de.cosmocode.commons.TrimMode;
 
 /**
  * Utility class providing static factory methods,
@@ -116,6 +117,14 @@ public final class JSON {
     
     public static JSONRenderer createJSONRenderer(DateMode dateMode) {
         return JSON.asJSONRenderer(new JSONStringer(), dateMode);
+    }
+
+    public static JSONRenderer trimming(JSONRenderer renderer) {
+        return JSON.trimming(renderer, TrimMode.NULL);
+    }
+    
+    public static JSONRenderer trimming(JSONRenderer renderer, TrimMode trimMode) {
+        return new TrimmingJSONRenderer(renderer, trimMode);
     }
     
     /**

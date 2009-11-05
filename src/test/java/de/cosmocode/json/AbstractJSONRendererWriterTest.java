@@ -8,7 +8,7 @@ import org.junit.After;
 
 import com.google.common.collect.Maps;
 
-abstract class AbstractJSONRendererWriterTest extends AbstractJSONRendererTest {
+public abstract class AbstractJSONRendererWriterTest extends AbstractJSONRendererTest {
 
     private final Map<JSONRenderer, Writer> cache = Maps.newHashMap();
     

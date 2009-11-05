@@ -11,7 +11,7 @@ import org.apache.commons.io.FileUtils;
 
 import com.google.common.collect.Maps;
 
-abstract class AbstractJSONRendererFileWriterTest extends AbstractJSONRendererWriterTest {
+public abstract class AbstractJSONRendererFileWriterTest extends AbstractJSONRendererWriterTest {
 
     private final Map<Writer, File> cache = Maps.newHashMap();
     

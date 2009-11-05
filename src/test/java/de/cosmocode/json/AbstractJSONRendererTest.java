@@ -25,7 +25,7 @@ import de.cosmocode.Holder;
 import de.cosmocode.commons.DateMode;
 import de.cosmocode.junit.Asserts;
 
-abstract class AbstractJSONRendererTest {
+public abstract class AbstractJSONRendererTest {
     
     private static final Object NULL = null;
     

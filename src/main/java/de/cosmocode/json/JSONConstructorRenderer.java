@@ -1,10 +1,5 @@
 package de.cosmocode.json;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,7 +8,6 @@ import org.json.extension.JSONConstructor;
 import org.json.extension.JSONEncoder;
 import org.json.extension.NoObjectContext;
 
-import de.cosmocode.commons.DateMode;
 import de.cosmocode.patterns.Adapter;
 
 /**
@@ -33,10 +27,8 @@ final class JSONConstructorRenderer extends AbstractJSONRenderer implements JSON
      * Creates a new {@link JSONConstructorRenderer} using the given constructor and dateMode.
      * 
      * @param constructor the constructor this instance relies on
-     * @param dateMode the {@link DateMode} this instance uses for {@link Date} conversions
      */
-    public JSONConstructorRenderer(JSONConstructor constructor, DateMode dateMode) {
-        super(dateMode);
+    public JSONConstructorRenderer(JSONConstructor constructor) {
         if (constructor == null) throw new NullPointerException("JSONConstructor must not be null");
         this.constructor = constructor;
         this.adapter = JSON.asJSONConstructor(this);

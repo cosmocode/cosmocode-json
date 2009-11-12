@@ -17,19 +17,7 @@ import de.cosmocode.commons.DateMode;
  */
 public abstract class AbstractJSONRenderer implements JSONRenderer {
 
-    private final DateMode dateMode;
-    
-    /**
-     * Creates a new {@link AbstractJSONRenderer} using the
-     * given {@link DateMode} instance for {@link Date} conversions.
-     * 
-     * @param dateMode the  {@link DateMode} to use for Date conversions
-     * @throws NullPointerException if dateMode is null
-     */
-    public AbstractJSONRenderer(DateMode dateMode) {
-        if (dateMode == null) throw new NullPointerException("DateMode must not be null");
-        this.dateMode = dateMode;
-    }
+    protected static final DateMode DEFAULT_DATEMODE = DateMode.JAVA;
     
     @Override
     public JSONRenderer key(Object key) {
@@ -49,9 +37,9 @@ public abstract class AbstractJSONRenderer implements JSONRenderer {
         } else if (value instanceof Number) {
             return value(Number.class.cast(value));
         } else if (value instanceof Date) {
-            return value(Date.class.cast(value), dateMode);
+            return value(Date.class.cast(value), DEFAULT_DATEMODE);
         } else if (value instanceof Calendar) {
-            return value(Calendar.class.cast(value).getTime(), dateMode);
+            return value(Calendar.class.cast(value).getTime(), DEFAULT_DATEMODE);
         } else if (value.getClass().isEnum()) {
             return value(Enum.class.cast(value));
         } else {
@@ -139,7 +127,7 @@ public abstract class AbstractJSONRenderer implements JSONRenderer {
     
     @Override
     public JSONRenderer value(Date value) {
-        return value == null ? nullValue() : value(value, dateMode);
+        return value == null ? nullValue() : value(value, DEFAULT_DATEMODE);
     }
 
     @Override

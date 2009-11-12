@@ -18,7 +18,6 @@ import com.google.common.collect.Maps;
 
 import de.cosmocode.collections.utility.UtilityList;
 import de.cosmocode.collections.utility.UtilityMap;
-import de.cosmocode.commons.DateMode;
 import de.cosmocode.commons.TrimMode;
 
 /**
@@ -112,11 +111,7 @@ public final class JSON {
      * @return a new {@link JSONRenderer}
      */
     public static JSONRenderer createJSONRenderer() {
-        return JSON.createJSONRenderer(DateMode.JAVA);
-    }
-    
-    public static JSONRenderer createJSONRenderer(DateMode dateMode) {
-        return JSON.asJSONRenderer(new JSONStringer(), dateMode);
+        return JSON.asJSONRenderer(new JSONStringer());
     }
 
     public static JSONRenderer trimming(JSONRenderer renderer) {
@@ -136,12 +131,8 @@ public final class JSON {
      * @throws NullPointerException if writer is null
      */
     public static JSONRenderer createJSONRenderer(Writer writer) {
-        return JSON.createJSONRenderer(writer, DateMode.JAVA);
-    }
-    
-    public static JSONRenderer createJSONRenderer(Writer writer, DateMode dateMode) {
         if (writer == null) throw new NullPointerException("Writer must not be null");
-        return JSON.asJSONRenderer(new JSONWriter(writer), dateMode);
+        return JSON.asJSONRenderer(new JSONWriter(writer));
     }
     
     /**
@@ -156,10 +147,6 @@ public final class JSON {
      * @throws NullPointerException if constructor is null
      */
     public static JSONRenderer asJSONRenderer(JSONConstructor constructor) {
-        return JSON.asJSONRenderer(constructor, DateMode.JAVA);
-    }
-    
-    public static JSONRenderer asJSONRenderer(JSONConstructor constructor, DateMode dateMode) {
         if (constructor instanceof JSONRenderer) {
             log.debug("{} is already an instance of {}, returning parameter", 
                 constructor.getClass().getName(), JSONRenderer.class.getName()
@@ -169,7 +156,7 @@ public final class JSON {
         log.debug("Returning new {} as {} using {}", new Object[] {
             JSONConstructorRenderer.class.getName(), JSONRenderer.class.getName(), constructor.getClass().getName()
         });
-        return new JSONConstructorRenderer(constructor, dateMode);
+        return new JSONConstructorRenderer(constructor);
     }
     
     /**
@@ -184,11 +171,7 @@ public final class JSON {
      * @return a {@link JSONRenderer} backed by the writer
      */
     public static JSONRenderer asJSONRenderer(JSONWriter writer) {
-        return JSON.asJSONRenderer(writer, DateMode.JAVA);
-    }
-    
-    public static JSONRenderer asJSONRenderer(JSONWriter writer, DateMode dateMode) {
-        return JSON.asJSONRenderer(JSON.asJSONConstructor(writer), dateMode);
+        return JSON.asJSONRenderer(JSON.asJSONConstructor(writer));
     }
     
     /**

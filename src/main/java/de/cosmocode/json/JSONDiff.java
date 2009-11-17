@@ -16,6 +16,8 @@ import org.json.JSONObject;
  * Adapted also getDifferences to match the splitted cases get inserted,
  * updated and deleted. Implemented required minor methods. 
  * 
+ * TODO simplify methods to reduce complexity
+ * 
  * @author Michael Schøler
  * @author Jesus Ortiz
  * 
@@ -28,12 +30,9 @@ public final class JSONDiff {
     private final JSONObject newJ;
     private JSONArray diffCyclic;
     
-    // TODO remove, its never read except when changes++
-    private int changes;
-    
     private int level;
     
-    public JSONDiff(JSONObject oldJson, JSONObject newJson) throws Exception{
+    public JSONDiff(JSONObject oldJson, JSONObject newJson) {
         if (oldJson == null || newJson == null) {
             throw new IllegalArgumentException("Given arguments can not be null");
         }
@@ -41,8 +40,13 @@ public final class JSONDiff {
         this.newJ = newJson;
     }
     
+    /**
+     * Returns the differences between old and new.
+     * 
+     * @return a {@link JSONObject}
+     * @throws JSONException if something went wrong
+     */
     public JSONObject getDifferences() throws JSONException {
-        changes = 0;
         return getDifferences(oldJ, newJ);
     }
     
@@ -87,7 +91,6 @@ public final class JSONDiff {
                 }
                 if (diff) { 
                     result.put(key, newJSON.opt(key));
-                    changes++;
                 }
             }
         }
@@ -99,7 +102,6 @@ public final class JSONDiff {
             if (!oldJSON.isNull(key)) {
                 if (newJSON.isNull(key)) {
                     result.put(key, oldJSON.opt(key));
-                    changes++;
                 }
             }
         }
@@ -107,11 +109,15 @@ public final class JSONDiff {
         return result;
         
     }
-        
+    
+    /**
+     * Returns the updates from old to new.
+     * 
+     * @return a {@link JSONObject}
+     * @throws JSONException if something went wrong
+     */
     public JSONObject getUpdated() throws JSONException {
-        changes = 0;
         return getUpdated(oldJ, newJ);
-        
     }
         
     private JSONObject getUpdated(JSONObject oldJSON, JSONObject newJSON) throws JSONException {
@@ -131,8 +137,7 @@ public final class JSONDiff {
                 if (! oldJSON.isNull(key)) {
                     if (! oldJSON.opt(key).getClass().isInstance(newJSON.opt(key))) {
                         diff = true;
-                    }
-                    else if (!oldJSON.opt(key).equals(
+                    } else if (!oldJSON.opt(key).equals(
                             newJSON.opt(key))) {
                         if (newJSON.opt(key) instanceof JSONArray || newJSON.opt(key) instanceof JSONObject) {
                             if (indexOf(diffCyclic, newJSON.opt(key)) >= 0) {
@@ -154,31 +159,35 @@ public final class JSONDiff {
                                 diff = true;
                             }
                             diffCyclic.put(newJSON.opt(key));
-                        }
-                        else if (!oldJSON.opt(key).equals(newJSON.opt(key))) {
+                        } else if (!oldJSON.opt(key).equals(newJSON.opt(key))) {
                             diff = true;
                         }
                     }
                 }
                 if (diff) {
                     updated.put(key, newJSON.opt(key));
-                    changes++;
                 }
             }
         }
         level -= 1;
         return updated;
     }
+
     
+    /**
+     * Returns the updates from old to new.
+     * 
+     * @return a {@link JSONObject}
+     * @throws JSONException if something went wrong
+     */
     public JSONObject getUpdatedExt() throws JSONException {
-        changes = 0;
-        return getUpdatedExt(oldJ,newJ);
+        return getUpdatedExt(oldJ, newJ);
     }
         
-    private JSONObject getUpdatedExt(JSONObject oldJSON, JSONObject newJSON) throws JSONException{
+    private JSONObject getUpdatedExt(JSONObject oldJSON, JSONObject newJSON) throws JSONException {
         final JSONObject updatedExt = new JSONObject();
         boolean diffT;
-        if (level == 0){
+        if (level == 0) {
             diffCyclic = new JSONArray();
         }
         level += 1;
@@ -213,32 +222,34 @@ public final class JSONDiff {
                                 diffT = true;
                             }
                             diffCyclic.put(newJSON.opt(key));
-                        }
-                        else if (!oldJSON.opt(key).equals(newJSON.opt(key))) {
+                        } else if (!oldJSON.opt(key).equals(newJSON.opt(key))) {
                             diffT = true;
                         }
                     }
                 }
                 if (diffT) {
                     updatedExt.put(key, getUpdatedValue(oldJSON, newJSON, key));
-                    changes++;
                 }
             }
         }
         level -= 1;
         return updatedExt;
     }
-    
-    
+
+    /**
+     * Returns the inserts from old to new.
+     * 
+     * @return a {@link JSONObject}
+     * @throws JSONException if something went wrong
+     */
     public JSONObject getInserted() throws JSONException {
-        changes = 0;
-        return getInserted(oldJ,newJ);
+        return getInserted(oldJ, newJ);
     }
         
     private JSONObject getInserted(JSONObject oldJSON, JSONObject newJSON) throws JSONException {
         final JSONObject inserted = new JSONObject();
         boolean diff;
-        if (level == 0){
+        if (level == 0) {
             diffCyclic = new JSONArray();
         }
         level += 1;
@@ -267,7 +278,6 @@ public final class JSONDiff {
                 }
                 if (diff) {
                     inserted.put(key, newJSON.opt(key));
-                    changes++;
                 }
             }
         }
@@ -275,9 +285,15 @@ public final class JSONDiff {
         level -= 1;
         return inserted;
     }
-    
+
+
+    /**
+     * Returns the deletions from old to new.
+     * 
+     * @return a {@link JSONObject}
+     * @throws JSONException if something went wrong
+     */
     public JSONObject getDeleted() throws JSONException {
-        changes = 0;
         return getDeleted(oldJ, newJ);
     }
         
@@ -311,7 +327,6 @@ public final class JSONDiff {
                 }
                 if (diff) {
                     deleted.put(key, newJSON.opt(key));
-                    changes++;
                 }
             }
         }
@@ -322,7 +337,6 @@ public final class JSONDiff {
             if (!oldJSON.isNull(key)) {
                 if (newJSON.isNull(key)) {
                     deleted.put(key, oldJSON.opt(key));
-                    changes++;
                 }
             }
         }

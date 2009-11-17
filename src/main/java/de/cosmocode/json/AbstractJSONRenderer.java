@@ -119,7 +119,7 @@ public abstract class AbstractJSONRenderer implements JSONRenderer {
     public JSONRenderer value(Date value, DateMode mode) {
         if (mode == null) throw new NullPointerException("DateMode must not be null");
         if (value == null) return nullValue();
-        return value(mode.parse(value));
+        return value(mode.format(value));
     }
 
     @Override

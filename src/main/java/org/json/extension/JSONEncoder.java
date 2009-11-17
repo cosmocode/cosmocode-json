@@ -5,11 +5,8 @@ import org.json.JSONException;
 /**
  * No documentation here.
  * 
- * @deprecated use {@link JSONListable} or {@link JSONMapable} instead
- *
  * @author Willi Schoenborn
  */
-@Deprecated
 public interface JSONEncoder {
 
     /**

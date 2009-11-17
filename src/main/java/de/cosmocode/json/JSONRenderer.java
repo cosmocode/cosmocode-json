@@ -498,15 +498,11 @@ public interface JSONRenderer {
      *   Will return this, without adding something, if pairs is null.
      * </p>
      * 
-     * @deprecated Only for legacy support. Consider using 
-     *             {@link JSONRenderer#pairs(JSONMapable)} instead.
-     * 
      * @param pairs the pairs being added, may be null
      * @return this
      * @throws IllegalStateException if there are no pairs allowed
      *         at the current position
      */
-    @Deprecated
     JSONRenderer pairs(NoObjectContext pairs);
     
     /**
@@ -591,15 +587,11 @@ public interface JSONRenderer {
      *   Will produce an empty object if pairs is null.
      * </p>
      * 
-     * @deprecated Only for legacy support. Consider using 
-     *             {@link JSONRenderer#object(JSONMapable)} instead.
-     * 
      * @param pairs the pairs being added as an object, may be null
      * @return this
      * @throws IllegalStateException if there is no object allowed
      *         at the current position
      */
-    @Deprecated
     JSONRenderer object(NoObjectContext pairs);
     
     /**
@@ -621,39 +613,12 @@ public interface JSONRenderer {
      *   Will produce an empty object if pairs is null.
      * </p>
      * 
-     * @deprecated Only for legacy support. Consider using 
-     *             {@link JSONRenderer#object(JSONMapable)} instead.
-     * 
      * @param object the object being added, may be null
      * @return this
      * @throws IllegalStateException if there is no object allowed
      *         at the current position
      */
-    @Deprecated
     JSONRenderer object(JSONEncoder object);
-    
-    /**
-     * Allows to add an array or an object already encoded as a JSON string.
-     * 
-     * <p>
-     *   It must be either an array [...] or an object {...}.
-     * </p>
-     * 
-     * <p>
-     *   Will return {@link JSONRenderer#nullValue()} if json is null or blank
-     * </p>
-     * 
-     * @deprecated This method only exists for backwards compatability reasons.
-     *             Use strongly typed methods instead.
-     *             
-     * @param json a well-formed JSON string
-     * @return this
-     * @throws IllegalArgumentException if json is neither a valid JSON array nor a JSON object
-     * @throws IllegalStateException if the value represented by json is not allowed
-     *         at the current position
-     */
-    @Deprecated
-    JSONRenderer plain(String json);
     
     /**
      * Renders this instance into a valid JSON {@link String}. (optional operation)

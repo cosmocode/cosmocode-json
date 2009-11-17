@@ -30,8 +30,10 @@ public abstract class AbstractJSONRenderer implements JSONRenderer {
             return nullValue();
         } else if (value instanceof CharSequence) {
             return value(CharSequence.class.cast(value).toString());
-        } else if (value instanceof JSONRenderable) {
-            return value(JSONRenderable.class.cast(value));
+        } else if (value instanceof JSONListable) {
+            return array(JSONListable.class.cast(value));
+        } else if (value instanceof JSONMapable) {
+            return object(JSONMapable.class.cast(value));
         } else if (value instanceof Boolean) {
             return value(Boolean.class.cast(value).booleanValue());
         } else if (value instanceof Number) {
@@ -44,23 +46,6 @@ public abstract class AbstractJSONRenderer implements JSONRenderer {
             return value(Enum.class.cast(value));
         } else {
             return compoundValue(value);
-        }
-    }
-    
-    /**
-     * Groups all {@link JSONRenderable}, therefore
-     * custom JSON specific values.
-     * 
-     * @param value the {@link JSONRenderable} value
-     * @return this
-     */
-    private JSONRenderer value(JSONRenderable value) {
-        if (value instanceof JSONListable) {
-            return array(JSONListable.class.cast(value));
-        } else if (value instanceof JSONMapable) {
-            return object(JSONMapable.class.cast(value));
-        } else {
-            return unknownValue(value);
         }
     }
     

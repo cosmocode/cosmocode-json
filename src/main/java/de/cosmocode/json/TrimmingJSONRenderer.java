@@ -37,7 +37,6 @@ public class TrimmingJSONRenderer extends ForwardingJSONRenderer {
     
     @Override
     public JSONRenderer value(CharSequence value) {
-        if (value == null) return nullValue();
         final CharSequence trimmed = trimMode.trim(value);
         log.debug("Trimmed {} to {}", value, trimmed);
         return super.value(trimmed);

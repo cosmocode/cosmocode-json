@@ -1,9 +1,6 @@
 package de.cosmocode.json;
 
-import org.apache.commons.lang.StringUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.json.extension.JSONConstructor;
 import org.json.extension.JSONEncoder;
 import org.json.extension.NoObjectContext;
@@ -174,35 +171,6 @@ final class JSONConstructorRenderer extends AbstractJSONRenderer implements JSON
         return this;
     }
 
-    @Override
-    public JSONRenderer plain(String json) {
-        if (StringUtils.isBlank(json)) return nullValue(); 
-        if (json.startsWith("{")) {
-            // object
-            try {
-                // validity check, new JSONObject fails if json is not valid
-                final JSONObject object = new JSONObject(json);
-                // delegate to underlying constructor
-                return unknownValue(object);
-            } catch (JSONException e) {
-                throw new IllegalArgumentException(e);
-            }
-        } else if (json.startsWith("[")) {
-            // array
-            try {
-                // validity check, new JSONArray fails if json is not valid
-                final JSONArray array = new JSONArray(json);
-                // delegate to underlying constructor
-                return unknownValue(array);
-            } catch (JSONException e) {
-                throw new IllegalArgumentException(e);
-            }
-        } else {
-            // neither object nor array
-            throw new IllegalArgumentException("JSON has to be either an array \"[...]\" or an object \"{...}\"");
-        }
-    }
-    
     @Override
     public String toString() {
         return constructor.toString();

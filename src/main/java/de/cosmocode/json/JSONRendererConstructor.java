@@ -82,8 +82,7 @@ final class JSONRendererConstructor implements JSONConstructor {
     
     @Override
     public JSONConstructor plain(String value) {
-        renderer.plain(value);
-        return this;
+        throw new UnsupportedOperationException("Plain is not supported anymore");
     }
     
     @Override

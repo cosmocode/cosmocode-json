@@ -24,8 +24,6 @@ import de.cosmocode.commons.TrimMode;
  * Utility class providing static factory methods,
  * for all kind of methods regarding JSON.
  * 
- * TODO make sure log messages appear in correct order (get rid of nested calls)
- * 
  * @author schoenborn
  */
 public final class JSON {
@@ -57,7 +55,6 @@ public final class JSON {
      * @return a {@link UtilityList} backed by the array
      */
     public static UtilityList<Object> asList(JSONArray array) {
-        log.debug("Returning {} using {}", JSONArrayList.class.getName(), array);
         return new JSONArrayList(array);
     }
     
@@ -80,7 +77,6 @@ public final class JSON {
      * @return a {@link UtilityMap} backed be the object
      */
     public static UtilityMap<String, Object> asMap(JSONObject object) {
-        log.debug("Returning {} using {}", JSONObjectMap.class.getName(), object);
         return new JSONObjectMap(object);
     }
     
@@ -92,13 +88,19 @@ public final class JSON {
      * @return a new {@link JSONObject} based on a {@link LinkedHashMap}
      */
     public static JSONObject createLinkedJSONObject() {
-        return new JSONObject(Maps.newLinkedHashMap());
+        final Map<Object, Object> map = Maps.newLinkedHashMap();
+        return new JSONObject(map);
     }
     
-    public static JSONObject createSortedJSONObject() {
-        return new JSONObject(Maps.newTreeMap());
-    }
-    
+    /**
+     * Creates a {@link JSONObject} backed by a {@link SortedMap}
+     * containing all pairs of the provided map.
+     * 
+     * @param <K> the generic key type
+     * @param <V> the generic value type
+     * @param map the source map all pairs will be copied from
+     * @return a new {@link JSONObject} containing all pairs from map, backed by a sorted map
+     */
     public static <K extends Comparable<K>, V> JSONObject createSortedJSONObject(Map<K, V> map) {
         final SortedMap<K, V> sorted = Maps.newTreeMap();
         sorted.putAll(map);
@@ -116,10 +118,15 @@ public final class JSON {
         return JSON.asJSONRenderer(new JSONStringer());
     }
 
-    public static JSONRenderer trimming(JSONRenderer renderer) {
-        return JSON.trimming(renderer, TrimMode.NULL);
-    }
-    
+    /**
+     * Returns a {@link JSONRenderer} which uses the given {@link TrimMode} to
+     * trim all values passed to {@link JSONRenderer#value(CharSequence)} and
+     * {@link JSONRenderer#plain(String)}.
+     * 
+     * @param renderer the renderer the trimming {@link JSONRenderer} will be backed by
+     * @param trimMode the {@link TrimMode} to use
+     * @return a new {@link JSONRenderer} backed by the given renderer
+     */
     public static JSONRenderer trimming(JSONRenderer renderer, TrimMode trimMode) {
         return new TrimmingJSONRenderer(renderer, trimMode);
     }
@@ -150,15 +157,10 @@ public final class JSON {
      */
     public static JSONRenderer asJSONRenderer(JSONConstructor constructor) {
         if (constructor instanceof JSONRenderer) {
-            log.debug("{} is already an instance of {}, returning parameter", 
-                constructor.getClass().getName(), JSONRenderer.class.getName()
-            );
             return JSONRenderer.class.cast(constructor);
+        } else {
+            return new JSONConstructorRenderer(constructor);
         }
-        log.debug("Returning new {} as {} using {}", new Object[] {
-            JSONConstructorRenderer.class.getName(), JSONRenderer.class.getName(), constructor.getClass().getName()
-        });
-        return new JSONConstructorRenderer(constructor);
     }
     
     /**
@@ -189,15 +191,10 @@ public final class JSON {
      */
     public static JSONConstructor asJSONConstructor(JSONRenderer renderer) {
         if (renderer instanceof JSONConstructor) {
-            log.debug("{} is already an instance of {}, returning parameter", 
-                    renderer.getClass().getName(), JSONConstructor.class.getName()
-            );
             return JSONConstructor.class.cast(renderer);
+        } else {
+            return new JSONRendererConstructor(renderer);
         }
-        log.debug("Returning new {} as {} using {}", new Object[] {
-            JSONRendererConstructor.class.getName(), JSONConstructor.class.getName(), renderer.getClass().getName()
-        });
-        return new JSONRendererConstructor(renderer);
     }
     
     /**
@@ -212,9 +209,6 @@ public final class JSON {
      * @return a {@link JSONConstructor} backed by the writer
      */
     public static JSONConstructor asJSONConstructor(JSONWriter writer) {
-        log.debug("Returning new {} as {} using", new Object[] {
-            JSONWriterConstructor.class.getName(), JSONConstructor.class.getName(), writer.getClass().getName()
-        });
         return new JSONWriterConstructor(writer);
     }
     

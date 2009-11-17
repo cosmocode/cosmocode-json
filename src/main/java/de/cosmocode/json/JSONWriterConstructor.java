@@ -7,6 +7,13 @@ import org.json.JSONException;
 import org.json.JSONWriter;
 import org.json.extension.JSONConstructor;
 
+/**
+ * Implementation of the {@link JSONConstructor} interface
+ * which uses most of the functionality provided
+ * by {@link JSONRenderer} by wrapping an instance of it.
+ *
+ * @author Willi Schoenborn
+ */
 final class JSONWriterConstructor implements JSONConstructor {
 
     private final JSONWriter json;

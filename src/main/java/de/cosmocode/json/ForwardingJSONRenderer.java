@@ -11,6 +11,12 @@ import com.google.common.collect.ForwardingObject;
 
 import de.cosmocode.commons.DateMode;
 
+/**
+ * Forwards all calls to an underlying {@link JSONRenderer}
+ * allowing sub classes to hook into executions.
+ *
+ * @author Willi Schoenborn
+ */
 public abstract class ForwardingJSONRenderer extends ForwardingObject implements JSONRenderer {
 
     @Override
@@ -121,12 +127,6 @@ public abstract class ForwardingJSONRenderer extends ForwardingObject implements
     @Override
     public JSONRenderer pairs(NoObjectContext pairs) {
         delegate().pairs(pairs);
-        return this;
-    }
-
-    @Override
-    public JSONRenderer plain(String json) {
-        delegate().plain(json);
         return this;
     }
 

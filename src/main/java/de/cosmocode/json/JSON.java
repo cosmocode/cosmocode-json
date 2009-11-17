@@ -24,6 +24,8 @@ import de.cosmocode.commons.TrimMode;
  * Utility class providing static factory methods,
  * for all kind of methods regarding JSON.
  * 
+ * TODO make sure log messages appear in correct order (get rid of nested calls)
+ * 
  * @author schoenborn
  */
 public final class JSON {

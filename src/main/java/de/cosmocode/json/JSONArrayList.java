@@ -7,7 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.cosmocode.collections.utility.AbstractUtilityList;
-import de.cosmocode.collections.utility.UtilityList;
 import de.cosmocode.patterns.Adapter;
 
 /**
@@ -19,8 +18,9 @@ import de.cosmocode.patterns.Adapter;
  * @author schoenborn@cosmocode.de
  */
 @Adapter(List.class)
-final class JSONArrayList extends AbstractUtilityList<Object> 
-    implements List<Object>, UtilityList<Object> {
+final class JSONArrayList extends AbstractUtilityList<Object> {
+    
+    private static final Object NULL = null;
 
     private final JSONArray array;
     
@@ -32,7 +32,7 @@ final class JSONArrayList extends AbstractUtilityList<Object>
     public JSONArrayList(JSONArray array) {
         if (array == null) throw new NullPointerException("JSONArray must not be null");
         this.array = array;
-        if (contains(null)) throw new NullPointerException("JSONLIst must not contain null values");
+        if (contains(null)) throw new NullPointerException("JSONList must not contain null values");
     }
 
     @Override
@@ -45,6 +45,8 @@ final class JSONArrayList extends AbstractUtilityList<Object>
         } else if (value instanceof JSONArray) {
             final JSONArray json = JSONArray.class.cast(value);
             return JSON.asList(json);
+        } else if (value == null || value.equals(NULL)) {
+            return null;
         } else {
             return value;
         }

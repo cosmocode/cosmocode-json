@@ -11,7 +11,6 @@ import org.json.JSONObject;
 
 import de.cosmocode.collections.utility.AbstractUtilityMap;
 import de.cosmocode.collections.utility.Utility;
-import de.cosmocode.collections.utility.UtilityMap;
 import de.cosmocode.collections.utility.UtilitySet;
 import de.cosmocode.patterns.Adapter;
 
@@ -21,11 +20,12 @@ import de.cosmocode.patterns.Adapter;
  * 
  * See also {@link JSON#asMap(JSONObject)}.
  * 
- * @author schoenborn@cosmocode.de
+ * @author Willi Schoenborn
  */
 @Adapter(Map.class)
-final class JSONObjectMap extends AbstractUtilityMap<String, Object> 
-    implements Map<String, Object>, UtilityMap<String, Object> {
+final class JSONObjectMap extends AbstractUtilityMap<String, Object> {
+    
+    private static final Object NULL = null;
 
     private final JSONObject object;
     
@@ -37,7 +37,7 @@ final class JSONObjectMap extends AbstractUtilityMap<String, Object>
      * @param object the {@link JSONObject} this map will be backed by
      */
     public JSONObjectMap(JSONObject object) {
-        if (object == null) throw new IllegalArgumentException("JSONObject can't be null");
+        if (object == null) throw new IllegalArgumentException("JSONObject must not be null");
         this.object = object;
         this.entrySet = Utility.asUtilitySet(new EntrySet());
     }
@@ -45,7 +45,7 @@ final class JSONObjectMap extends AbstractUtilityMap<String, Object>
     /**
      * Inner class serving the purpose of an {@link Entry} set.
      * 
-     * @author schoenborn@cosmocode.de
+     * @author Willi Schoenborn
      */
     private class EntrySet extends AbstractSet<Map.Entry<String, Object>> {
 
@@ -53,7 +53,7 @@ final class JSONObjectMap extends AbstractUtilityMap<String, Object>
          * Inner class serving the purpose of an {@link Iterator} of the {@link Entry}s of
          * this {@link Map}.
          * 
-         * @author schoenborn@cosmocode.de
+         * @author Willi Schoenborn
          */
         private class EntrySetIterator implements Iterator<Map.Entry<String, Object>> {
             
@@ -76,6 +76,8 @@ final class JSONObjectMap extends AbstractUtilityMap<String, Object>
                 } else if (value instanceof JSONArray) {
                     final JSONArray json = JSONArray.class.cast(value);
                     entryValue = JSON.asList(json);
+                } else if (value == null || value.equals(NULL)) {
+                    entryValue = null;
                 } else {
                     entryValue = value;
                 }
@@ -108,23 +110,13 @@ final class JSONObjectMap extends AbstractUtilityMap<String, Object>
     }
     
     @Override
-    public boolean containsKey(Object k) {
-        final String key = String.class.cast(k);
-        return object.has(key);
+    public boolean containsKey(Object key) {
+        return object.has(key == null ? null : key.toString());
     }
     
     @Override
-    public Object get(Object k) {
-        try {
-            final String key = String.class.cast(k);
-            if (containsKey(key)) {
-                return object.get(key);
-            } else {
-                return null;
-            }
-        } catch (JSONException e) {
-            throw new IllegalArgumentException(e);
-        }
+    public Object get(Object key) {
+        return object.opt(key == null ? null : key.toString()); 
     }
     
     @Override

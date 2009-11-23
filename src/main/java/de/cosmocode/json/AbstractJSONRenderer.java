@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Multimap;
 
 import de.cosmocode.commons.DateMode;
@@ -111,6 +112,13 @@ public abstract class AbstractJSONRenderer implements JSONRenderer {
     }
     
     @Override
+    public <T> JSONRenderer value(T value, ValueRenderer<? super T> renderer) {
+        Preconditions.checkNotNull(renderer, "Renderer");
+        renderer.render(value, this);
+        return this;
+    }
+    
+    @Override
     public JSONRenderer value(Date value) {
         return value == null ? nullValue() : value(value, DEFAULT_DATEMODE);
     }
@@ -141,6 +149,16 @@ public abstract class AbstractJSONRenderer implements JSONRenderer {
         if (values == null) return this;
         for (Object value : values) {
             value(value);
+        }
+        return this;
+    }
+    
+    @Override
+    public <T> JSONRenderer values(Iterable<? extends T> values, ValueRenderer<? super T> renderer) {
+        Preconditions.checkNotNull(renderer, "Renderer");
+        if (values == null) return this;
+        for (T value : values) {
+            value(value, renderer);
         }
         return this;
     }

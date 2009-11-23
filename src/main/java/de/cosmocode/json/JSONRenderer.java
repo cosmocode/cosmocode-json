@@ -1,13 +1,17 @@
 package de.cosmocode.json;
 
+import java.io.OutputStream;
+import java.io.Writer;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.json.extension.JSONConstructor;
 import org.json.extension.JSONEncoder;
 import org.json.extension.NoObjectContext;
 
 import de.cosmocode.commons.DateMode;
+import de.cosmocode.patterns.Adapter;
 
 /**
  * A {@link JSONRenderer} is being used to create
@@ -145,6 +149,19 @@ public interface JSONRenderer {
      *         at the current position
      */
     JSONRenderer value(Object value);
+    
+    /**
+     * Adds a generic value using the given {@link ValueRenderer}.
+     * 
+     * @param <T> the generic parameter type
+     * @param value the value being added, may be null
+     * @param renderer the {@link ValueRenderer} being used to render the value
+     * @return this
+     * @throws NullPointerException if renderer is null
+     * @throws IllegalStateException if there is no value allowed
+     *         at the current position
+     */
+    <T> JSONRenderer value(T value, ValueRenderer<? super T> renderer);
     
     /**
      * Adds a boolean value.
@@ -293,6 +310,26 @@ public interface JSONRenderer {
      *         at the current position
      */
     JSONRenderer values(Iterable<?> values);
+    
+    /**
+     * Adds generic values.
+     * 
+     * <p>
+     *   Adds all the values contained in an {@link Iterable} by calling
+     *   {@link JSONRenderer#value(Object, ValueRenderer)} for each element.
+     * </p>
+     * 
+     * <p>
+     *   Will return this, without adding something, if values is null.
+     * </p>
+     * 
+     * @param <T> the generic parameter type
+     * @param values the values being added, may be null
+     * @param renderer the {@link ValueRenderer} being used to render the values
+     * @return this
+     * @throws NullPointerException if renderer is null
+     */
+    <T> JSONRenderer values(Iterable<? extends T> values, ValueRenderer<? super T> renderer);
     
     /**
      * Adds generic values.

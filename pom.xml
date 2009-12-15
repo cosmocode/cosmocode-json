@@ -36,5 +36,25 @@
       <groupId>com.google.collections</groupId>
       <artifactId>google-collections</artifactId>
     </dependency>
+    <dependency>
+    	<groupId>com.google.collections</groupId>
+    	<artifactId>google-collections-testfw</artifactId>
+    	<version>1.0-rc3</version>
+    	<scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>de.cosmocode</groupId>
+    	<artifactId>cosmocode-junit</artifactId>
+    	<scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>commons-codec</groupId>
+    	<artifactId>commons-codec</artifactId>
+    	<scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>commons-io</groupId>
+    	<artifactId>commons-io</artifactId>
+    </dependency>
   </dependencies>
 </project>

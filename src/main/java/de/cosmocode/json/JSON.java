@@ -62,19 +62,19 @@ public final class JSON {
      * Provides a {@link UtilityMap}-based view on a {@link JSONObject}.
      * 
      * <p>
-     *   The returned {@link UtilityMap} will be backed by the {@link JSONObject}.
-     *   Changes in the {@link JSONObject} will write through to the {@link UtilityMap}
+     *   The returned map will be backed by the json object.
+     *   Changes in the json object will write through to the map
      *   and vice versa.
      * </p>
      * 
      * <p>
-     *   The returned {@link UtilityMap} is fully compliant and supports
+     *   The returned map is fully compliant and supports
      *   all optional operations specified in the {@link UtilityMap} interface.
      * </p>
      * 
-     * @param object the {@link JSONObject} which will be used as {@link UtilityMap}
+     * @param object the json object which will be used as a map
      * @throws NullPointerException if object is null
-     * @return a {@link UtilityMap} backed be the object
+     * @return a map backed by the given json object
      */
     public static UtilityMap<String, Object> asMap(JSONObject object) {
         return new JSONObjectMap(object);

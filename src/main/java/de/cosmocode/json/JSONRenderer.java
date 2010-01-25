@@ -50,6 +50,8 @@ import de.cosmocode.patterns.Adapter;
  * @author Willi Schoenborn
  */
 public interface JSONRenderer {
+    
+    RenderLevel DEFAULT_LEVEL = RenderLevel.COMPLETE;
 
     /**
      * Starts an array structure.
@@ -656,6 +658,18 @@ public interface JSONRenderer {
      *         at the current position
      */
     JSONRenderer object(JSONEncoder object);
+    
+    boolean lt(RenderLevel level);
+    
+    boolean le(RenderLevel level);
+    
+    boolean eq(RenderLevel level);
+    
+    boolean ge(RenderLevel level);
+    
+    boolean gt(RenderLevel level);
+    
+    RenderLevel currentLevel();
     
     /**
      * Renders this instance into a valid JSON {@link String}. (optional operation)

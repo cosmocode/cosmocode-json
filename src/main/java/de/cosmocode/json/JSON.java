@@ -112,6 +112,8 @@ public final class JSON {
      * his encoded JSON data internally. Call
      * {@link JSONRenderer#toString()} to render it.
      * 
+     * TODO add render level
+     * 
      * @return a new {@link JSONRenderer}
      */
     public static JSONRenderer createJSONRenderer() {

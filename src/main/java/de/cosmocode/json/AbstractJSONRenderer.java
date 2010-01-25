@@ -222,6 +222,31 @@ public abstract class AbstractJSONRenderer implements JSONRenderer {
     }
     
     @Override
+    public boolean lt(RenderLevel level) {
+        return currentLevel().compareTo(level) < 0;
+    }
+    
+    @Override
+    public boolean le(RenderLevel level) {
+        return currentLevel().compareTo(level) <= 0;
+    }
+    
+    @Override
+    public boolean eq(RenderLevel level) {
+        return currentLevel().compareTo(level) == 0;
+    }
+    
+    @Override
+    public boolean ge(RenderLevel level) {
+        return currentLevel().compareTo(level) >= 0;
+    }
+    
+    @Override
+    public boolean gt(RenderLevel level) {
+        return currentLevel().compareTo(level) > 0;
+    }
+    
+    @Override
     public abstract String toString();
 
 }

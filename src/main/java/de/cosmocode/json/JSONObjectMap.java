@@ -102,6 +102,13 @@ final class JSONObjectMap extends AbstractUtilityMap<String, Object> {
             return JSONObjectMap.this.size();
         }
         
+        @Override
+        public boolean add(Map.Entry<String, Object> entry) {
+            final boolean alreadyContained = object.has(entry.getKey());
+            put(entry.getKey(), entry.getValue());
+            return !alreadyContained;
+        }
+        
     }
     
     @Override

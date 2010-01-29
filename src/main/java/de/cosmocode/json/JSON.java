@@ -28,7 +28,7 @@ import de.cosmocode.commons.TrimMode;
  */
 public final class JSON {
 
-    private static final Logger log = LoggerFactory.getLogger(JSON.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JSON.class);
 
     /**
      * Prevent instantiation.
@@ -231,17 +231,17 @@ public final class JSON {
      */
     static Writer stealWriter(JSONWriter json) {
         if (json == null) throw new NullPointerException("JSONWriter must not be null");
-        log.debug("Trying to extract {} from {}", Writer.class.getName(), json.getClass().getName());
+        LOG.debug("Trying to extract {} from {}", Writer.class.getName(), json.getClass().getName());
         try {
             final Field field = JSONWriter.class.getDeclaredField("writer");
-            log.debug("Getting field {}: {}", field.getName(), field);
+            LOG.debug("Getting field {}: {}", field.getName(), field);
             final boolean accessible = field.isAccessible();
-            log.debug("Setting accessible to {}", Boolean.TRUE);
+            LOG.debug("Setting accessible to {}", Boolean.TRUE);
             field.setAccessible(true);
             final Object result = field.get(json);
-            log.debug("Getting the field value of {}: {}", field.getName(), result.getClass().getName());
+            LOG.debug("Getting the field value of {}: {}", field.getName(), result.getClass().getName());
             field.setAccessible(accessible);
-            log.debug("Setting accessible back to {}", Boolean.valueOf(accessible));
+            LOG.debug("Setting accessible back to {}", Boolean.valueOf(accessible));
             return Writer.class.cast(result);
         } catch (NoSuchFieldException e) {
             throw new IllegalStateException(e);

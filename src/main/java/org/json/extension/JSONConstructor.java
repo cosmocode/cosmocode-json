@@ -2,13 +2,18 @@ package org.json.extension;
 
 import org.json.JSONException;
 
+import de.cosmocode.json.JSONRenderer;
+
 /**
  * A JSONConstructor provides several methods
  * for bean/pojo-classes to build their
  * own json structure.
  * 
+ * @deprecated use {@link JSONRenderer} instead
+ * 
  * @author schoenborn@cosmocode.de
  */
+@Deprecated
 public interface JSONConstructor {
 
     /**

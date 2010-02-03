@@ -26,7 +26,7 @@ public interface JsonFactory extends Factory<JSONRenderer> {
      * The returned JsonRenderer must support {@link JSONRenderer#toString() toString()}.
      * </p>
      * <p> <strong>Important: </strong>
-     * A call on {@link JSONRenderer#toString() toString()} may close an underlying stream,
+     * A call on {@linkplain JSONRenderer#toString() toString()} may close an underlying stream,
      * resulting in the behavior that
      * only toString() can be called after toString() is called -
      * all other methods then throw IllegalStateExceptions.

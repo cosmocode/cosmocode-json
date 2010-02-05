@@ -11,7 +11,7 @@
     <version>1.3</version>
   </parent>
   <scm>
-    <developerConnection>scm:svn:http://commons.svn.cosmocode.de/cosmocode-json/trunk</developerConnection>
+    <developerConnection>scm:svn:https://commons.svn.cosmocode.de/cosmocode-json/trunk</developerConnection>
   </scm>
   <dependencies>
     <dependency>

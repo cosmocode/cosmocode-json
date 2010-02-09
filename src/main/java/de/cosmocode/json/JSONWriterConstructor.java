@@ -1,9 +1,10 @@
 package de.cosmocode.json;
 
-import java.io.IOException;
 import java.io.Writer;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.json.JSONWriter;
 import org.json.extension.JSONConstructor;
 
@@ -80,12 +81,23 @@ final class JSONWriterConstructor implements JSONConstructor {
     
     @Override
     public JSONConstructor plain(String value) throws JSONException {
-        try {
-            writer.write(value);
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
+        if (value == null) {
+            return value(null);
+        } else if (value.startsWith("{")) {
+            try {
+                return value(new JSONObject(value));
+            } catch (JSONException e) {
+                throw new IllegalArgumentException(e);
+            }
+        } else if (value.startsWith("[")) {
+            try {
+                return value(new JSONArray(value));
+            } catch (JSONException e) {
+                throw new IllegalArgumentException(e);
+            }
+        } else {
+            throw new IllegalArgumentException("Illegal plain value '" + value + "'");
         }
-        return this;
     }
     
     @Override

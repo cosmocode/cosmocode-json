@@ -1,5 +1,6 @@
 package de.cosmocode.json;
 
+import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
@@ -8,7 +9,6 @@ import java.util.SortedMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 import org.json.JSONWriter;
 import org.json.extension.JSONConstructor;
 import org.slf4j.Logger;
@@ -117,7 +117,18 @@ public final class JSON {
      * @return a new {@link JSONRenderer}
      */
     public static JSONRenderer createJSONRenderer() {
-        return JSON.asJSONRenderer(new JSONStringer());
+        return JSON.asJSONRenderer(new JSONWriter(new StringWriter()) {
+            
+            @Override
+            public String toString() {
+                if (mode == 'd') {
+                    return writer.toString();
+                } else {
+                    throw new IllegalStateException("toString() is not allowed when mode is " + mode);
+                }
+            }
+            
+        });
     }
 
     /**

@@ -27,9 +27,6 @@ import de.cosmocode.junit.Asserts;
 
 public abstract class AbstractJSONRendererTest {
     
-    private static final Object NULL = null;
-    private static final DateMode NULL_DATE_MODE = null;
-    
     public static final byte POSITIVE_BYTE = 123;
     public static final byte ZERO_BYTE = 0;
     public static final byte NEGATIVE_BYTE = -123;
@@ -233,6 +230,9 @@ public abstract class AbstractJSONRendererTest {
         }
     };
     public static final JSONEncoder NULL_ENCODER = null;
+    
+    private static final Object NULL = null;
+    private static final DateMode NULL_DATE_MODE = null;
     
     private JSONRenderer renderer;
     private JSONWriter writer;

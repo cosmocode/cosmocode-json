@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONWriter;
 import org.json.extension.JSONConstructor;
+import org.json.extension.JSONEncoder;
 
 /**
  * Implementation of the {@link JSONConstructor} interface
@@ -75,7 +76,11 @@ final class JSONWriterConstructor implements JSONConstructor {
     
     @Override
     public JSONConstructor value(Object value) throws JSONException {
-        json.value(value);
+        if (value instanceof JSONEncoder) {
+            JSONEncoder.class.cast(value).encodeJSON(this);
+        } else {
+            json.value(value);
+        }
         return this;
     }
     

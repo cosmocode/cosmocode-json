@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.extension.JSONConstructor;
+import org.json.extension.JSONEncoder;
 
 import de.cosmocode.patterns.Adapter;
 
@@ -79,7 +80,11 @@ final class JSONRendererConstructor implements JSONConstructor {
     
     @Override
     public JSONConstructor value(Object value) {
-        renderer.value(value);
+        if (value instanceof JSONEncoder) {
+            renderer.object(JSONEncoder.class.cast(value));
+        } else {
+            renderer.value(value);
+        }
         return this;
     }
     

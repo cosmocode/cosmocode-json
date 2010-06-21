@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.cosmocode</groupId>
   <artifactId>cosmocode-json</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.0.8</version>
   <packaging>jar</packaging>
   <name>CosmoCode Json</name>
   <parent>
@@ -11,7 +11,7 @@
     <version>2.3.3</version>
   </parent>
   <scm>
-    <developerConnection>scm:svn:https://commons.svn.cosmocode.de/cosmocode-json/trunk</developerConnection>
+    <developerConnection>scm:svn:https://commons.svn.cosmocode.de/cosmocode-json/tags/1.0.8</developerConnection>
   </scm>
   <repositories>
     <repository>

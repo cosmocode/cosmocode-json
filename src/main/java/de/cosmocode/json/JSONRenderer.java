@@ -31,10 +31,8 @@ import org.json.extension.NoObjectContext;
 
 import de.cosmocode.commons.DateMode;
 import de.cosmocode.patterns.Adapter;
-import de.cosmocode.rendering.Renderable;
 import de.cosmocode.rendering.Renderer;
 import de.cosmocode.rendering.RenderingException;
-import de.cosmocode.rendering.RenderingLevel;
 /**
  * A {@link JSONRenderer} is being used to create
  * a JSON formatted {@link String}.

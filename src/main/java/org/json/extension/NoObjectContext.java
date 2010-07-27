@@ -17,6 +17,7 @@
 package org.json.extension;
 
 import de.cosmocode.json.JSONListable;
+import de.cosmocode.json.JSONMapable;
 
 /**
  * Marker interface for {@link JSONEncoder} implementations that dont have opening

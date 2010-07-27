@@ -23,11 +23,8 @@ import java.util.Map;
 import org.json.extension.JSONEncoder;
 import org.json.extension.NoObjectContext;
 
-import com.google.common.collect.ForwardingObject;
-
 import de.cosmocode.commons.DateMode;
 import de.cosmocode.rendering.ForwardingRenderer;
-import de.cosmocode.rendering.Renderer;
 import de.cosmocode.rendering.RenderingException;
 
 /**

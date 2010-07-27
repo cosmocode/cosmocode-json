@@ -22,15 +22,19 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.json.extension.JSONConstructor;
 import org.json.extension.JSONEncoder;
 import org.json.extension.NoObjectContext;
 
 import de.cosmocode.commons.DateMode;
 import de.cosmocode.patterns.Adapter;
+import de.cosmocode.rendering.Renderable;
 import de.cosmocode.rendering.Renderer;
 import de.cosmocode.rendering.RenderingException;
-
+import de.cosmocode.rendering.RenderingLevel;
 /**
  * A {@link JSONRenderer} is being used to create
  * a JSON formatted {@link String}.
@@ -689,6 +693,18 @@ public interface JSONRenderer extends Renderer {
     
     RenderLevel currentLevel();
     
+    @Override
+    JSONRenderer value(@Nonnull Object... values) throws RenderingException;
+
+    @Override
+    JSONRenderer value(@Nonnull Iterable<?> values) throws RenderingException;
+
+    @Override
+    JSONRenderer value(@Nonnull Iterator<?> values) throws RenderingException;
+
+    @Override
+    JSONRenderer value(@Nullable  Map<?, ?> pairs) throws RenderingException;
+
     /**
      * Renders this instance into a valid JSON {@link String}. (optional operation)
      * 

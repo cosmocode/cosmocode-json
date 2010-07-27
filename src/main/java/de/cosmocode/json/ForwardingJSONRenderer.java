@@ -27,6 +27,7 @@ import com.google.common.collect.ForwardingObject;
 
 import de.cosmocode.commons.DateMode;
 import de.cosmocode.rendering.ForwardingRenderer;
+import de.cosmocode.rendering.Renderer;
 import de.cosmocode.rendering.RenderingException;
 
 /**
@@ -206,6 +207,29 @@ public abstract class ForwardingJSONRenderer extends ForwardingRenderer implemen
         return this;
     }
 
+    @Override
+    public JSONRenderer value(Object... values) throws RenderingException {
+        delegate().value(values);
+        return this;
+    }
+    @Override
+    public JSONRenderer value(Iterable<?> values) throws RenderingException {
+        delegate().value(values);
+        return this;
+    }
+    
+    @Override
+    public JSONRenderer value(Iterator<?> values) throws RenderingException {
+        delegate().value(values);
+        return this;
+    }
+    
+    @Override
+    public JSONRenderer value(Map<?, ?> pairs) throws RenderingException {
+        delegate().value(pairs);
+        return this;
+    }
+    
     @Override
     public <T> JSONRenderer value(T value, ValueRenderer<? super T> renderer) {
         delegate().value(value, renderer);

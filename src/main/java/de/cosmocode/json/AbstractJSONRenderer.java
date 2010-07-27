@@ -111,6 +111,30 @@ public abstract class AbstractJSONRenderer extends AbstractRenderer implements J
     }
 
     @Override
+    public JSONRenderer value(Object... values) throws RenderingException {
+        super.value(values);
+        return this;
+    }
+    
+    @Override
+    public JSONRenderer value(Iterable<?> values) throws RenderingException {
+        super.value(values);
+        return this;
+    }
+    
+    @Override
+    public JSONRenderer value(Iterator<?> values) throws RenderingException {
+        super.value(values);
+        return this;
+    }
+    
+    @Override
+    public JSONRenderer value(Map<?, ?> pairs) throws RenderingException {
+        super.value(pairs);
+        return this;
+    }
+    
+    @Override
     public JSONRenderer values(Object... values) {
         if (values == null) return this;
         for (Object value : values) {

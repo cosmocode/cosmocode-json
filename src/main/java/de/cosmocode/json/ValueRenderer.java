@@ -16,15 +16,17 @@
 
 package de.cosmocode.json;
 
-import de.cosmocode.patterns.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * An immutable renderer which is used to render
  * single values into a {@link JSONRenderer}.
  *
+ * @deprecated use {@link de.cosmocode.rendering.ValueRenderer} instead
  * @author Willi Schoenborn
  * @param <T> the type this {@link ValueRenderer} is able to render
  */
+@Deprecated
 @Immutable
 public interface ValueRenderer<T> {
 

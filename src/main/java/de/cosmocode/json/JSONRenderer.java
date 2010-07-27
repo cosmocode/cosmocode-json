@@ -28,6 +28,8 @@ import org.json.extension.NoObjectContext;
 
 import de.cosmocode.commons.DateMode;
 import de.cosmocode.patterns.Adapter;
+import de.cosmocode.rendering.Renderer;
+import de.cosmocode.rendering.RenderingException;
 
 /**
  * A {@link JSONRenderer} is being used to create
@@ -65,7 +67,7 @@ import de.cosmocode.patterns.Adapter;
  *
  * @author Willi Schoenborn
  */
-public interface JSONRenderer {
+public interface JSONRenderer extends Renderer {
     
     RenderLevel DEFAULT_LEVEL = RenderLevel.COMPLETE;
 
@@ -704,5 +706,8 @@ public interface JSONRenderer {
      */
     @Override
     String toString();
+    
+    @Override
+    String build() throws RenderingException;
     
 }

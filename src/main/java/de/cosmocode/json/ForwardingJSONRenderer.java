@@ -26,6 +26,8 @@ import org.json.extension.NoObjectContext;
 import com.google.common.collect.ForwardingObject;
 
 import de.cosmocode.commons.DateMode;
+import de.cosmocode.rendering.ForwardingRenderer;
+import de.cosmocode.rendering.RenderingException;
 
 /**
  * Forwards all calls to an underlying {@link JSONRenderer}
@@ -33,7 +35,7 @@ import de.cosmocode.commons.DateMode;
  *
  * @author Willi Schoenborn
  */
-public abstract class ForwardingJSONRenderer extends ForwardingObject implements JSONRenderer {
+public abstract class ForwardingJSONRenderer extends ForwardingRenderer implements JSONRenderer {
 
     @Override
     protected abstract JSONRenderer delegate();
@@ -263,6 +265,11 @@ public abstract class ForwardingJSONRenderer extends ForwardingObject implements
     @Override
     public boolean gt(RenderLevel level) {
         return delegate().gt(level);
+    }
+    
+    @Override
+    public String build() throws RenderingException {
+        return delegate().build();
     }
     
 }

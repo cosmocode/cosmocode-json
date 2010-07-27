@@ -34,7 +34,7 @@ import de.cosmocode.commons.TrimMode;
  */
 public class TrimmingJSONRenderer extends ForwardingJSONRenderer {
 
-    private static final Logger log = LoggerFactory.getLogger(TrimmingJSONRenderer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TrimmingJSONRenderer.class);
     
     private final JSONRenderer renderer;
     private final TrimMode trimMode;
@@ -54,7 +54,7 @@ public class TrimmingJSONRenderer extends ForwardingJSONRenderer {
     @Override
     public JSONRenderer value(CharSequence value) {
         final CharSequence trimmed = trimMode.trim(value);
-        log.debug("Trimmed {} to {}", value, trimmed);
+        LOG.debug("Trimmed {} to {}", value, trimmed);
         return super.value(trimmed);
     }
     

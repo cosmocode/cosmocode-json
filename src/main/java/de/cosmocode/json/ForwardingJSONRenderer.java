@@ -39,11 +39,6 @@ public abstract class ForwardingJSONRenderer extends ForwardingRenderer implemen
     protected abstract JSONRenderer delegate();
 
     @Override
-    public RenderLevel currentLevel() {
-        return delegate().currentLevel();
-    }
-    
-    @Override
     public JSONRenderer array() {
         delegate().array();
         return this;
@@ -249,31 +244,6 @@ public abstract class ForwardingJSONRenderer extends ForwardingRenderer implemen
     public JSONRenderer values(Object... values) {
         delegate().values(values);
         return this;
-    }
-    
-    @Override
-    public boolean lt(RenderLevel level) {
-        return delegate().lt(level);
-    }
-    
-    @Override
-    public boolean le(RenderLevel level) {
-        return delegate().le(level);
-    }
-    
-    @Override
-    public boolean eq(RenderLevel level) {
-        return delegate().eq(level);
-    }
-    
-    @Override
-    public boolean ge(RenderLevel level) {
-        return delegate().ge(level);
-    }
-    
-    @Override
-    public boolean gt(RenderLevel level) {
-        return delegate().gt(level);
     }
     
     @Override

@@ -39,12 +39,6 @@ public abstract class AbstractJsonFactory implements JsonFactory {
     }
     
     @Override
-    public JSONRenderer create(OutputStream stream, RenderLevel level) throws IOException {
-        final Writer writer = new OutputStreamWriter(stream, DEFAULT_ENCODING);
-        return create(writer, level);
-    }
-    
-    @Override
     public JSONRenderer create(OutputStream stream, String encoding) throws IOException {
         final Writer writer = new OutputStreamWriter(stream, encoding);
         return create(writer);
@@ -55,33 +49,5 @@ public abstract class AbstractJsonFactory implements JsonFactory {
         final Writer writer = new OutputStreamWriter(stream, encoding);
         return create(writer);
     }
-    
-    @Override
-    public JSONRenderer create(OutputStream stream, String encoding, RenderLevel level) throws IOException {
-        final Writer writer = new OutputStreamWriter(stream, encoding);
-        return create(writer, level);
-    }
-    
-    @Override
-    public JSONRenderer create(OutputStream stream, Charset encoding, RenderLevel level) throws IOException {
-        final Writer writer = new OutputStreamWriter(stream, encoding);
-        return create(writer, level);
-    }
-    
-    @Override
-    public JSONRenderer create() {
-        return create(JSONRenderer.DEFAULT_LEVEL);
-    }
-    
-    @Override
-    public JSONRenderer create(Writer writer) {
-        return create(writer, JSONRenderer.DEFAULT_LEVEL);
-    }
-    
-    @Override
-    public abstract JSONRenderer create(RenderLevel level);
-    
-    @Override
-    public abstract JSONRenderer create(Writer writer, RenderLevel level);
     
 }

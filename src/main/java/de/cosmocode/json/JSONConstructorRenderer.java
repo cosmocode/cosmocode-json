@@ -36,28 +36,15 @@ final class JSONConstructorRenderer extends AbstractJSONRenderer implements JSON
     private final JSONConstructor constructor;
     private final JSONConstructor adapter;
     
-    private final RenderLevel level;
-    
     /**
      * Creates a new {@link JSONConstructorRenderer} using the given constructor and dateMode.
      * 
      * @param constructor the constructor this instance relies on
      */
     public JSONConstructorRenderer(JSONConstructor constructor) {
-        this(constructor, JSONRenderer.DEFAULT_LEVEL);
-    }
-    
-    // TODO null checks
-    public JSONConstructorRenderer(JSONConstructor constructor, RenderLevel level) {
         if (constructor == null) throw new NullPointerException("JSONConstructor must not be null");
         this.constructor = constructor;
         this.adapter = JSON.asJSONConstructor(this);
-        this.level = level;
-    }
-
-    @Override
-    public RenderLevel currentLevel() {
-        return level;
     }
     
     @Override

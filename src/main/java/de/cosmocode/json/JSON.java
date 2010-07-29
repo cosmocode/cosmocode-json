@@ -34,7 +34,6 @@ import com.google.common.collect.Maps;
 
 import de.cosmocode.collections.utility.UtilityList;
 import de.cosmocode.collections.utility.UtilityMap;
-import de.cosmocode.commons.TrimMode;
 
 /**
  * Utility class providing static factory methods,

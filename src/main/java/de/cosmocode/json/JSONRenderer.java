@@ -71,8 +71,6 @@ import de.cosmocode.rendering.RenderingException;
  */
 public interface JSONRenderer extends Renderer {
     
-    RenderLevel DEFAULT_LEVEL = RenderLevel.COMPLETE;
-
     /**
      * Starts an array structure.
      * 
@@ -632,18 +630,6 @@ public interface JSONRenderer extends Renderer {
      *         at the current position
      */
     JSONRenderer object(JSONEncoder object);
-    
-    boolean lt(RenderLevel level);
-    
-    boolean le(RenderLevel level);
-    
-    boolean eq(RenderLevel level);
-    
-    boolean ge(RenderLevel level);
-    
-    boolean gt(RenderLevel level);
-    
-    RenderLevel currentLevel();
     
     @Override
     JSONRenderer value(@Nonnull Object... values) throws RenderingException;

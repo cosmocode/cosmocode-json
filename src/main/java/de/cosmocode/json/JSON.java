@@ -148,19 +148,6 @@ public final class JSON {
     }
 
     /**
-     * Returns a {@link JSONRenderer} which uses the given {@link TrimMode} to
-     * trim all values passed to {@link JSONRenderer#value(CharSequence)} and
-     * {@link JSONRenderer#plain(String)}.
-     * 
-     * @param renderer the renderer the trimming {@link JSONRenderer} will be backed by
-     * @param trimMode the {@link TrimMode} to use
-     * @return a new {@link JSONRenderer} backed by the given renderer
-     */
-    public static JSONRenderer trimming(JSONRenderer renderer, TrimMode trimMode) {
-        return new TrimmingJSONRenderer(renderer, trimMode);
-    }
-    
-    /**
      * Creates a {@link JSONRenderer} which directly writes
      * his encoded JSON data using the given writer instance.
      * 

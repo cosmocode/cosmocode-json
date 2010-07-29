@@ -244,17 +244,12 @@ public final class JSON {
      */
     static Writer stealWriter(JSONWriter json) {
         if (json == null) throw new NullPointerException("JSONWriter must not be null");
-        LOG.debug("Trying to extract {} from {}", Writer.class.getName(), json.getClass().getName());
         try {
             final Field field = JSONWriter.class.getDeclaredField("writer");
-            LOG.debug("Getting field {}: {}", field.getName(), field);
             final boolean accessible = field.isAccessible();
-            LOG.debug("Setting accessible to {}", Boolean.TRUE);
             field.setAccessible(true);
             final Object result = field.get(json);
-            LOG.debug("Getting the field value of {}: {}", field.getName(), result.getClass().getName());
             field.setAccessible(accessible);
-            LOG.debug("Setting accessible back to {}", Boolean.valueOf(accessible));
             return Writer.class.cast(result);
         } catch (NoSuchFieldException e) {
             throw new IllegalStateException(e);

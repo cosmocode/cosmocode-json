@@ -38,7 +38,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import de.cosmocode.Holder;
-import de.cosmocode.commons.DateMode;
 import de.cosmocode.junit.Asserts;
 
 public abstract class AbstractJSONRendererTest {
@@ -196,7 +195,6 @@ public abstract class AbstractJSONRendererTest {
     public static final JSONEncoder NULL_ENCODER = null;
     
     private static final Object NULL = null;
-    private static final DateMode NULL_DATE_MODE = null;
     
     private JSONRenderer renderer;
     private JSONWriter writer;
@@ -1140,14 +1138,14 @@ public abstract class AbstractJSONRendererTest {
     
     @Test
     public void valueDateToday() throws JSONException {
-        writer.array().value(DateMode.JAVA.format(TODAY_DATE)).endArray();
+        writer.array().value(TODAY_DATE.getTime() / 1000).endArray();
         renderer.array().value(TODAY_DATE).endArray();
         assertEquals();
     }
     
     @Test
     public void valueDateEpochStart() throws JSONException {
-        writer.array().value(DateMode.JAVA.format(EPOCH_START_DATE)).endArray();
+        writer.array().value(EPOCH_START_DATE.getTime() / 1000).endArray();
         renderer.array().value(EPOCH_START_DATE).endArray();
         assertEquals();
     }
@@ -1157,14 +1155,6 @@ public abstract class AbstractJSONRendererTest {
         writer.array().value(null).endArray();
         renderer.array().value(NULL_DATE).endArray();
         assertEquals();
-    }
-    
-    @Test
-    public void valueDateDateModeEquals() throws JSONException {
-        final JSONRenderer expected = renderer.array().value(TODAY_DATE, DateMode.JAVA).endArray();
-        renderer = create();
-        final JSONRenderer actual = renderer.array().value(TODAY_DATE).endArray();
-        assertEquals(expected, actual);
     }
     
     @Test
@@ -1190,62 +1180,6 @@ public abstract class AbstractJSONRendererTest {
     @Test(expected = IllegalStateException.class)
     public void valueDateAfterLast() {
         renderer.object().endObject().value(TODAY_DATE);
-    }
-    
-    @Test
-    public void valueDateModeToday() throws JSONException {
-        writer.array().value(DateMode.UNIXTIME.format(TODAY_DATE)).endArray();
-        renderer.array().value(TODAY_DATE, DateMode.UNIXTIME).endArray();
-        assertEquals();
-    }
-    
-    @Test
-    public void valueDateModeEpochStart() throws JSONException {
-        writer.array().value(DateMode.UNIXTIME.format(EPOCH_START_DATE)).endArray();
-        renderer.array().value(EPOCH_START_DATE, DateMode.UNIXTIME).endArray();
-        assertEquals();
-    }
-    
-    @Test
-    public void valueDateModeDateNull() throws JSONException {
-        writer.array().value(null).endArray();
-        renderer.array().value(NULL_DATE, DateMode.UNIXTIME).endArray();
-        assertEquals();
-    }
-    
-    @Test
-    public void valueDateModeThis() {
-        Assert.assertSame(renderer, renderer.array().value(TODAY_DATE, DateMode.UNIXTIME));
-    }
-    
-    @Test(expected = NullPointerException.class)
-    public void valueDateModeModeNull() {
-        renderer.array().value(TODAY_DATE, NULL_DATE_MODE);
-    }
-    
-    @Test(expected = NullPointerException.class)
-    public void valueDateDatenAndModeModeNull() {
-        renderer.array().value(NULL_DATE, NULL_DATE_MODE);
-    }
-    
-    @Test(expected = IllegalStateException.class)
-    public void valueDateModeBeforeFirst() {
-        renderer.value(TODAY_DATE, DateMode.UNIXTIME);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void valueDateModeAfterObject() {
-        renderer.object().value(TODAY_DATE, DateMode.UNIXTIME);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void valueDateModeAfterValueInObject() {
-        renderer.object().key("key").value(TODAY_DATE, DateMode.UNIXTIME).value(TODAY_DATE, DateMode.UNIXTIME);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void valueDateModeAfterLast() {
-        renderer.object().endObject().value(TODAY_DATE, DateMode.UNIXTIME);
     }
     
     @Test

@@ -19,7 +19,6 @@ package de.cosmocode.json;
 import java.util.Iterator;
 import java.util.Map;
 
-import de.cosmocode.commons.DateMode;
 import de.cosmocode.rendering.AbstractRenderer;
 import de.cosmocode.rendering.Renderer;
 import de.cosmocode.rendering.RenderingException;
@@ -32,8 +31,6 @@ import de.cosmocode.rendering.RenderingException;
  */
 public abstract class AbstractJSONRenderer extends AbstractRenderer implements JSONRenderer {
 
-    protected static final DateMode DEFAULT_DATEMODE = DateMode.JAVA;
-    
     @Override
     public JSONRenderer key(Object key) {
         super.key(key);
@@ -44,23 +41,6 @@ public abstract class AbstractJSONRenderer extends AbstractRenderer implements J
     public JSONRenderer value(Object value) {
         super.value(value);
         return this;
-    }
-    
-    /**
-     * A hook allowing sub classes to add behaviour to 
-     * the {@link AbstractJSONRenderer#value(Object)} method.
-     * 
-     * <p>
-     *   This implementation uses {@link Object#toString()}.
-     * </p>
-     * 
-     * @deprecated use {@link #setMapping(de.cosmocode.rendering.Mapping)} instead
-     * @param value the value of an unknown type, is never null
-     * @return this
-     */
-    @Deprecated
-    protected JSONRenderer unknownValue(Object value) {
-        return value(value.toString());
     }
     
     @Override

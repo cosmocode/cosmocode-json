@@ -108,16 +108,6 @@ final class JSONConstructorRenderer extends AbstractJSONRenderer implements JSON
     }
     
     @Override
-    protected JSONRenderer unknownValue(Object value) {
-        try {
-            constructor.value(value);
-            return this;
-        } catch (JSONException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-    
-    @Override
     public JSONRenderer value(boolean value) {
         try {
             constructor.value(value);

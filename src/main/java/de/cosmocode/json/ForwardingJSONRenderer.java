@@ -103,12 +103,6 @@ public abstract class ForwardingJSONRenderer extends ForwardingRenderer implemen
     }
 
     @Override
-    public JSONRenderer object(JSONMapable pairs) {
-        delegate().object(pairs);
-        return this;
-    }
-
-    @Override
     public JSONRenderer object(Map<?, ?> pairs) {
         delegate().object(pairs);
         return this;
@@ -117,12 +111,6 @@ public abstract class ForwardingJSONRenderer extends ForwardingRenderer implemen
     @Override
     public JSONRenderer object(NoObjectContext pairs) {
         delegate().object(pairs);
-        return this;
-    }
-
-    @Override
-    public JSONRenderer pairs(JSONMapable pairs) {
-        delegate().pairs(pairs);
         return this;
     }
 

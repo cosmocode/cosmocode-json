@@ -18,12 +18,12 @@ package org.json.extension;
 
 import org.json.JSONException;
 
-import de.cosmocode.json.JSONMapable;
+import de.cosmocode.rendering.Renderable;
 
 /**
  * No documentation here.
  * 
- * @deprecated use {@link JSONMapable} instead
+ * @deprecated use {@link Renderable}
  * 
  * @author Willi Schoenborn
  */

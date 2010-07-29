@@ -225,27 +225,6 @@ public interface JSONRenderer extends Renderer {
     JSONRenderer array(Iterator<?> values);
     
     /**
-     * Adds generic pairs.
-     * 
-     * <p>
-     *   Adds a {@link JSONMapable} value by giving the control to
-     *   it's {@link JSONMapable#renderAsMap(JSONRenderer)} method.
-     * </p>
-     * 
-     * <p>
-     *   Will return this, without adding something, if pairs is null.
-     * </p>
-     * 
-     * @deprecated use {@link #pairs(Renderable, RenderingLevel)}
-     * @param pairs the pairs being added, may be null
-     * @return this
-     * @throws IllegalStateException if there are no pairs allowed
-     *         at the current position
-     */
-    @Deprecated
-    JSONRenderer pairs(JSONMapable pairs);
-    
-    /**
      * Adds a generic pairs.
      * 
      * <p>
@@ -303,35 +282,6 @@ public interface JSONRenderer extends Renderer {
     @Deprecated
     JSONRenderer object(Map<?, ?> pairs);
     
-    /**
-     * Produces an object containging generic pairs.
-     * 
-     * <p>
-     *   Starts an object structure, adds a {@link JSONMapable} value by giving 
-     *   control to it's {@link JSONMapable#renderAsMap(JSONRenderer)} method
-     *   and end the object structure.
-     * </p>
-     * 
-     * <p>
-     *   Similiar to:
-     *   <pre>
-     *     renderer.object().pairs(pairs).endObject();
-     *   </pre>
-     * <p>
-     * 
-     * <p>
-     *   Will produce an empty object if pairs is null.
-     * </p>
-     * 
-     * @deprecated use {@link #value(Renderable, RenderingLevel)}
-     * @param pairs the pairs being added as an object, may be null
-     * @return this
-     * @throws IllegalStateException if there is no object allowed
-     *         at the current position
-     */
-    @Deprecated
-    JSONRenderer object(JSONMapable pairs);
-
     /**
      * Produces an object containing generic pairs.
      * 

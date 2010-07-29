@@ -159,20 +159,10 @@ public abstract class AbstractJSONRenderer extends AbstractRenderer implements J
     }
 
     @Override
-    public JSONRenderer pairs(JSONMapable pairs) {
-        return pairs == null ? this : pairs.renderAsMap(this);
-    }
-
-    @Override
     public JSONRenderer object(Map<?, ?> pairs) {
         return object().pairs(pairs).endObject();
     }
 
-    @Override
-    public JSONRenderer object(JSONMapable pairs) {
-        return object().pairs(pairs).endObject();
-    }
-    
     @Override
     public abstract String toString();
     

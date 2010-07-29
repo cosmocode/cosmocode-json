@@ -134,32 +134,6 @@ public abstract class AbstractJSONRendererTest {
     );
     public static final Map<Object, Object> NULL_MAP = null;
     
-    public static final JSONMapable EMPTY_MAPABLE = new JSONMapable() {
-        
-        @Override
-        public JSONRenderer renderAsMap(JSONRenderer jsonRenderer) {
-            return jsonRenderer;
-        }
-        
-    };
-    public static final JSONMapable SIZE_ONE_MAPABLE = new JSONMapable() {
-        
-        @Override
-        public JSONRenderer renderAsMap(JSONRenderer json) {
-            return json.pairs(SIZE_ONE_MAP);
-        }
-        
-    };
-    public static final JSONMapable SIZE_THREE_MAPABLE = new JSONMapable() {
-        
-        @Override
-        public JSONRenderer renderAsMap(JSONRenderer json) {
-            return json.pairs(SIZE_THREE_MAP);
-        }
-        
-    };
-    public static final JSONMapable NULL_MAPABLE = null;
-    
     public static final NoObjectContext EMPTY_NO_OBJECT_CONTEXT = new NoObjectContext() {
         
         @Override
@@ -1847,67 +1821,6 @@ public abstract class AbstractJSONRendererTest {
     }
     
     @Test
-    public void pairsMapableEmpty() throws JSONException {
-        writer.object().endObject();
-        renderer.object().pairs(EMPTY_MAPABLE).endObject();
-        assertEquals();
-    }
-    
-    @Test
-    public void pairsMapableOne() throws JSONException {
-        writer.object();
-        for (Map.Entry<Object, Object> entry : SIZE_ONE_MAP.entrySet()) {
-            writer.key(entry.getKey().toString()).value(entry.getValue());
-        }
-        writer.endObject();
-        renderer.object().pairs(SIZE_ONE_MAPABLE).endObject();
-        assertEquals();
-    }
-    
-    @Test
-    public void pairsMapableThree() throws JSONException {
-        writer.object();
-        for (Map.Entry<Object, Object> entry : SIZE_THREE_MAP.entrySet()) {
-            writer.key(entry.getKey().toString()).value(entry.getValue());
-        }
-        writer.endObject();
-        renderer.object().pairs(SIZE_THREE_MAPABLE).endObject();
-        assertEquals();
-    }
-    
-    @Test
-    public void pairsMapableNull() throws JSONException {
-        writer.object().endObject();
-        renderer.object().pairs(NULL_MAPABLE).endObject();
-        assertEquals();
-    }
-    
-    @Test
-    public void pairsMapableThis() throws JSONException {
-        Assert.assertSame(renderer, renderer.object().pairs(SIZE_THREE_MAPABLE));
-    }
-    
-    @Test(expected = IllegalStateException.class)
-    public void pairsMapableBeforeFirst() {
-        renderer.pairs(SIZE_THREE_MAPABLE);
-    }
-    
-    @Test(expected = IllegalStateException.class)
-    public void pairsMapableAfterArray() {
-        renderer.array().pairs(SIZE_THREE_MAPABLE);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void pairsMapableAfterValueInArray() {
-        renderer.array().value(new Object()).pairs(SIZE_THREE_MAPABLE);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void pairsMapableAfterLast() {
-        renderer.object().endObject().pairs(SIZE_THREE_MAPABLE);
-    }
-    
-    @Test
     public void pairsNoObjectContextEmpty() throws JSONException {
         writer.object().endObject();
         renderer.object().pairs(EMPTY_NO_OBJECT_CONTEXT).endObject();
@@ -2022,62 +1935,6 @@ public abstract class AbstractJSONRendererTest {
     @Test(expected = IllegalStateException.class)
     public void objectMapAfterLast() {
         renderer.object().endObject().object(SIZE_THREE_MAP);
-    }
-    
-    @Test
-    public void objectMapableEmpty() throws JSONException {
-        writer.object().endObject();
-        renderer.object(EMPTY_MAPABLE);
-        assertEquals();
-    }
-    
-    @Test
-    public void objectMapableOne() throws JSONException {
-        writer.object();
-        for (Map.Entry<Object, Object> entry : SIZE_ONE_MAP.entrySet()) {
-            writer.key(entry.getKey().toString()).value(entry.getValue());
-        }
-        writer.endObject();
-        renderer.object(SIZE_ONE_MAPABLE);
-        assertEquals();
-    }
-    
-    @Test
-    public void objectMapableThree() throws JSONException {
-        writer.object();
-        for (Map.Entry<Object, Object> entry : SIZE_THREE_MAP.entrySet()) {
-            writer.key(entry.getKey().toString()).value(entry.getValue());
-        }
-        writer.endObject();
-        renderer.object(SIZE_THREE_MAPABLE);
-        assertEquals();
-    }
-    
-    @Test
-    public void objectMapableNull() throws JSONException {
-        writer.object().endObject();
-        renderer.object(NULL_MAPABLE);
-        assertEquals();
-    }
-    
-    @Test
-    public void objectMapableThis() throws JSONException {
-        Assert.assertSame(renderer, renderer.object(SIZE_THREE_MAPABLE));
-    }
-    
-    @Test(expected = IllegalStateException.class)
-    public void objectMapableAfterObject() {
-        renderer.object().object(SIZE_THREE_MAPABLE);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void objectMapableAfterValueInObject() {
-        renderer.object().key("key").value(new Object()).object(SIZE_THREE_MAPABLE);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void objectMapableAfterLast() {
-        renderer.object().endObject().object(SIZE_THREE_MAPABLE);
     }
     
     @Test

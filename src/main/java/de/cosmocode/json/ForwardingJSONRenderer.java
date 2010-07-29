@@ -217,23 +217,11 @@ public abstract class ForwardingJSONRenderer extends ForwardingRenderer implemen
     }
     
     @Override
-    public <T> JSONRenderer value(T value, ValueRenderer<? super T> renderer) {
-        delegate().value(value, renderer);
-        return this;
-    }
-
-    @Override
     public JSONRenderer values(Iterable<?> values) {
         delegate().values(values);
         return this;
     }
     
-    @Override
-    public <T> JSONRenderer values(Iterable<? extends T> values, ValueRenderer<? super T> renderer) {
-        delegate().values(values, renderer);
-        return this;
-    }
-
     @Override
     public JSONRenderer values(Iterator<?> values) {
         delegate().values(values);

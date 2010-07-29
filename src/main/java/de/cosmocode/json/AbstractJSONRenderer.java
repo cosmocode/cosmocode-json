@@ -20,8 +20,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.google.common.base.Preconditions;
-
 import de.cosmocode.commons.DateMode;
 import de.cosmocode.rendering.AbstractRenderer;
 import de.cosmocode.rendering.Renderer;
@@ -64,13 +62,6 @@ public abstract class AbstractJSONRenderer extends AbstractRenderer implements J
     @Deprecated
     protected JSONRenderer unknownValue(Object value) {
         return value(value.toString());
-    }
-    
-    @Override
-    public <T> JSONRenderer value(T value, ValueRenderer<? super T> renderer) {
-        Preconditions.checkNotNull(renderer, "Renderer");
-        renderer.render(value, this);
-        return this;
     }
     
     @Override
@@ -152,16 +143,6 @@ public abstract class AbstractJSONRenderer extends AbstractRenderer implements J
         return this;
     }
     
-    @Override
-    public <T> JSONRenderer values(Iterable<? extends T> values, ValueRenderer<? super T> renderer) {
-        Preconditions.checkNotNull(renderer, "Renderer");
-        if (values == null) return this;
-        for (T value : values) {
-            value(value, renderer);
-        }
-        return this;
-    }
-
     @Override
     public JSONRenderer values(Iterator<?> values) {
         if (values == null) return this;

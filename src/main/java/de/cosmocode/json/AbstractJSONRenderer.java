@@ -16,7 +16,6 @@
 
 package de.cosmocode.json;
 
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -64,23 +63,6 @@ public abstract class AbstractJSONRenderer extends AbstractRenderer implements J
         return value(value.toString());
     }
     
-    @Override
-    public JSONRenderer value(Date value) {
-        return value == null ? nullValue() : value(value, DEFAULT_DATEMODE);
-    }
-
-    @Override
-    public JSONRenderer value(Date value, DateMode mode) {
-        if (mode == null) throw new NullPointerException("DateMode must not be null");
-        if (value == null) return nullValue();
-        return value(mode.format(value));
-    }
-
-    @Override
-    public JSONRenderer value(Enum<?> value) {
-        return value == null ? nullValue() : value(value.name());
-    }
-
     @Override
     public Renderer list() throws RenderingException {
         return array();

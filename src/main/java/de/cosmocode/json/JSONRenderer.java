@@ -18,7 +18,6 @@ package de.cosmocode.json;
 
 import java.io.OutputStream;
 import java.io.Writer;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -29,313 +28,114 @@ import org.json.extension.JSONConstructor;
 import org.json.extension.JSONEncoder;
 import org.json.extension.NoObjectContext;
 
-import de.cosmocode.commons.DateMode;
 import de.cosmocode.patterns.Adapter;
+import de.cosmocode.rendering.Renderable;
 import de.cosmocode.rendering.Renderer;
 import de.cosmocode.rendering.RenderingException;
+import de.cosmocode.rendering.RenderingLevel;
+
 /**
  * A {@link JSONRenderer} is being used to create
  * a JSON formatted {@link String}.
  * 
- * <p>
- *   Take a look at <a href="http://www.json.org/">json.org</a>
- *   to get familiar with the grammar JSON is based on.
- * </p>
- *
- * <pre>
- * object
- *     {}
- *     { members } 
- * members
- *     pair
- *     pair , members
- * pair
- *     string : value
- * array
- *     []
- *     [ elements ]
- * elements
- *     value
- *     value , elements
- * value
- *     string
- *     number
- *     object
- *     array
- *     true
- *     false
- *     null
- * </pre> 
- *
  * @author Willi Schoenborn
  */
 public interface JSONRenderer extends Renderer {
+
+    @Override
+    JSONRenderer key(CharSequence key);
+
+    @Override
+    JSONRenderer key(Object key);
+    
+    @Override
+    JSONRenderer nullValue();
+
+    @Override
+    JSONRenderer value(Object value);
+
+    @Override
+    JSONRenderer value(boolean value);
+    
+    @Override
+    JSONRenderer value(long value);
+    
+    @Override
+    JSONRenderer value(double value);
+
+    @Override
+    JSONRenderer value(CharSequence value);
+
+    @Override
+    JSONRenderer values(Object... values);
+    
+    @Override
+    JSONRenderer values(Iterable<?> values);
+    
+    @Override
+    JSONRenderer values(Iterator<?> values);
+    
+    @Override
+    JSONRenderer value(@Nonnull Object... values) throws RenderingException;
+
+    @Override
+    JSONRenderer value(@Nonnull Iterable<?> values) throws RenderingException;
+
+    @Override
+    JSONRenderer value(@Nonnull Iterator<?> values) throws RenderingException;
+
+    @Override
+    JSONRenderer value(@Nullable  Map<?, ?> pairs) throws RenderingException;
+    
+    @Override
+    JSONRenderer pairs(Map<?, ?> pairs);
+    
+    @Override
+    String build() throws RenderingException;
     
     /**
      * Starts an array structure.
      * 
+     * @deprecated use {@link #list()}
      * @return this
      * @throws IllegalStateException if array structure is not
      *         allowed at the current position
      */
+    @Deprecated
     JSONRenderer array();
     
     /**
      * Ends an array structure.
      * 
+     * @deprecated use {@link #endList()}
      * @return this
      * @throws IllegalStateException if there is no array structure
      *         to close at the current position
      */
+    @Deprecated
     JSONRenderer endArray();
 
     /**
      * Starts an object structure.
      * 
+     * @deprecated use {@link #map()}
      * @return this
      * @throws IllegalStateException if object structure is not
      *         allowed at the current position
      */
+    @Deprecated
     JSONRenderer object();
 
     /**
      * Ends an object structure.
      * 
+     * @deprecated use {@link #endMap()}
      * @return this
      * @throws IllegalStateException if there is no object structure
      *         to close at the current position
      */
+    @Deprecated
     JSONRenderer endObject();
-
-    /**
-     * Adds a key.
-     * 
-     * <p>
-     *   If key is null, the {@link String}
-     *   {@code "null"} will be used instead.
-     * </p>
-     * 
-     * <p>
-     *   The final key will be produced by calling
-     *   {@link CharSequence#toString()}.
-     * </p>
-     * 
-     * @param key the key, may be null
-     * @return this
-     * @throws IllegalStateException if there is no key allowed 
-     *         at the current position
-     */
-    JSONRenderer key(CharSequence key);
-
-    /**
-     * Adds a key.
-     * 
-     * <p>
-     *   If key is null, the {@link String}
-     *   {@code "null"} will be used instead.
-     * </p>
-     * 
-     * <p>
-     *   The final key will be produced by calling
-     *   {@link Object#toString()}.
-     * </p>
-     * 
-     * @param key the key, may be null
-     * @return this
-     * @throws IllegalStateException if there is no key allowed 
-     *         at the current position
-     */
-    JSONRenderer key(Object key);
-    
-    /**
-     * Adds a null value.
-     * 
-     * @return this
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position
-     */
-    JSONRenderer nullValue();
-    
-    /**
-     * Adds a generic value.
-     * 
-     * <p>
-     *   Will return {@link JSONRenderer#nullValue()} if value is null.
-     * </p>
-     * 
-     * @param value the value being added, may be null
-     * @return this
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position
-     */
-    JSONRenderer value(Object value);
-    
-    /**
-     * Adds a boolean value.
-     * 
-     * @param value the value being added
-     * @return this
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position
-     */
-    JSONRenderer value(boolean value);
-    
-    /**
-     * Adds a long value.
-     * 
-     * @param value the value being added
-     * @return this
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position
-     */
-    JSONRenderer value(long value);
-    
-    /**
-     * Adds a double value.
-     * 
-     * <p>
-     *   Infinity and NaN are not allowed.
-     * </p>
-     * 
-     * @param value the value being added
-     * @return this
-     * @throws IllegalArgumentException if value is infinite or NaN 
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position
-     */
-    JSONRenderer value(double value);
-    
-    /**
-     * Adds a {@link Date} value using {@link DateMode#JAVA} for
-     * {@link Date} conversion.
-     * 
-     * <p>
-     *   Similiar to:
-     *   <pre>
-     *     renderer.value(date, DateMode.JAVA);
-     *   </pre>
-     * </p>
-     * 
-     * <p>
-     *   Will return {@link JSONRenderer#nullValue()} if value is null.
-     * </p>
-     * 
-     * @param value the value being added, may be null
-     * @return this
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position
-     */
-    JSONRenderer value(Date value);
-    
-    /**
-     * Adds a {@link Date} value using the given mode for
-     * {@link Date} conversions.
-     * 
-     * <p>
-     *   Will return {@link JSONRenderer#nullValue()} if value is null.
-     * </p>
-     * 
-     * @param value the value being added, may be null
-     * @param mode the mode being used for {@link Date} conversions
-     * @return this
-     * @throws NullPointerException if mode is null
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position
-     */
-    JSONRenderer value(Date value, DateMode mode);
-    
-    /**
-     * Adds an enum value.
-     * 
-     * <p>
-     *   The final value will be a {@link String} return by {@link Enum#name()} method.
-     * </p>
-     * 
-     * <p>
-     *   Will return {@link JSONRenderer#nullValue()} if value is null.
-     * </p>
-     * 
-     * @param value the value being added, may be null
-     * @return this
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position
-     */
-    JSONRenderer value(Enum<?> value);
-    
-    /**
-     * Adds a {@link CharSequence} value.
-     * 
-     * <p>
-     *   The final value will be a {@link String} returned by {@link CharSequence#toString()}.
-     * </p>
-
-     * <p>
-     *   Will return {@link JSONRenderer#nullValue()} if value is null.
-     * </p>
-     *  
-     * @param value the value being added, may be null
-     * @return this
-     * @throws IllegalStateException if there is no value allowed
-     *         at the current position
-     */
-    JSONRenderer value(CharSequence value);
-    
-    /**
-     * Adds generic values.
-     * 
-     * <p>
-     *   Adds all the values contained in an array by calling
-     *   {@link JSONRenderer#value(Object)} for each element.
-     * </p>
-     * 
-     * <p>
-     *   Will return this, without adding something, if values is null.
-     * </p>
-     * 
-     * @param values the values being added, may be null
-     * @return this
-     * @throws IllegalStateException if there are no values allowed
-     *         at the current position
-     */
-    JSONRenderer values(Object... values);
-    
-    /**
-     * Adds generic values.
-     * 
-     * <p>
-     *   Adds all the values contained in an {@link Iterable} by calling
-     *   {@link JSONRenderer#value(Object)} for each element.
-     * </p>
-     * 
-     * <p>
-     *   Will return this, without adding something, if values is null.
-     * </p>
-     * 
-     * @param values the values being added, may be null
-     * @return this
-     * @throws IllegalStateException if there are no values allowed
-     *         at the current position
-     */
-    JSONRenderer values(Iterable<?> values);
-    
-    /**
-     * Adds generic values.
-     * 
-     * <p>
-     *   Adds all the values returned by an {@link Iterator} by calling
-     *   {@link JSONRenderer#value(Object)} for each element.
-     * </p>
-     * 
-     * <p>
-     *   Will return this, without adding something, if values is null.
-     * </p>
-     * 
-     * @param values the values being added, may be null
-     * @return this
-     * @throws IllegalStateException if there are no values allowed
-     *         at the current position
-     */
-    JSONRenderer values(Iterator<?> values);
 
     /**
      * Produces an aray containing generic values.
@@ -357,11 +157,13 @@ public interface JSONRenderer extends Renderer {
      *   Will produce an empty array if values is null.
      * </p>
      * 
+     * @deprecated use {@link #value(Object...)}
      * @param values the values being added as an array, may be null
      * @return this
      * @throws IllegalStateException if there is no array allowed
      *         at the current position
      */
+    @Deprecated
     JSONRenderer array(Object... values);
     
     /**
@@ -384,11 +186,13 @@ public interface JSONRenderer extends Renderer {
      *   Will produce an empty array if values is null.
      * </p>
      * 
+     * @deprecated use {@link #value(Iterable)}
      * @param values the values being added as an array, may be null
      * @return this
      * @throws IllegalStateException if there is no array allowed
      *         at the current position
      */
+    @Deprecated
     JSONRenderer array(Iterable<?> values);
     
     /**
@@ -411,33 +215,14 @@ public interface JSONRenderer extends Renderer {
      *   Will produce an empty array if values is null.
      * </p>
      * 
+     * @deprecated use {@link #value(Iterator)}
      * @param values the values being added as an array, may be null
      * @return this
      * @throws IllegalStateException if there is no array allowed
      *         at the current position
      */
+    @Deprecated
     JSONRenderer array(Iterator<?> values);
-    
-    /**
-     * Adds generic pairs.
-     * 
-     * <p>
-     *   Adds all the pairs contained in a {@link Map} by calling
-     *   {@link JSONRenderer#key(Object)} on each key returned by
-     *   {@link Map.Entry#getKey()} and {@link JSONRenderer#value(Object)}
-     *   on each value returned by {@link Map.Entry#getValue()}.
-     * </p>
-     * 
-     * <p>
-     *   Will return this, without adding something, if pairs is null.
-     * </p>
-     * 
-     * @param pairs the pairs being added, may be null
-     * @return this
-     * @throws IllegalStateException if there are no pairs allowed
-     *         at the current position
-     */
-    JSONRenderer pairs(Map<?, ?> pairs);
     
     /**
      * Adds generic pairs.
@@ -451,11 +236,13 @@ public interface JSONRenderer extends Renderer {
      *   Will return this, without adding something, if pairs is null.
      * </p>
      * 
+     * @deprecated use {@link #pairs(Renderable, RenderingLevel)}
      * @param pairs the pairs being added, may be null
      * @return this
      * @throws IllegalStateException if there are no pairs allowed
      *         at the current position
      */
+    @Deprecated
     JSONRenderer pairs(JSONMapable pairs);
     
     /**
@@ -476,11 +263,13 @@ public interface JSONRenderer extends Renderer {
      *   Will return this, without adding something, if pairs is null.
      * </p>
      * 
+     * @deprecated use {@link #pairs(Renderable, RenderingLevel))}
      * @param pairs the pairs being added, may be null
      * @return this
      * @throws IllegalStateException if there are no pairs allowed
      *         at the current position
      */
+    @Deprecated
     JSONRenderer pairs(NoObjectContext pairs);
     
     /**
@@ -505,11 +294,13 @@ public interface JSONRenderer extends Renderer {
      *   Will produce an empty object if pairs is null.
      * </p>
      * 
+     * @deprecated use {@link #value(Map)}
      * @param pairs the pairs being added as an object, may be null
      * @return this
      * @throws IllegalStateException if there is no object allowed
      *         at the current position
      */
+    @Deprecated
     JSONRenderer object(Map<?, ?> pairs);
     
     /**
@@ -532,11 +323,13 @@ public interface JSONRenderer extends Renderer {
      *   Will produce an empty object if pairs is null.
      * </p>
      * 
+     * @deprecated use {@link #value(Renderable, RenderingLevel)}
      * @param pairs the pairs being added as an object, may be null
      * @return this
      * @throws IllegalStateException if there is no object allowed
      *         at the current position
      */
+    @Deprecated
     JSONRenderer object(JSONMapable pairs);
 
     /**
@@ -565,11 +358,13 @@ public interface JSONRenderer extends Renderer {
      *   Will produce an empty object if pairs is null.
      * </p>
      * 
+     * @deprecated use {@link #value(Renderable, RenderingLevel)}
      * @param pairs the pairs being added as an object, may be null
      * @return this
      * @throws IllegalStateException if there is no object allowed
      *         at the current position
      */
+    @Deprecated
     JSONRenderer object(NoObjectContext pairs);
     
     /**
@@ -591,24 +386,14 @@ public interface JSONRenderer extends Renderer {
      *   Will produce an empty object if pairs is null.
      * </p>
      * 
+     * @deprecated use {@link #value(Renderable, RenderingLevel)}
      * @param object the object being added, may be null
      * @return this
      * @throws IllegalStateException if there is no object allowed
      *         at the current position
      */
+    @Deprecated
     JSONRenderer object(JSONEncoder object);
-    
-    @Override
-    JSONRenderer value(@Nonnull Object... values) throws RenderingException;
-
-    @Override
-    JSONRenderer value(@Nonnull Iterable<?> values) throws RenderingException;
-
-    @Override
-    JSONRenderer value(@Nonnull Iterator<?> values) throws RenderingException;
-
-    @Override
-    JSONRenderer value(@Nullable  Map<?, ?> pairs) throws RenderingException;
 
     /**
      * Renders this instance into a valid JSON {@link String}. (optional operation)
@@ -619,16 +404,15 @@ public interface JSONRenderer extends Renderer {
      *   e.g. directly into a {@link Writer} or an {@link OutputStream}.
      * </p>
      * 
+     * @deprecated use {@link #build()}
      * @return String the rendered JSON {@link String}
      * @throws UnsupportedOperationException if the operation is not supported
      *         by this {@link JSONRenderer}
      * @throws IllegalStateException if the underlying structure is not in a renderable
      *         state, e.g. unfinished
      */
+    @Deprecated
     @Override
     String toString();
-    
-    @Override
-    String build() throws RenderingException;
     
 }

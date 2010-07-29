@@ -16,14 +16,12 @@
 
 package de.cosmocode.json;
 
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.json.extension.JSONEncoder;
 import org.json.extension.NoObjectContext;
 
-import de.cosmocode.commons.DateMode;
 import de.cosmocode.rendering.ForwardingRenderer;
 import de.cosmocode.rendering.RenderingException;
 
@@ -158,25 +156,7 @@ public abstract class ForwardingJSONRenderer extends ForwardingRenderer implemen
     }
 
     @Override
-    public JSONRenderer value(Date value, DateMode mode) {
-        delegate().value(value, mode);
-        return this;
-    }
-
-    @Override
-    public JSONRenderer value(Date value) {
-        delegate().value(value);
-        return this;
-    }
-
-    @Override
     public JSONRenderer value(double value) {
-        delegate().value(value);
-        return this;
-    }
-
-    @Override
-    public JSONRenderer value(Enum<?> value) {
         delegate().value(value);
         return this;
     }

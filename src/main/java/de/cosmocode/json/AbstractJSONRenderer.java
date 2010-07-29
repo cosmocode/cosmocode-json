@@ -172,11 +172,6 @@ public abstract class AbstractJSONRenderer extends AbstractRenderer implements J
     }
 
     @Override
-    public JSONRenderer values(JSONListable values) {
-        return values == null ? this : values.renderAsList(this);
-    }
-
-    @Override
     public JSONRenderer array(Object... values) {
         return array().values(values).endArray();
     }
@@ -188,11 +183,6 @@ public abstract class AbstractJSONRenderer extends AbstractRenderer implements J
 
     @Override
     public JSONRenderer array(Iterator<?> values) {
-        return array().values(values).endArray();
-    }
-
-    @Override
-    public JSONRenderer array(JSONListable values) {
         return array().values(values).endArray();
     }
 

@@ -373,25 +373,6 @@ public interface JSONRenderer extends Renderer {
     JSONRenderer values(Iterator<?> values);
 
     /**
-     * Adds generic values.
-     * 
-     * <p>
-     *   Adds a {@link JSONListable} value by giving the control
-     *   to it's {@link JSONListable#renderAsList(JSONRenderer)} method.
-     * </p>
-     * 
-     * <p>
-     *   Will return this, without adding something, if values is null.
-     * </p>
-     * 
-     * @param values the values being added, may be null
-     * @return this
-     * @throws IllegalStateException if there are no values allowed
-     *         at the current position
-     */
-    JSONRenderer values(JSONListable values);
-    
-    /**
      * Produces an aray containing generic values.
      * 
      * <p>
@@ -471,33 +452,6 @@ public interface JSONRenderer extends Renderer {
      *         at the current position
      */
     JSONRenderer array(Iterator<?> values);
-    
-    /**
-     * Produces an array containg generic values.
-     * 
-     * <p>
-     *   Starst an array structure, adds a {@link JSONListable} value by
-     *   giving the control to it's {@link JSONListable#renderAsList(JSONRenderer)}
-     *   method and ends the array structure.
-     * </p>
-     * 
-     * <p>
-     *   Similiar to:
-     *   <pre>
-     *     renderer.array().values(values).endArray();
-     *   </pre>
-     * </p>
-     * 
-     * <p>
-     *   Will produce an empty array if values is null.
-     * </p>
-     * 
-     * @param values the values being added as an array, may be null
-     * @return this
-     * @throws IllegalStateException if there is no array allowed
-     *         at the current position
-     */
-    JSONRenderer array(JSONListable values);
     
     /**
      * Adds generic pairs.

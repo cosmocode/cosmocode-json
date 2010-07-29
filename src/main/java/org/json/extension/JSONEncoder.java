@@ -18,13 +18,12 @@ package org.json.extension;
 
 import org.json.JSONException;
 
-import de.cosmocode.json.JSONListable;
 import de.cosmocode.json.JSONMapable;
 
 /**
  * No documentation here.
  * 
- * @deprecated use {@link JSONMapable} or {@link JSONListable} instead
+ * @deprecated use {@link JSONMapable} instead
  * 
  * @author Willi Schoenborn
  */

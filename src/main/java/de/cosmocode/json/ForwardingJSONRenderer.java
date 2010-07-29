@@ -68,12 +68,6 @@ public abstract class ForwardingJSONRenderer extends ForwardingRenderer implemen
     }
 
     @Override
-    public JSONRenderer array(JSONListable values) {
-        delegate().array(values);
-        return this;
-    }
-
-    @Override
     public JSONRenderer endArray() {
         delegate().endArray();
         return this;
@@ -247,12 +241,6 @@ public abstract class ForwardingJSONRenderer extends ForwardingRenderer implemen
 
     @Override
     public JSONRenderer values(Iterator<?> values) {
-        delegate().values(values);
-        return this;
-    }
-
-    @Override
-    public JSONRenderer values(JSONListable values) {
         delegate().values(values);
         return this;
     }

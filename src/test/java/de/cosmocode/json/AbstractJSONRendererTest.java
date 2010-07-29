@@ -119,37 +119,11 @@ public abstract class AbstractJSONRendererTest {
     public static final Object[] NULL_ARRAY = null;
     
     public static final Iterable<Object> EMPTY_ITERABLE = ImmutableList.of();
-    public static final Iterable<Object> SIZE_ONE_ITERABLE = ImmutableList.<Object>of(SIZE_ONE_ARRAY);
-    public static final Iterable<Object> SIZE_THREE_ITERABLE = ImmutableList.<Object>of(SIZE_THREE_ARRAY);
+    public static final Iterable<Object> SIZE_ONE_ITERABLE = ImmutableList.copyOf(SIZE_ONE_ARRAY);
+    public static final Iterable<Object> SIZE_THREE_ITERABLE = ImmutableList.copyOf(SIZE_THREE_ARRAY);
     public static final Iterable<Object> NULL_ITERABLE = null;
     
     public static final Iterator<Object> NULL_ITERATOR = null;
-    
-    public static final JSONListable EMPTY_LISTABLE = new JSONListable() {
-        
-        @Override
-        public JSONRenderer renderAsList(JSONRenderer jsonRenderer) {
-            return jsonRenderer;
-        }
-        
-    };
-    public static final JSONListable SIZE_ONE_LISTABLE = new JSONListable() {
-        
-        @Override
-        public JSONRenderer renderAsList(JSONRenderer jsonRenderer) {
-            return jsonRenderer.values(SIZE_ONE_ARRAY);
-        }
-        
-    };
-    public static final JSONListable SIZE_THREE_LISTABLE = new JSONListable() {
-        
-        @Override
-        public JSONRenderer renderAsList(JSONRenderer jsonRenderer) {
-            return jsonRenderer.values(SIZE_THREE_ARRAY);
-        }
-        
-    };
-    public static final JSONListable NULL_LISTABLE = null;
     
     public static final Map<Object, Object> EMPTY_MAP = ImmutableMap.of();
     public static final Map<Object, Object> SIZE_ONE_MAP = ImmutableMap.<Object, Object>of(
@@ -1605,71 +1579,6 @@ public abstract class AbstractJSONRendererTest {
     }
     
     @Test
-    public void valuesListableEmpty() throws JSONException {
-        writer.array();
-        for (Object value : EMPTY_ITERABLE) {
-            writer.value(value);
-        }
-        writer.endArray();
-        renderer.array().values(EMPTY_LISTABLE).endArray();
-        assertEquals();
-    }
-
-    @Test
-    public void valuesListableOne() throws JSONException {
-        writer.array();
-        for (Object value : SIZE_ONE_ITERABLE) {
-            writer.value(value);
-        }
-        writer.endArray();
-        renderer.array().values(SIZE_ONE_LISTABLE).endArray();
-        assertEquals();
-    }
-
-    @Test
-    public void valuesListableThree() throws JSONException {
-        writer.array();
-        for (Object value : SIZE_THREE_ITERABLE) {
-            writer.value(value);
-        }
-        writer.endArray();
-        renderer.array().values(SIZE_THREE_LISTABLE).endArray();
-        assertEquals();
-    }
-    
-    @Test
-    public void valuesListableNull() throws JSONException {
-        writer.array().endArray();
-        renderer.array().values(NULL_LISTABLE).endArray();
-        assertEquals();
-    }
-    
-    @Test
-    public void valuesListableThis() {
-        Assert.assertSame(renderer, renderer.array().values(SIZE_ONE_LISTABLE));
-    }
-    
-    @Test(expected = IllegalStateException.class)
-    public void valuesListableBeforeFirst() {
-        renderer.values(SIZE_THREE_LISTABLE);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void valuesListableAfterObject() {
-        renderer.object().values(SIZE_THREE_LISTABLE);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void valuesListableAfterValueInObject() {
-        renderer.object().key("key").value(new Object()).values(SIZE_THREE_LISTABLE);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void valuesListableAfterLast() {
-        renderer.object().endObject().values(SIZE_THREE_LISTABLE);
-    }
-    
-    @Test
     public void arrayArrayEmpty() throws JSONException {
         writer.array();
         for (Object value : EMPTY_ARRAY) {
@@ -1874,74 +1783,6 @@ public abstract class AbstractJSONRendererTest {
     @Test(expected = IllegalStateException.class)
     public void arrayIteratorAfterLast() {
         renderer.object().endObject().array(SIZE_THREE_ITERABLE.iterator());
-    }
-    
-    @Test
-    public void arrayListableEmpty() throws JSONException {
-        writer.array();
-        for (Object value : EMPTY_ITERABLE) {
-            writer.value(value);
-        }
-        writer.endArray();
-        renderer.array(EMPTY_LISTABLE);
-        assertEquals();
-    }
-
-    @Test
-    public void arrayListableOne() throws JSONException {
-        writer.array();
-        for (Object value : SIZE_ONE_ITERABLE) {
-            writer.value(value);
-        }
-        writer.endArray();
-        renderer.array(SIZE_ONE_LISTABLE);
-        assertEquals();
-    }
-
-    @Test
-    public void arrayListableThree() throws JSONException {
-        writer.array();
-        for (Object value : SIZE_THREE_ITERABLE) {
-            writer.value(value);
-        }
-        writer.endArray();
-        renderer.array(SIZE_THREE_LISTABLE);
-        assertEquals();
-    }
-    
-    @Test
-    public void arrayListableNull() throws JSONException {
-        writer.array().endArray();
-        renderer.array(NULL_LISTABLE);
-        assertEquals();
-    }
-    
-    @Test
-    public void arrayListableSimiliar() throws JSONException {
-        final JSONRenderer expected = renderer.array().values(SIZE_THREE_ARRAY).endArray();
-        renderer = create();
-        final JSONRenderer actual = renderer.array(SIZE_THREE_LISTABLE);
-        assertEquals(expected, actual); 
-    }
-    
-    @Test
-    public void arrayListableThis() {
-        Assert.assertSame(renderer, renderer.array(SIZE_ONE_LISTABLE));
-    }
-    
-    @Test(expected = IllegalStateException.class)
-    public void arrayListableAfterObject() {
-        renderer.object().array(SIZE_THREE_LISTABLE);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void arrayListableAfterValueInObject() {
-        renderer.object().key("key").value(new Object()).array(SIZE_THREE_LISTABLE);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void arrayListableAfterLast() {
-        renderer.object().endObject().array(SIZE_THREE_LISTABLE);
     }
     
     @Test

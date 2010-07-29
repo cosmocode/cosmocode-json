@@ -16,7 +16,6 @@
 
 package org.json.extension;
 
-import de.cosmocode.json.JSONListable;
 import de.cosmocode.json.JSONMapable;
 
 /**

@@ -110,17 +110,9 @@ final class JsonRendererConstructor implements JSONConstructor {
         if (value == null) {
             return value(null);
         } else if (value.startsWith("{")) {
-            try {
-                return value(JSON.asMap(new JSONObject(value)));
-            } catch (JSONException e) {
-                throw new IllegalArgumentException(e);
-            }
+            return value(JSON.asMap(new JSONObject(value)));
         } else if (value.startsWith("[")) {
-            try {
-                return value(JSON.asList(new JSONArray(value)));
-            } catch (JSONException e) {
-                throw new IllegalArgumentException(e);
-            }
+            return value(JSON.asList(new JSONArray(value)));
         } else {
             throw new IllegalArgumentException("Illegal plain value '" + value + "'");
         }

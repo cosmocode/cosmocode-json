@@ -32,7 +32,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
 /**
- * Test {@link JSONObjectMap}.
+ * Test {@link JsonObjectMap}.
  *
  * @author Willi Schoenborn
  */

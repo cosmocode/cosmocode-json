@@ -16,77 +16,82 @@
 
 package de.cosmocode.json;
 
-import java.io.Writer;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONWriter;
 import org.json.extension.JSONConstructor;
 import org.json.extension.JSONEncoder;
 
+import de.cosmocode.rendering.Renderer;
+
 /**
- * Implementation of the {@link JSONConstructor} interface
- * which uses most of the functionality provided
- * by {@link JSONRenderer} by wrapping an instance of it.
+ * An adapter from {@link Renderer} to
+ * {@link JSONConstructor}.
  *
+ * @deprecated use {@link Renderer}
  * @author Willi Schoenborn
  */
-final class JSONWriterConstructor implements JSONConstructor {
+@Deprecated
+final class JsonRendererConstructor implements JSONConstructor {
 
-    private final JSONWriter json;
-    private final Writer writer;
-
-    public JSONWriterConstructor(JSONWriter json) {
-        this.json = json;
-        this.writer = JSON.stealWriter(json);
-    }
+    private final Renderer renderer;
     
+    /**
+     * Creates a new {@link JsonRendererConstructor} which
+     * delegates all calls to an underlying {@link Renderer} instance.
+     * 
+     * @param renderer the renderer this instance relies on
+     */
+    public JsonRendererConstructor(Renderer renderer) {
+        if (renderer == null) throw new NullPointerException("JSONRenderer must not be null");
+        this.renderer = renderer;
+    }
+
     @Override
     public JSONConstructor array() throws JSONException {
-        json.array();
+        renderer.list();
         return this;
     }
     
     @Override
     public JSONConstructor endArray() throws JSONException {
-        json.endArray();
+        renderer.endList();
         return this;
     }
     
     @Override
     public JSONConstructor object() throws JSONException {
-        json.object();
+        renderer.map();
         return this;
     }
     
     @Override
     public JSONConstructor endObject() throws JSONException {
-        json.endObject();
+        renderer.endMap();
         return this;
     }
     
     @Override
     public JSONConstructor key(String key) throws JSONException {
-        json.key(key);
+        renderer.key(key);
         return this;
     }
     
     @Override
     public JSONConstructor value(boolean value) throws JSONException {
-        json.value(value);
+        renderer.value(value);
         return this;
     }
     
     @Override
     public JSONConstructor value(long value) throws JSONException {
-        json.value(value);
+        renderer.value(value);
         return this;
     }
     
     @Override
     public JSONConstructor value(double value) throws JSONException {
-        json.value(value);
+        renderer.value(value);
         return this;
     }
     
@@ -95,7 +100,7 @@ final class JSONWriterConstructor implements JSONConstructor {
         if (value instanceof JSONEncoder) {
             JSONEncoder.class.cast(value).encodeJSON(this);
         } else {
-            json.value(value);
+            renderer.value(value);
         }
         return this;
     }
@@ -106,13 +111,13 @@ final class JSONWriterConstructor implements JSONConstructor {
             return value(null);
         } else if (value.startsWith("{")) {
             try {
-                return value(new JSONObject(value));
+                return value(JSON.asMap(new JSONObject(value)));
             } catch (JSONException e) {
                 throw new IllegalArgumentException(e);
             }
         } else if (value.startsWith("[")) {
             try {
-                return value(new JSONArray(value));
+                return value(JSON.asList(new JSONArray(value)));
             } catch (JSONException e) {
                 throw new IllegalArgumentException(e);
             }
@@ -123,7 +128,7 @@ final class JSONWriterConstructor implements JSONConstructor {
     
     @Override
     public String toString() {
-        return json.toString();
+        return renderer.toString();
     }
     
 }

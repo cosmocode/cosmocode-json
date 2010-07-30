@@ -16,9 +16,6 @@
 
 package de.cosmocode.json;
 
-import java.io.StringWriter;
-import java.io.Writer;
-import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.SortedMap;
@@ -26,14 +23,12 @@ import java.util.SortedMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONWriter;
-import org.json.extension.JSONConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Maps;
 
 import de.cosmocode.collections.utility.UtilityList;
 import de.cosmocode.collections.utility.UtilityMap;
+import de.cosmocode.rendering.Renderer;
 
 /**
  * Utility class providing static factory methods,
@@ -42,8 +37,6 @@ import de.cosmocode.collections.utility.UtilityMap;
  * @author schoenborn
  */
 public final class JSON {
-
-    private static final Logger LOG = LoggerFactory.getLogger(JSON.class);
 
     /**
      * Prevent instantiation.
@@ -70,7 +63,7 @@ public final class JSON {
      * @return a {@link UtilityList} backed by the array
      */
     public static UtilityList<Object> asList(JSONArray array) {
-        return new JSONArrayList(array);
+        return new JsonArrayList(array);
     }
     
     /**
@@ -92,7 +85,7 @@ public final class JSON {
      * @return a map backed by the given json object
      */
     public static UtilityMap<String, Object> asMap(JSONObject object) {
-        return new JSONObjectMap(object);
+        return new JsonObjectMap(object);
     }
     
     /**
@@ -123,93 +116,25 @@ public final class JSON {
     }
     
     /**
-     * Creates a {@link JSONRenderer} which stores
-     * his encoded JSON data internally. Call
-     * {@link JSONRenderer#toString()} to render it.
+     * Creates a new {@link Renderer}.
      * 
-     * TODO add render level
-     * 
-     * @return a new {@link JSONRenderer}
+     * @since 2.1
+     * @return a new {@link Renderer}
      */
-    public static JSONRenderer createJSONRenderer() {
-        return JSON.asJSONRenderer(new JSONWriter(new StringWriter()) {
-            
-            @Override
-            public String toString() {
-                if (mode == 'd') {
-                    return writer.toString();
-                } else {
-                    throw new IllegalStateException("toString() is not allowed when mode is " + mode);
-                }
-            }
-            
-        });
-    }
-
-    /**
-     * Creates a {@link JSONRenderer} which directly writes
-     * his encoded JSON data using the given writer instance.
-     * 
-     * @param writer the target of the json encoded data
-     * @return a {@link JSONRenderer} writing to the {@link Writer} instance
-     * @throws NullPointerException if writer is null
-     */
-    public static JSONRenderer createJSONRenderer(Writer writer) {
-        if (writer == null) throw new NullPointerException("Writer must not be null");
-        return JSON.asJSONRenderer(new JSONWriter(writer));
+    public static Renderer newRenderer() {
+        return new JsonRenderer();
     }
     
     /**
-     * Provides a {@link JSONRenderer}-based view on a {@link JSONConstructor}.
+     * Creates a new {@link JSONConstructor}.
      * 
-     * <p>
-     *   The returned {@link JSONRenderer} will be backed by the {@link JSONConstructor}.
-     * </p>
-     * 
-     * @param constructor the {@link JSONConstructor} which will be used as a {@link JSONRenderer}
-     * @return a {@link JSONRenderer} backed by the constructor
-     * @throws NullPointerException if constructor is null
+     * @deprecated use {@link Renderer}
+     * @since 2.1
+     * @return a new {@link JSONConstructor}
      */
-    public static JSONRenderer asJSONRenderer(JSONConstructor constructor) {
-        if (constructor instanceof JSONRenderer) {
-            return JSONRenderer.class.cast(constructor);
-        } else {
-            return new JSONConstructorRenderer(constructor);
-        }
-    }
-    
-    /**
-     * Provides a {@link JSONRenderer}-based view on a {@link JSONWriter}.
-     * 
-     * <p>
-     *   The returned {@link JSONRenderer} will be backed by the {@link JSONWriter}.
-     * </p>
-     * 
-     * @param writer the {@link JSONWriter} which will be used as a {@link JSONRenderer}
-     * @throws NullPointerException if writer is null
-     * @return a {@link JSONRenderer} backed by the writer
-     */
-    public static JSONRenderer asJSONRenderer(JSONWriter writer) {
-        return JSON.asJSONRenderer(JSON.asJSONConstructor(writer));
-    }
-    
-    /**
-     * Provides a {@link JSONConstructor}-based view on a {@link JSONRenderer}.
-     * 
-     * <p>
-     *   The returned {@link JSONConstructor} will be backed by the {@link JSONConstructor}.
-     * </p>
-     * 
-     * @param renderer the {@link JSONRenderer} which will be used as a {@link JSONConstructor}
-     * @throws NullPointerException if renderer is null
-     * @return a {@link JSONConstructor} backed by the renderer
-     */
-    public static JSONConstructor asJSONConstructor(JSONRenderer renderer) {
-        if (renderer instanceof JSONConstructor) {
-            return JSONConstructor.class.cast(renderer);
-        } else {
-            return new JSONRendererConstructor(renderer);
-        }
+    @Deprecated
+    public static org.json.extension.JSONConstructor newConstructor() {
+        return new JsonRendererConstructor(newRenderer());
     }
     
     /**
@@ -219,43 +144,14 @@ public final class JSON {
      *   The returned {@link JSONConstructor} will be backed by the {@link JSONWriter}.
      * </p>
      * 
-     * @param writer the {@link JSONWriter} which will be used as a {@link JSONConstructor}
+     * @deprecated use {@link Renderer}
+     * @param writer the {@link JSONWriter} which will be used as a {@link Renderer}
      * @throws NullPointerException if writer is null
      * @return a {@link JSONConstructor} backed by the writer
      */
-    public static JSONConstructor asJSONConstructor(JSONWriter writer) {
-        return new JSONWriterConstructor(writer);
-    }
-    
-    /**
-     * Retrieves the {@link Writer} instance a given {@link JSONWriter}
-     * is using by reflecting the protected instance variable.
-     *
-     * <p>
-     *   <strong>Note:</strong> This method is a dirty hack (and the author
-     *   is aware of that fact). You should generally avoid to use this method
-     *   or even the way it does its job. We just need it to provide backward
-     *   compatability to {@link JSONWriter} and {@link JSONConstructor}
-     * </p>
-     * 
-     * @param json the holder of the {@link Writer} instance
-     * @throws NullPointerException if json is null
-     * @return the stolen {@link Writer} instance
-     */
-    static Writer stealWriter(JSONWriter json) {
-        if (json == null) throw new NullPointerException("JSONWriter must not be null");
-        try {
-            final Field field = JSONWriter.class.getDeclaredField("writer");
-            final boolean accessible = field.isAccessible();
-            field.setAccessible(true);
-            final Object result = field.get(json);
-            field.setAccessible(accessible);
-            return Writer.class.cast(result);
-        } catch (NoSuchFieldException e) {
-            throw new IllegalStateException(e);
-        } catch (IllegalAccessException e) {
-            throw new IllegalStateException(e);
-        }
+    @Deprecated
+    public static org.json.extension.JSONConstructor asJSONConstructor(JSONWriter writer) {
+        return new JsonWriterConstructor(writer);
     }
     
 }

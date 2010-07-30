@@ -18,8 +18,6 @@ package org.json.extension;
 
 import org.json.JSONException;
 
-import de.cosmocode.json.JSONRenderer;
-
 /**
  * A JSONConstructor provides several methods
  * for bean/pojo-classes to build their

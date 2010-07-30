@@ -31,7 +31,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
 
 /**
- * Test {@link JSONArrayList}.
+ * Test {@link JsonArrayList}.
  *
  * @author Willi Schoenborn
  */

@@ -39,7 +39,7 @@ import de.cosmocode.patterns.Adapter;
  * @author Willi Schoenborn
  */
 @Adapter(Map.class)
-final class JSONObjectMap extends AbstractUtilityMap<String, Object> {
+final class JsonObjectMap extends AbstractUtilityMap<String, Object> {
     
     private static final Object NULL = null;
 
@@ -48,11 +48,11 @@ final class JSONObjectMap extends AbstractUtilityMap<String, Object> {
     private final UtilitySet<Map.Entry<String, Object>> entrySet;
     
     /**
-     * Constructs a new {@link JSONObjectMap} using the specified {@link JSONObject}.
+     * Constructs a new {@link JsonObjectMap} using the specified {@link JSONObject}.
      * 
      * @param object the {@link JSONObject} this map will be backed by
      */
-    public JSONObjectMap(JSONObject object) {
+    public JsonObjectMap(JSONObject object) {
         if (object == null) throw new IllegalArgumentException("JSONObject must not be null");
         this.object = object;
         this.entrySet = Utility.asUtilitySet(new EntrySet());
@@ -115,7 +115,7 @@ final class JSONObjectMap extends AbstractUtilityMap<String, Object> {
 
         @Override
         public int size() {
-            return JSONObjectMap.this.size();
+            return JsonObjectMap.this.size();
         }
         
     }

@@ -120,7 +120,7 @@ final class JsonRendererConstructor implements JSONConstructor {
     
     @Override
     public String toString() {
-        return renderer.toString();
+        return renderer.build().toString();
     }
     
 }

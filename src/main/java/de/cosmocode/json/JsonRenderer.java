@@ -19,6 +19,8 @@ package de.cosmocode.json;
 import org.json.JSONException;
 import org.json.JSONStringer;
 import org.json.JSONWriter;
+import org.json.extension.JSONConstructor;
+import org.json.extension.JSONEncoder;
 
 import de.cosmocode.rendering.AbstractRenderer;
 import de.cosmocode.rendering.Renderer;
@@ -33,6 +35,21 @@ import de.cosmocode.rendering.RenderingException;
 public final class JsonRenderer extends AbstractRenderer implements Renderer {
 
     private final JSONWriter writer = new JSONStringer();
+    private final JSONConstructor adapter = JSON.asConstructor(this);
+    
+    @Override
+    protected Renderer unknownValue(Object value) {
+        if (value instanceof JSONEncoder) {
+            try {
+                JSONEncoder.class.cast(value).encodeJSON(adapter);
+            } catch (JSONException e) {
+                throw new RenderingException(e);
+            }
+            return this;
+        } else {
+            return super.unknownValue(value);
+        }
+    }
     
     @Override
     public Renderer list() throws RenderingException {

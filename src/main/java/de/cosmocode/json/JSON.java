@@ -126,28 +126,41 @@ public final class JSON {
     }
     
     /**
-     * Creates a new {@link JSONConstructor}.
+     * Creates a new {@link org.json.extension.JSONConstructor}.
      * 
      * @deprecated use {@link Renderer}
      * @since 2.1
-     * @return a new {@link JSONConstructor}
+     * @return a new {@link org.json.extension.JSONConstructor}
      */
     @Deprecated
     public static org.json.extension.JSONConstructor newConstructor() {
         return new JsonRendererConstructor(newRenderer());
     }
+
+    /**
+     * Adapts {@link Renderer} to the {@link org.json.extension.JSONConstructor} interface.
+     * 
+     * @deprecated use {@link Renderer}
+     * @since 2.2
+     * @param renderer the underlying renderer
+     * @return a new {@link org.json.extension.JSONConstructor} backed by the given renderer
+     */
+    @Deprecated
+    static org.json.extension.JSONConstructor asConstructor(Renderer renderer) {
+        return new JsonRendererConstructor(renderer);
+    }
     
     /**
-     * Provides a {@link JSONConstructor}-based view on a {@link JSONWriter}.
+     * Provides a {@link org.json.extension.JSONConstructor}-based view on a {@link JSONWriter}.
      * 
      * <p>
-     *   The returned {@link JSONConstructor} will be backed by the {@link JSONWriter}.
+     *   The returned {@link org.json.extension.JSONConstructor} will be backed by the {@link JSONWriter}.
      * </p>
      * 
      * @deprecated use {@link Renderer}
      * @param writer the {@link JSONWriter} which will be used as a {@link Renderer}
      * @throws NullPointerException if writer is null
-     * @return a {@link JSONConstructor} backed by the writer
+     * @return a {@link org.json.extension.JSONConstructor} backed by the writer
      */
     @Deprecated
     public static org.json.extension.JSONConstructor asJSONConstructor(JSONWriter writer) {

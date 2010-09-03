@@ -22,6 +22,8 @@ import org.json.JSONObject;
 import org.json.extension.JSONConstructor;
 import org.json.extension.JSONEncoder;
 
+import com.google.common.base.Preconditions;
+
 import de.cosmocode.rendering.Renderer;
 
 /**
@@ -43,8 +45,7 @@ final class JsonRendererConstructor implements JSONConstructor {
      * @param renderer the renderer this instance relies on
      */
     public JsonRendererConstructor(Renderer renderer) {
-        if (renderer == null) throw new NullPointerException("JSONRenderer must not be null");
-        this.renderer = renderer;
+        this.renderer = Preconditions.checkNotNull(renderer, "Renderer");
     }
 
     @Override

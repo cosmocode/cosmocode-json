@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import de.cosmocode.collections.utility.AbstractUtilityMap;
 import de.cosmocode.collections.utility.Utility;
 import de.cosmocode.collections.utility.UtilitySet;
+import de.cosmocode.commons.Strings;
 import de.cosmocode.patterns.Adapter;
 
 /**
@@ -82,23 +83,9 @@ final class JsonObjectMap extends AbstractUtilityMap<String, Object> {
             
             @Override
             public Map.Entry<String, Object> next() {
-                final String entryKey = iterator.next().toString();
-                final Object value = get(entryKey);
-                final Object entryValue;
-                
-                if (value instanceof JSONObject) {
-                    final JSONObject json = JSONObject.class.cast(value);
-                    entryValue = JSON.asMap(json);
-                } else if (value instanceof JSONArray) {
-                    final JSONArray json = JSONArray.class.cast(value);
-                    entryValue = JSON.asList(json);
-                } else if (value == null || value.equals(NULL)) {
-                    entryValue = null;
-                } else {
-                    entryValue = value;
-                }
-                
-                return new AbstractMap.SimpleEntry<String, Object>(entryKey, entryValue);
+                final String key = iterator.next().toString();
+                final Object value = get(key);
+                return new AbstractMap.SimpleEntry<String, Object>(key, value);
             }
             
             @Override
@@ -132,7 +119,18 @@ final class JsonObjectMap extends AbstractUtilityMap<String, Object> {
     
     @Override
     public Object get(Object key) {
-        return object.opt(key == null ? null : key.toString()); 
+        final Object value = object.opt(Strings.toString(key));
+        if (value instanceof JSONObject) {
+            final JSONObject json = JSONObject.class.cast(value);
+            return JSON.asMap(json);
+        } else if (value instanceof JSONArray) {
+            final JSONArray json = JSONArray.class.cast(value);
+            return JSON.asList(json);
+        } else if (value == null || value.equals(NULL)) {
+            return null;
+        } else {
+            return value;
+        }
     }
     
     @Override
@@ -149,9 +147,8 @@ final class JsonObjectMap extends AbstractUtilityMap<String, Object> {
     }
     
     @Override
-    public Object remove(Object k) {
-        final String key = String.class.cast(k);
-        return object.remove(key);
+    public Object remove(Object key) {
+        return object.remove(Strings.toString(key));
     }
     
     @Override

@@ -33,7 +33,7 @@ import de.cosmocode.rendering.RenderingException;
  * @author Willi Schoenborn
  */
 @SuppressWarnings("deprecation")
-public final class JsonRenderer extends AbstractRenderer implements Renderer {
+public final class JsonRenderer extends AbstractRenderer {
 
     private final JSONWriter writer = new JSONStringer();
     private final JSONConstructor adapter = JSON.asConstructor(this);
